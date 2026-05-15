@@ -68,13 +68,15 @@ class TodayPlanRemoteDataSourceImpl implements TodayPlanRemoteDataSource {
       case DioExceptionType.sendTimeout:
         return NetworkException(message: 'Connection timeout');
       case DioExceptionType.badResponse:
+        final data = e.response?.data;
+        final msg = (data is Map ? data['message'] : null) as String?;
         if (e.response?.statusCode == 401) {
           return UnauthorizedException(
-            message: e.response?.data['message'] ?? 'Unauthorized',
+            message: msg ?? 'Unauthorized',
           );
         }
         return ServerException(
-          message: e.response?.data['message'] ?? 'Server error',
+          message: msg ?? 'Server error',
           statusCode: e.response?.statusCode,
         );
       case DioExceptionType.cancel:

@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import '../../../../core/network/api_client.dart';
 import '../models/progress_model.dart';
 
 part 'progress_remote_data_source.g.dart';
 
-@RestApi()
+@RestApi(baseUrl: ApiConfig.baseUrl)
 abstract class ProgressRemoteDataSource {
   factory ProgressRemoteDataSource(Dio dio, {String baseUrl}) =
       _ProgressRemoteDataSource;

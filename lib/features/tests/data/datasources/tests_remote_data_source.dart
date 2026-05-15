@@ -39,13 +39,15 @@ class TestsRemoteDataSourceImpl implements TestsRemoteDataSource {
   }
 
   ServerException _handleDioException(DioException e) {
+    final data = e.response?.data;
+    final msg = (data is Map ? data['message'] : null) as String?;
     if (e.response?.statusCode == 401) {
-      throw UnauthorizedException(message: 'Unauthorized access');
+      throw UnauthorizedException(message: msg ?? 'Unauthorized access');
     } else if (e.response?.statusCode == 404) {
-      throw ServerException(message: 'Resource not found', statusCode: 404);
+      throw ServerException(message: msg ?? 'Resource not found', statusCode: 404);
     } else if (e.response?.statusCode == 500) {
-      throw ServerException(message: 'Server error', statusCode: 500);
+      throw ServerException(message: msg ?? 'Server error', statusCode: 500);
     }
-    throw ServerException(message: e.message ?? 'Unknown error');
+    throw ServerException(message: msg ?? (e.message ?? 'Unknown error'));
   }
 }

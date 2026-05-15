@@ -65,20 +65,18 @@ class _ChatViewState extends State<ChatView> {
       listener: (context, state) {
         if (state is ChatMessageSent) {
           final chatMessage = state.message;
-          if (chatMessage is ChatMessage) {
-            setState(() {
-              _isSending = false;
-              _conversationId = chatMessage.conversationId;
-              // Add bot reply if available
-              if (chatMessage.botReply != null &&
-                  chatMessage.botReply!.isNotEmpty) {
-                _messages.add(
-                  ChatMessageModel(text: chatMessage.botReply!, isMe: false),
-                );
-              }
-            });
-            _scrollToBottom();
-          }
+          setState(() {
+            _isSending = false;
+            _conversationId = chatMessage.conversationId;
+            // Add bot reply if available
+            if (chatMessage.botReply != null &&
+                chatMessage.botReply!.isNotEmpty) {
+              _messages.add(
+                ChatMessageModel(text: chatMessage.botReply!, isMe: false),
+              );
+            }
+          });
+          _scrollToBottom();
         } else if (state is ChatError) {
           setState(() {
             _isSending = false;

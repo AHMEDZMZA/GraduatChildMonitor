@@ -76,7 +76,6 @@ class LocalNotificationService {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
-    // Schedule periodic daily notification using updated API
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       id: 0,
       title: getGreetingTitle(),

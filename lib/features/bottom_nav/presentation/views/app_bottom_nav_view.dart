@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_assets.dart';
+import '../../../../core/managers/color_manager.dart';
 import '../../../../core/managers/theme_helper.dart';
 import '../../../../core/widgets/animation_wrapper/animation_wrapper.dart';
 import '../../../chat/presentation/view/chat_view.dart';
@@ -35,6 +36,8 @@ class _AppBottomNavBarViewState extends State<AppBottomNavBarView> {
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),
           backgroundColor: context.cardBackground,
+          selectedItemColor: ColorManager.primaryBlue,
+          unselectedItemColor: ColorManager.mediumGray,
           elevation: 8,
           items: [
             BottomNavigationBarItem(

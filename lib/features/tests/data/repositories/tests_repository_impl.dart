@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
-import 'package:child_monitor_app/core/network/api_client.dart';
+import 'package:child_monitor_app/core/network/api_client.dart' hide TestQuestion;
 import 'package:child_monitor_app/features/tests/data/datasources/tests_remote_data_source.dart';
 import 'package:child_monitor_app/features/tests/domain/repositories/tests_repository.dart';
 import 'package:child_monitor_app/features/tests/domain/entities/test_entity.dart';
@@ -20,7 +20,13 @@ class TestsRepositoryImpl implements TestsRepository {
           testType: response.testType,
           totalQuestions: response.totalQuestions,
           instructions: response.instructions,
-          questions: response.questions,
+          questions: response.questions
+              .map((q) => TestQuestion(
+                    id: q.id,
+                    question: q.question,
+                    options: q.options,
+                  ))
+              .toList(),
         ),
       );
     } on ServerException catch (e) {

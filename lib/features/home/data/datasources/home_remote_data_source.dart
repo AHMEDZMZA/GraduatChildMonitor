@@ -24,6 +24,8 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   }
 
   Exception _mapDioException(DioException e) {
+    final data = e.response?.data;
+    final msg = data is Map ? data['message'] as String? : null;
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
@@ -32,14 +34,11 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       case DioExceptionType.badResponse:
         if (e.response?.statusCode == 401) {
           return UnauthorizedException(
-            message: e.response?.data['message'] ?? 'Unauthorized',
+            message: msg ?? 'Unauthorized',
           );
         }
-        final msg = e.response?.data is Map
-            ? e.response?.data['message'] ?? 'Server error'
-            : 'Server error (${e.response?.statusCode})';
         return ServerException(
-          message: msg,
+          message: msg ?? 'Server error (${e.response?.statusCode})',
           statusCode: e.response?.statusCode,
         );
       case DioExceptionType.cancel:

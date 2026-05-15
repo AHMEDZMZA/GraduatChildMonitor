@@ -1,5 +1,11 @@
-abstract class TestsState {
+import 'package:equatable/equatable.dart';
+import '../../domain/entities/test_entity.dart';
+
+abstract class TestsState extends Equatable {
   const TestsState();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class TestsInitial extends TestsState {
@@ -11,9 +17,12 @@ class TestsLoading extends TestsState {
 }
 
 class TestQuestionsLoaded extends TestsState {
-  final dynamic test;
+  final TestEntity test;
 
   const TestQuestionsLoaded(this.test);
+
+  @override
+  List<Object?> get props => [test];
 }
 
 class TestSubmitting extends TestsState {
@@ -21,19 +30,28 @@ class TestSubmitting extends TestsState {
 }
 
 class TestSubmissionSuccess extends TestsState {
-  final dynamic result;
+  final TestResultEntity result;
 
   const TestSubmissionSuccess(this.result);
+
+  @override
+  List<Object?> get props => [result];
 }
 
 class TestHistoryLoaded extends TestsState {
-  final List<dynamic> history;
+  final List<TestResultEntity> history;
 
   const TestHistoryLoaded(this.history);
+
+  @override
+  List<Object?> get props => [history];
 }
 
 class TestsError extends TestsState {
   final String message;
 
   const TestsError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

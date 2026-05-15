@@ -519,7 +519,7 @@ class PlanHistoryResponse {
   factory PlanHistoryResponse.fromJson(Map<String, dynamic> json) {
     return PlanHistoryResponse(
       plans:
-          (json as List?)
+          (json['plans'] as List?)
               ?.map((e) => Plan.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -852,7 +852,7 @@ class ActivityDetailResponse {
       image: json['image'],
       duration: json['duration'],
       instructions: json['instructions'],
-      materials: List<String>.from(json['materials'] ?? []),
+      materials: (json['materials'] is List ? (json['materials'] as List).cast<String>() : null),
     );
   }
 }
