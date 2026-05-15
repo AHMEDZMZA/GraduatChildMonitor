@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/home/presentation/view/progress_test_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -57,10 +57,7 @@ class ProgressTrackerView extends StatelessWidget {
               const SizedBox(height: 80),
 
               CustomButton(text: 'Start Test', onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProgressTestView()),
-                );
+                Navigator.pushNamed(context, AppRoutes.progressTest);
               }),
             ],
           ),

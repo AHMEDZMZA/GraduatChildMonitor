@@ -3,7 +3,7 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/widgets/glow_blur_circle.dart';
-import '../../../auth/presentation/views/login_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
@@ -44,10 +44,7 @@ class _OnboardingContentState extends State<_OnboardingContent> {
   ];
 
   void _goToLogin(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginView()),
-    );
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
   }
 
   @override

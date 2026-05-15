@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/home/presentation/view/result_progress_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -191,13 +191,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                                   curve: Curves.easeInOut,
                                 );
                               } else {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (context) => const ResultProgressView(),
-                                  ),
-                                );
+                                Navigator.pushNamed(context, AppRoutes.resultProgress);
                               }
                             },
                   ),

@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+
+enum ContentType { help, failure, success, warning }
 
 void showAwesomeSnackBar(
     BuildContext context, {
@@ -8,14 +8,22 @@ void showAwesomeSnackBar(
       required String message,
       required ContentType type,
     }) {
+  Color bgColor = Colors.blue;
+  if (type == ContentType.failure) bgColor = Colors.red;
+  if (type == ContentType.success) bgColor = Colors.green;
+  if (type == ContentType.warning) bgColor = Colors.orange;
+
   final snackBar = SnackBar(
-    elevation: 0,
     behavior: SnackBarBehavior.floating,
-    backgroundColor: Colors.transparent,
-    content: AwesomeSnackbarContent(
-      title: title,
-      message: message,
-      contentType: type,
+    backgroundColor: bgColor,
+    content: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        const SizedBox(height: 4),
+        Text(message),
+      ],
     ),
   );
 

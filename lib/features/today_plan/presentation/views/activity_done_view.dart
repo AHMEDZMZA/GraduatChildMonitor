@@ -3,7 +3,7 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
-import '../../../bottom_nav/presentation/views/app_bottom_nav_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class ActivityDoneView extends StatelessWidget {
   final String title;
@@ -67,11 +67,9 @@ class ActivityDoneView extends StatelessWidget {
               CustomButton(
                 text: 'Back to Home',
                 onTap: () {
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                      builder: (_) => const AppBottomNavBarView(),
-                    ),
+                    AppRoutes.mainNav,
                     (route) => false,
                   );
                 },

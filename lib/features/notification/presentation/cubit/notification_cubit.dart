@@ -1,0 +1,58 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/repos/notification_repo.dart';
+import '../state/notification_state.dart';
+import '../../domain/entities/notification_entity.dart';
+
+class NotificationCubit extends Cubit<NotificationState> {
+  final NotificationRepository repository;
+
+  NotificationCubit({required this.repository}) : super(NotificationInitial());
+
+  Future<void> getNotifications() async {
+    emit(NotificationLoading());
+    final result = await repository.getNotifications();
+    result.fold(
+      (failure) => emit(NotificationError(failure.message)),
+      (notifications) => emit(NotificationLoaded(notifications)),
+    );
+  }
+
+  Future<void> clearAll() async {
+    final result = await repository.clearAllNotifications();
+    result.fold(
+      (failure) => emit(NotificationError(failure.message)),
+      (_) => emit(const NotificationLoaded([])),
+    );
+  }
+
+  Future<void> deleteNotification(int index) async {
+    final currentState = state;
+    if (currentState is NotificationLoaded) {
+      final updatedList = List<NotificationEntity>.from(currentState.notifications);
+      final removedItem = updatedList.removeAt(index);
+      
+      // Optimistic update
+      emit(NotificationLoaded(updatedList));
+
+      final result = await repository.deleteNotification(index);
+      result.fold(
+        (failure) {
+          // Revert on failure
+          final revertedList = List<NotificationEntity>.from(updatedList);
+          revertedList.insert(index, removedItem);
+          emit(NotificationLoaded(revertedList));
+          emit(NotificationError(failure.message));
+        },
+        (_) => null, // Keep the updated list
+      );
+    }
+  }
+
+  Future<void> cancelAllNotifications() async {
+    final result = await repository.cancelAllNotifications();
+    result.fold(
+      (failure) => emit(NotificationError(failure.message)),
+      (_) => null,
+    );
+  }
+}

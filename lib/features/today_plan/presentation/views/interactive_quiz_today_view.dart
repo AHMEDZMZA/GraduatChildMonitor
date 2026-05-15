@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/today_plan/presentation/views/test_quiz_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -57,10 +57,7 @@ class InteractiveQuizTodayView extends StatelessWidget {
               const SizedBox(height: 80),
 
               CustomButton(text: 'Start Quiz', onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const TestQuizView()),
-                );
+                Navigator.pushNamed(context, AppRoutes.testQuiz);
               }),
             ],
           ),

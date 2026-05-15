@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import '../../../../core/navigation/app_routes.dart';
 import '../../data/activity_model.dart';
-import 'activity_details_view.dart';
 import 'activity_list_item.dart';
 
 class PhysicalActivitiesView extends StatefulWidget {
@@ -23,7 +23,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
       const ActivityModel(
         title: 'Jumping Jacks',
         shortDescription:
-        'A guided activity that helps your child exercise, stay focused, and improve body control.',
+            'A guided activity that helps your child exercise, stay focused, and improve body control.',
         image: AppAssets.physicalActivities1,
         duration: '⏱ Duration: 10 minutes',
         difficulty: '⚡ Difficulty: Easy',
@@ -33,28 +33,28 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
             image: AppAssets.physicalActivities1,
             title: 'Jumping Jacks',
             description:
-            'Sit with your child in a calm place and introduce the movement.',
+                'Sit with your child in a calm place and introduce the movement.',
             note: 'Encourage your child to choose freely without pressure.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities1,
             title: 'Jumping Jacks',
             description:
-            'Talk together about how to move your child into the chosen exercise.',
+                'Talk together about how to move your child into the chosen exercise.',
             note: 'Encourage your child to explain freely without pressure.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities1,
             title: 'Jumping Jacks',
             description:
-            'End with a positive note and hug to reinforce trust and motivation.',
+                'End with a positive note and hug to reinforce trust and motivation.',
             note: 'Encourage your child to express freely without pressure.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities1,
             title: 'Jumping Jacks',
             description:
-            'Finish the activity with praise and help your child cool down calmly.',
+                'Finish the activity with praise and help your child cool down calmly.',
             note: 'Celebrate the effort and keep the moment positive.',
           ),
         ],
@@ -63,7 +63,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
       const ActivityModel(
         title: 'Animal Walks',
         shortDescription:
-        'An interactive activity that builds coordination and supports active movement through playful walking styles.',
+            'An interactive activity that builds coordination and supports active movement through playful walking styles.',
         image: AppAssets.physicalActivities2,
         duration: '⏱ Duration: 10 minutes',
         difficulty: '⚡ Difficulty: Easy',
@@ -73,28 +73,26 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
             image: AppAssets.physicalActivities2,
             title: 'Animal Walks',
             description:
-            'Choose an animal movement and ask your child to copy it slowly.',
+                'Choose an animal movement and ask your child to copy it slowly.',
             note: 'Use simple movements and make it fun.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities2,
             title: 'Animal Walks',
-            description:
-            'Take turns imitating different animals together.',
+            description: 'Take turns imitating different animals together.',
             note: 'Praise each correct movement.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities2,
             title: 'Animal Walks',
             description:
-            'Increase variety gradually to improve focus and body control.',
+                'Increase variety gradually to improve focus and body control.',
             note: 'Pause if your child gets tired.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities2,
             title: 'Animal Walks',
-            description:
-            'Finish with a calm stretch and kind feedback.',
+            description: 'Finish with a calm stretch and kind feedback.',
             note: 'Keep the ending positive and supportive.',
           ),
         ],
@@ -103,7 +101,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
       const ActivityModel(
         title: 'Balance Challenge',
         shortDescription:
-        'A guided activity that helps your child improve balance, stability, and body awareness.',
+            'A guided activity that helps your child improve balance, stability, and body awareness.',
         image: AppAssets.physicalActivities3,
         duration: '⏱ Duration: 10 minutes',
         difficulty: '⚡ Difficulty: Easy',
@@ -113,28 +111,25 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
             image: AppAssets.physicalActivities3,
             title: 'Balance Challenge',
             description:
-            'Ask your child to stand on one foot for a few seconds.',
+                'Ask your child to stand on one foot for a few seconds.',
             note: 'Stay nearby and support if needed.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities3,
             title: 'Balance Challenge',
-            description:
-            'Count together and switch sides slowly.',
+            description: 'Count together and switch sides slowly.',
             note: 'Keep your tone encouraging.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities3,
             title: 'Balance Challenge',
-            description:
-            'Add simple arm movements to increase coordination.',
+            description: 'Add simple arm movements to increase coordination.',
             note: 'Do not rush the activity.',
           ),
           ActivityStepModel(
             image: AppAssets.physicalActivities3,
             title: 'Balance Challenge',
-            description:
-            'End with praise and a short rest.',
+            description: 'End with praise and a short rest.',
             note: 'Celebrate progress, not perfection.',
           ),
         ],
@@ -153,29 +148,29 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
   Future<void> _openActivity(int index) async {
     final ActivityModel selected = activities[index];
 
-    final bool? completed = await Navigator.push<bool>(
+    final bool? completed = await Navigator.pushNamed<bool>(
       context,
-      MaterialPageRoute(
-        builder: (_) => ActivityDetailsView(activity: selected),
-      ),
+      AppRoutes.activityDetails,
+      arguments: selected,
     );
 
     if (completed == true) {
       setState(() {
-        activities = activities.asMap().entries.map((entry) {
-          final i = entry.key;
-          final item = entry.value;
+        activities =
+            activities.asMap().entries.map((entry) {
+              final i = entry.key;
+              final item = entry.value;
 
-          if (i == index) {
-            return item.copyWith(completed: true, highlighted: false);
-          }
+              if (i == index) {
+                return item.copyWith(completed: true, highlighted: false);
+              }
 
-          if (i == index + 1) {
-            return item.copyWith(highlighted: true);
-          }
+              if (i == index + 1) {
+                return item.copyWith(highlighted: true);
+              }
 
-          return item.copyWith(highlighted: false);
-        }).toList();
+              return item.copyWith(highlighted: false);
+            }).toList();
       });
     }
   }
@@ -210,9 +205,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
               const SizedBox(height: 4),
               Text(
                 'Daily physical exercises designed to boost energy, focus, and coordination.',
-                style: AppTextStyles.nunito14w400Grey.copyWith(
-                  fontSize: 11,
-                ),
+                style: AppTextStyles.nunito14w400Grey.copyWith(fontSize: 11),
               ),
               const SizedBox(height: 16),
               ClipRRect(

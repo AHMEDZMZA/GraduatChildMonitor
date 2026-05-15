@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
-import 'login_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 
@@ -42,12 +42,7 @@ class ResetPassowrdFinishedView extends StatelessWidget {
             CustomButton(
               text: 'Continue to Login',
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const LoginView(),
-                  ),
-                );
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
               },
             ),
           ],

@@ -1,9 +1,10 @@
+import 'package:child_monitor_app/core/helpers/notification_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../data/activity_model.dart';
-import 'activity_done_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class ActivityStepsView extends StatefulWidget {
   final ActivityModel activity;
@@ -171,17 +172,24 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        final bool? done = await Navigator.push<bool>(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ActivityDoneView(
-                              title: widget.activity.title,
-                              image: widget.activity.image,
-                            ),
-                          ),
+                        await NotificationHelper.showNotification(
+                          id: 1,
+                          title: 'Activity Completed!',
+                          body: 'Great job completing ${widget.activity.title}!',
                         );
 
-                        if (done == true && mounted) {
+                        if (!context.mounted) return;
+
+                        final bool? done = await Navigator.pushNamed<bool>(
+                          context,
+                          AppRoutes.activityDone,
+                          arguments: {
+                            'title': widget.activity.title,
+                            'image': widget.activity.image,
+                          },
+                        );
+
+                        if (done == true && context.mounted) {
                           Navigator.pop(context, true);
                         }
                       }

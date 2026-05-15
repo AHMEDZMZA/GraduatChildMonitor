@@ -1,14 +1,12 @@
-import 'package:child_monitor_app/features/today_plan/presentation/views/parent_child_activities_view.dart';
-import 'package:child_monitor_app/features/today_plan/presentation/views/physical_activities_view.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../../home/presentation/widgets/home_banner.dart';
 import '../../data/today_plan_model.dart';
 import '../widgets/today_plan_card.dart';
-import 'interactive_quiz_today_view.dart';
 
 class TodayView extends StatelessWidget {
   const TodayView({super.key});
@@ -100,31 +98,27 @@ class TodayView extends StatelessWidget {
                 const SizedBox(height: 22),
 
                 //TodayPlanCard(item: TodayPlanModel(title: title, description: description, image: image, points: points), onTap: () {})
-                TodayPlanCard(item: plans[0], onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PhysicalActivitiesView(),
-                    ),
-                  );
-
-                }),
-                TodayPlanCard(item: plans[1], onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ParentChildActivitiesView(),
-                    ),
-                  );
-                }),
+                TodayPlanCard(
+                  item: plans[0],
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.physicalActivities);
+                  },
+                ),
+                TodayPlanCard(
+                  item: plans[1],
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.parentChildActivities,
+                    );
+                  },
+                ),
                 TodayPlanCard(
                   item: plans[2],
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const InteractiveQuizTodayView(),
-                      ),
+                      AppRoutes.interactiveQuizToday,
                     );
                   },
                 ),

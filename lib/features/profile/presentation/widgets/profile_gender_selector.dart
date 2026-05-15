@@ -12,37 +12,56 @@ class ProfileGenderSelector extends StatelessWidget {
     required this.onChanged,
   });
 
+  Widget _buildCustomRadio(String value) {
+    final bool isSelected = selectedGender == value;
+    return GestureDetector(
+      onTap: () => onChanged(value),
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? ColorManager.primaryBlue : Colors.grey,
+                  width: 2,
+                ),
+              ),
+              child: isSelected
+                  ? Center(
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ColorManager.primaryBlue,
+                        ),
+                      ),
+                    )
+                  : null,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              value,
+              style: AppTextStyles.nunito14w400Black,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RadioListTile<String>(
-          contentPadding: EdgeInsets.zero,
-          dense: true,
-          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          title: const Text(
-            'Male',
-            style: AppTextStyles.nunito14w400Black,
-          ),
-          value: 'Male',
-          groupValue: selectedGender,
-          activeColor: ColorManager.primaryBlue,
-          onChanged: onChanged,
-        ),
-        RadioListTile<String>(
-          contentPadding: EdgeInsets.zero,
-          dense: true,
-          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-          title: const Text(
-            'Female',
-            style: AppTextStyles.nunito14w400Black,
-          ),
-          value: 'Female',
-          groupValue: selectedGender,
-          activeColor: ColorManager.primaryBlue,
-          onChanged: onChanged,
-        ),
+        _buildCustomRadio('Male'),
+        _buildCustomRadio('Female'),
       ],
     );
   }

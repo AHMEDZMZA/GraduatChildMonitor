@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/today_plan/presentation/views/today_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -63,10 +63,7 @@ class ResultQuizView extends StatelessWidget {
               CustomButton(
                 text: 'Ok',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TodayView()),
-                  );
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.todayPlan, (route) => route.isFirst);
                 },
               ),
 
