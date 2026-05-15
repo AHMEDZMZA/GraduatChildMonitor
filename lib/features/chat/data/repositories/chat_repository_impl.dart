@@ -28,7 +28,7 @@ class ChatRepositoryImpl implements ChatRepository {
           sender: 'user',
           timestamp: DateTime.now(),
           conversationId: response.conversationId,
-          botReply: response.botResponse.message,
+          botReply: response.message,
         ),
       );
     } on ServerException catch (e) {
