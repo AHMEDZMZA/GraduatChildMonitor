@@ -3,6 +3,7 @@ import '../../../../core/network/failures.dart';
 import '../../domain/entities/progress_entity.dart';
 import '../../domain/repositories/progress_repository.dart';
 import '../datasources/progress_remote_data_source.dart';
+import '../models/progress_model.dart';
 
 class ProgressRepositoryImpl implements ProgressRepository {
   final ProgressRemoteDataSource remoteDataSource;
@@ -12,9 +13,35 @@ class ProgressRepositoryImpl implements ProgressRepository {
   @override
   Future<Either<Failure, ProgressEntity>> getChildProgress(String childId) async {
     try {
-      final summary = await remoteDataSource.getProgressSummary();
-      final trend = await remoteDataSource.getTrend(childId);
-      final stats = await remoteDataSource.getActivityStats(childId);
+      // Fetch each endpoint independently with fallbacks so one failure
+      // doesn't break the entire screen.
+      ProgressSummaryModel summary;
+      try {
+        summary = await remoteDataSource.getProgressSummary();
+      } catch (_) {
+        summary = ProgressSummaryModel(
+          summaryText: 'No summary available yet.',
+          improvementPercentage: 0.0,
+        );
+      }
+
+      TrendModel trend;
+      try {
+        trend = await remoteDataSource.getTrend(childId);
+      } catch (_) {
+        trend = TrendModel(status: 'stable', trendData: []);
+      }
+
+      ActivityStatsModel stats;
+      try {
+        stats = await remoteDataSource.getActivityStats(childId);
+      } catch (_) {
+        stats = ActivityStatsModel(
+          completedActivities: 0,
+          totalActivities: 0,
+          completionPercentage: 0.0,
+        );
+      }
 
       return Right(ProgressEntity(
         summary: summary.toEntity(),
@@ -26,3 +53,4 @@ class ProgressRepositoryImpl implements ProgressRepository {
     }
   }
 }
+

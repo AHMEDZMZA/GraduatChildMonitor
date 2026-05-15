@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:child_monitor_app/core/managers/daily_quote_manager.dart';
@@ -20,6 +21,12 @@ class LocalNotificationService {
   /// Initialize local notifications
   Future<void> initializeNotifications() async {
     if (_isInitialized) return;
+
+    // Request Android 13+ notification permission via the plugin itself
+    final androidImpl = _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    await androidImpl?.requestNotificationsPermission();
 
     const AndroidInitializationSettings androidInitSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -68,7 +75,7 @@ class LocalNotificationService {
       iOS: iosDetails,
     );
 
-    // Schedule for today first if not yet passed
+    // Schedule for today first; if already past, schedule for tomorrow
     final now = DateTime.now();
     var scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
 
@@ -76,15 +83,19 @@ class LocalNotificationService {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
-    await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id: 0,
-      title: getGreetingTitle(),
-      body: getNotificationPreview(),
-      scheduledDate: tz.TZDateTime.from(scheduledDate, tz.local),
-      notificationDetails: notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
+    try {
+      await _flutterLocalNotificationsPlugin.zonedSchedule(
+        id: 0,
+        title: getGreetingTitle(),
+        body: getNotificationPreview(),
+        scheduledDate: tz.TZDateTime.from(scheduledDate, tz.local),
+        notificationDetails: notificationDetails,
+        androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+        matchDateTimeComponents: DateTimeComponents.time,
+      );
+    } catch (e) {
+      debugPrint('Notification scheduling error: $e');
+    }
   }
 
   /// Show immediate notification with daily quote
@@ -146,3 +157,4 @@ class LocalNotificationService {
     await _flutterLocalNotificationsPlugin.cancel(id: id);
   }
 }
+

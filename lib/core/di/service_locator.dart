@@ -67,6 +67,7 @@ import 'package:child_monitor_app/features/tests/data/repositories/tests_reposit
 import 'package:child_monitor_app/features/tests/domain/repositories/tests_repository.dart';
 import 'package:child_monitor_app/features/tests/domain/usecases/test_usecases.dart';
 import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
+import 'package:child_monitor_app/features/tests/presentation/bloc/test_cubit.dart';
 
 import 'package:child_monitor_app/core/managers/theme_cubit.dart';
 
@@ -451,6 +452,12 @@ void _setupTestsFeature() {
       getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
       submitTestUseCase: getIt<SubmitTestUseCase>(),
       getTestHistoryUseCase: getIt<GetTestHistoryUseCase>(),
+    ),
+  );
+  getIt.registerFactory<TestCubit>(
+    () => TestCubit(
+      getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
+      submitTestUseCase: getIt<SubmitTestUseCase>(),
     ),
   );
 }

@@ -51,6 +51,17 @@ import '../../features/home/presentation/view/progress_test_view.dart';
 import '../../features/home/presentation/view/result_progress_view.dart';
 import '../../features/progress/presentation/view/statistics_view.dart';
 
+// Tests
+import '../../features/tests/presentation/view/add_child_data_view.dart';
+import '../../features/tests/presentation/view/select_test_view.dart';
+import '../../features/tests/presentation/view/known_condition_view.dart';
+import '../../features/tests/presentation/view/unknown_condition_view.dart';
+import '../../features/tests/presentation/view/test_questions_known_view.dart';
+import '../../features/tests/presentation/view/test_questions_unknown_view.dart';
+import '../../features/tests/presentation/view/test_complete_view.dart';
+import '../../features/tests/domain/entities/child_entity.dart';
+import '../../features/tests/domain/entities/test_submission_entity.dart';
+
 // App Routes
 import 'app_routes.dart';
 
@@ -213,6 +224,60 @@ class RoutingManager {
           );
         }
         return _errorRoute(settings);
+
+      // Tests
+      case AppRoutes.addChildData:
+        return MaterialPageRoute(builder: (_) => const AddChildDataView());
+      case AppRoutes.selectTest:
+        if (settings.arguments is ChildEntity) {
+          return MaterialPageRoute(
+            builder: (_) => SelectTestView(
+              child: settings.arguments as ChildEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
+      case AppRoutes.knownCondition:
+        if (settings.arguments is ChildEntity) {
+          return MaterialPageRoute(
+            builder: (_) => KnownConditionView(
+              child: settings.arguments as ChildEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
+      case AppRoutes.testQuestionsKnown:
+        if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          return MaterialPageRoute(
+            builder: (_) => TestQuestionsKnownView(
+              child: args['child'] as ChildEntity,
+              testType: args['testType'] as String,
+            ),
+          );
+        }
+        return _errorRoute(settings);
+      case AppRoutes.testQuestionsUnknown:
+        if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          return MaterialPageRoute(
+            builder: (_) => TestQuestionsUnknownView(
+              child: args['child'] as ChildEntity,
+              selectedTypes: args['selectedTypes'] as List<String>,
+            ),
+          );
+        }
+        return _errorRoute(settings);
+      case AppRoutes.testComplete:
+        if (settings.arguments is TestResultEntity) {
+          return MaterialPageRoute(
+            builder: (_) => TestCompleteView(
+              result: settings.arguments as TestResultEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
+
       // Notification
       case AppRoutes.notification:
         return MaterialPageRoute(builder: (_) => const NotificationView());

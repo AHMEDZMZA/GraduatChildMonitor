@@ -1,13 +1,7 @@
-import 'package:json_annotation/json_annotation.dart';
 import '../../domain/entities/progress_entity.dart';
 
-part 'progress_model.g.dart';
-
-@JsonSerializable()
 class ProgressSummaryModel {
-  @JsonKey(name: 'summary_text')
   final String summaryText;
-  @JsonKey(name: 'improvement_percentage')
   final double improvementPercentage;
 
   ProgressSummaryModel({
@@ -15,10 +9,14 @@ class ProgressSummaryModel {
     required this.improvementPercentage,
   });
 
-  factory ProgressSummaryModel.fromJson(Map<String, dynamic> json) =>
-      _$ProgressSummaryModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ProgressSummaryModelToJson(this);
+  factory ProgressSummaryModel.fromJson(Map<String, dynamic> json) {
+    return ProgressSummaryModel(
+      summaryText: (json['summary_text'] ?? json['summaryText'] ?? '') as String,
+      improvementPercentage:
+          ((json['improvement_percentage'] ?? json['improvementPercentage'] ?? 0) as num)
+              .toDouble(),
+    );
+  }
 
   ProgressSummaryEntity toEntity() => ProgressSummaryEntity(
         summaryText: summaryText,
@@ -26,10 +24,8 @@ class ProgressSummaryModel {
       );
 }
 
-@JsonSerializable()
 class TrendModel {
   final String status;
-  @JsonKey(name: 'trend_data')
   final List<double> trendData;
 
   TrendModel({
@@ -37,10 +33,16 @@ class TrendModel {
     required this.trendData,
   });
 
-  factory TrendModel.fromJson(Map<String, dynamic> json) =>
-      _$TrendModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$TrendModelToJson(this);
+  factory TrendModel.fromJson(Map<String, dynamic> json) {
+    final rawTrend = json['trend_data'] ?? json['trendData'];
+    final trendData = rawTrend is List
+        ? rawTrend.map((e) => (e as num).toDouble()).toList()
+        : <double>[];
+    return TrendModel(
+      status: (json['status'] ?? 'stable') as String,
+      trendData: trendData,
+    );
+  }
 
   TrendEntity toEntity() => TrendEntity(
         status: status,
@@ -48,13 +50,9 @@ class TrendModel {
       );
 }
 
-@JsonSerializable()
 class ActivityStatsModel {
-  @JsonKey(name: 'completed_activities')
   final int completedActivities;
-  @JsonKey(name: 'total_activities')
   final int totalActivities;
-  @JsonKey(name: 'completion_percentage')
   final double completionPercentage;
 
   ActivityStatsModel({
@@ -63,10 +61,19 @@ class ActivityStatsModel {
     required this.completionPercentage,
   });
 
-  factory ActivityStatsModel.fromJson(Map<String, dynamic> json) =>
-      _$ActivityStatsModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ActivityStatsModelToJson(this);
+  factory ActivityStatsModel.fromJson(Map<String, dynamic> json) {
+    return ActivityStatsModel(
+      completedActivities:
+          ((json['completed_activities'] ?? json['completedActivities'] ?? json['completed_count'] ?? 0) as num)
+              .toInt(),
+      totalActivities:
+          ((json['total_activities'] ?? json['totalActivities'] ?? json['total'] ?? 0) as num)
+              .toInt(),
+      completionPercentage:
+          ((json['completion_percentage'] ?? json['completionPercentage'] ?? 0) as num)
+              .toDouble(),
+    );
+  }
 
   ActivityStatsEntity toEntity() => ActivityStatsEntity(
         completedActivities: completedActivities,

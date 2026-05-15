@@ -1,4 +1,5 @@
 import 'package:child_monitor_app/core/di/service_locator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:child_monitor_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:child_monitor_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
@@ -9,6 +10,7 @@ import 'package:child_monitor_app/features/today_plan/presentation/cubit/today_p
 import 'package:child_monitor_app/features/progress/presentation/cubit/progress_cubit.dart';
 import 'package:child_monitor_app/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
+import 'package:child_monitor_app/features/tests/presentation/bloc/test_cubit.dart';
 import 'package:child_monitor_app/core/helpers/notification_helper.dart';
 import 'package:child_monitor_app/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:child_monitor_app/core/managers/local_notification_service.dart';
@@ -16,11 +18,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/managers/theme_cubit.dart';
 import 'core/managers/app_theme.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
 
-  await setupServiceLocator();
+  final prefs = await SharedPreferences.getInstance();
+  await setupServiceLocator(prefs);
   await NotificationHelper.init();
 
   // Initialize local notifications and schedule daily quote
@@ -46,6 +51,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ProgressCubit>(create: (_) => getIt<ProgressCubit>()),
         BlocProvider<ChatCubit>(create: (_) => getIt<ChatCubit>()),
         BlocProvider<TestsCubit>(create: (_) => getIt<TestsCubit>()),
+        BlocProvider<TestCubit>(create: (_) => getIt<TestCubit>()),
         BlocProvider<NotificationCubit>(
           create: (_) => getIt<NotificationCubit>(),
         ),

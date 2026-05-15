@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.4:8086/api';
+  static const String baseUrl = 'http://192.168.1.14:8086/api/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
@@ -555,8 +555,9 @@ class HomeDataResponse {
               ?.map((e) => Child.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      todayPlan:
-          json['today_plan'] != null ? Plan.fromJson(json['today_plan']) : null,
+      todayPlan: json['today_plan'] != null
+          ? Plan.fromJson(json['today_plan'])
+          : null,
       todayActivities:
           (json['today_activities'] as List?)
               ?.map((e) => Activity.fromJson(e as Map<String, dynamic>))
@@ -852,7 +853,9 @@ class ActivityDetailResponse {
       image: json['image'],
       duration: json['duration'],
       instructions: json['instructions'],
-      materials: (json['materials'] is List ? (json['materials'] as List).cast<String>() : null),
+      materials: (json['materials'] is List
+          ? (json['materials'] as List).cast<String>()
+          : null),
     );
   }
 }
@@ -950,14 +953,29 @@ class ChatbotResponse {
   });
 
   factory ChatbotResponse.fromJson(Map<String, dynamic> json) {
+    // Extract user message safely
+    ChatMessage userMsg;
+    if (json['user_message'] != null && json['user_message'] is Map<String, dynamic>) {
+      userMsg = ChatMessage.fromJson(json['user_message'] as Map<String, dynamic>);
+    } else {
+      userMsg = ChatMessage(message: '', timestamp: '');
+    }
+
+    // Extract bot response safely, falling back to top-level message keys
+    ChatMessage botMsg;
+    if (json['bot_response'] != null && json['bot_response'] is Map<String, dynamic>) {
+      botMsg = ChatMessage.fromJson(json['bot_response'] as Map<String, dynamic>);
+    } else {
+      botMsg = ChatMessage(
+        message: json['message'] ?? json['response'] ?? json['reply'] ?? json['text'] ?? 'Sorry, I am not able to answer right now.',
+        timestamp: json['timestamp'] ?? '',
+      );
+    }
+
     return ChatbotResponse(
-      userMessage: ChatMessage.fromJson(
-        json['user_message'] as Map<String, dynamic>,
-      ),
-      botResponse: ChatMessage.fromJson(
-        json['bot_response'] as Map<String, dynamic>,
-      ),
-      conversationId: json['conversation_id'] ?? '',
+      userMessage: userMsg,
+      botResponse: botMsg,
+      conversationId: json['conversation_id'] ?? json['conversationId'] ?? '',
     );
   }
 }
@@ -1401,5 +1419,3 @@ class HomeProgressResponse {
     );
   }
 }
-
-

@@ -46,7 +46,7 @@ class _SignupViewState extends State<SignupView> {
             ),
           );
           // Navigate to login after successful signup
-          Navigator.pushReplacementNamed(context, AppRoutes.login);
+          Navigator.pushReplacementNamed(context, AppRoutes.addChildData);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message), backgroundColor: Colors.red),
@@ -180,37 +180,37 @@ class _SignupViewState extends State<SignupView> {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(
-                          text:
-                              state is AuthLoading ? 'Loading...' : 'Register',
-                          onTap:
-                              state is AuthLoading
-                                  ? () {}
-                                  : () {
-                                    if (formKey.currentState!.validate()) {
-                                      if (passwordController.text !=
-                                          confirmPasswordController.text) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Passwords do not match',
-                                            ),
-                                            backgroundColor: Colors.red,
+                          text: state is AuthLoading
+                              ? 'Loading...'
+                              : 'Register',
+                          onTap: state is AuthLoading
+                              ? () {}
+                              : () {
+                                  if (formKey.currentState!.validate()) {
+                                    if (passwordController.text !=
+                                        confirmPasswordController.text) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Passwords do not match',
                                           ),
-                                        );
-                                        return;
-                                      }
-                                      context.read<AuthCubit>().signup(
-                                        monitorName:
-                                            monitorNameController.text.trim(),
-                                        email: emailController.text.trim(),
-                                        password: passwordController.text,
-                                        confirmPassword:
-                                            confirmPasswordController.text,
+                                          backgroundColor: Colors.red,
+                                        ),
                                       );
+                                      return;
                                     }
-                                  },
+                                    context.read<AuthCubit>().signup(
+                                      monitorName: monitorNameController.text
+                                          .trim(),
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text,
+                                      confirmPassword:
+                                          confirmPasswordController.text,
+                                    );
+                                  }
+                                },
                         );
                       },
                     ),

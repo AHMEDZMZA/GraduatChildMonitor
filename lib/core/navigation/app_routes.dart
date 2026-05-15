@@ -48,4 +48,12 @@ class AppRoutes {
   static const String progressTest = '/progressTest';
   static const String resultProgress = '/resultProgress';
   static const String statistics = '/statistics';
+
+  // Tests / Onboarding flow
+  static const String testQuestionsKnown = '/testQuestionsKnown';
+  static const String testQuestionsUnknown = '/testQuestionsUnknown';
+  static const String selectTest = '/selectTest';
+  static const String knownCondition = '/knownCondition';
+  static const String testComplete = '/testComplete';
+  static const String addChildData = '/addChildData';
 }

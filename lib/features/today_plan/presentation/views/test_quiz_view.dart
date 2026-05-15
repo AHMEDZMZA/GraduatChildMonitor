@@ -1,3 +1,5 @@
+import 'package:child_monitor_app/features/tests/presentation/widgets/build_answer_option.dart';
+
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -19,7 +21,7 @@ class _TestQuizState extends State<TestQuizView> {
   final List<String> questions = [
     'Does your child find it difficult to stay\n focused on one task?',
     'Does your child find it difficult to stay\n focused on one task?',
-    'Does your child find it difficult to stay\n focused on one task?'
+    'Does your child find it difficult to stay\n focused on one task?',
   ];
 
   final String instructions =
@@ -122,25 +124,25 @@ class _TestQuizState extends State<TestQuizView> {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        // AnswerOption(
-                        //   label: 'Yes',
-                        //   selected: answers[index] == 'Yes',
-                        //   onTap: () {
-                        //     setState(() {
-                        //       answers[index] = 'Yes';
-                        //     });
-                        //   },
-                        // ),
-                        // const SizedBox(height: 15),
-                        // AnswerOption(
-                        //   label: 'No',
-                        //   selected: answers[index] == 'No',
-                        //   onTap: () {
-                        //     setState(() {
-                        //       answers[index] = 'No';
-                        //     });
-                        //   },
-                        // ),
+                        AnswerOption(
+                          label: 'Yes',
+                          selected: answers[index] == 'Yes',
+                          onTap: () {
+                            setState(() {
+                              answers[index] = 'Yes';
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 15),
+                        AnswerOption(
+                          label: 'No',
+                          selected: answers[index] == 'No',
+                          onTap: () {
+                            setState(() {
+                              answers[index] = 'No';
+                            });
+                          },
+                        ),
                       ],
                     );
                   },
@@ -165,23 +167,24 @@ class _TestQuizState extends State<TestQuizView> {
                   const Spacer(),
 
                   CustomButtonSmallTest(
-                    text:
-                    currentQuestionIndex == questions.length - 1
+                    text: currentQuestionIndex == questions.length - 1
                         ? 'Submit'
                         : 'Next',
-                    onTap:
-                    answers[currentQuestionIndex] == null
+                    onTap: answers[currentQuestionIndex] == null
                         ? null
                         : () {
-                      if (currentQuestionIndex < questions.length - 1) {
-                        controller.nextPage(
-                          duration: const Duration(milliseconds: 350),
-                          curve: Curves.easeInOut,
-                        );
-                      } else {
-                        Navigator.pushNamed(context, AppRoutes.resultQuiz);
-                      }
-                    },
+                            if (currentQuestionIndex < questions.length - 1) {
+                              controller.nextPage(
+                                duration: const Duration(milliseconds: 350),
+                                curve: Curves.easeInOut,
+                              );
+                            } else {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.resultQuiz,
+                              );
+                            }
+                          },
                   ),
                 ],
               ),

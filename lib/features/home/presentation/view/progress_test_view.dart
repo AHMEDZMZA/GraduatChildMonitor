@@ -1,3 +1,5 @@
+import 'package:child_monitor_app/features/tests/presentation/widgets/build_answer_option.dart';
+
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -124,35 +126,35 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        // AnswerOption(
-                        //   label: 'Much Better',
-                        //   selected: answers[index] == 'Much Better',
-                        //   onTap: () {
-                        //     setState(() {
-                        //       answers[index] = 'Much Better';
-                        //     });
-                        //   },
-                        // ),
+                        AnswerOption(
+                          label: 'Much Better',
+                          selected: answers[index] == 'Much Better',
+                          onTap: () {
+                            setState(() {
+                              answers[index] = 'Much Better';
+                            });
+                          },
+                        ),
                         const SizedBox(height: 15),
-                        // AnswerOption(
-                        //   label: 'Same',
-                        //   selected: answers[index] == 'Same',
-                        //   onTap: () {
-                        //     setState(() {
-                        //       answers[index] = 'Same';
-                        //     });
-                        //   },
-                        // ),
+                        AnswerOption(
+                          label: 'Same',
+                          selected: answers[index] == 'Same',
+                          onTap: () {
+                            setState(() {
+                              answers[index] = 'Same';
+                            });
+                          },
+                        ),
                         const SizedBox(height: 15),
-                        // AnswerOption(
-                        //   label: 'Worse',
-                        //   selected: answers[index] == 'Worse',
-                        //   onTap: () {
-                        //     setState(() {
-                        //       answers[index] = 'Worse';
-                        //     });
-                        //   },
-                        // ),
+                        AnswerOption(
+                          label: 'Worse',
+                          selected: answers[index] == 'Worse',
+                          onTap: () {
+                            setState(() {
+                              answers[index] = 'Worse';
+                            });
+                          },
+                        ),
                       ],
                     );
                   },
@@ -177,23 +179,24 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                   const Spacer(),
 
                   CustomButtonSmallTest(
-                    text:
-                        currentQuestionIndex == questions.length - 1
-                            ? 'Submit'
-                            : 'Next',
-                    onTap:
-                        answers[currentQuestionIndex] == null
-                            ? null
-                            : () {
-                              if (currentQuestionIndex < questions.length - 1) {
-                                controller.nextPage(
-                                  duration: const Duration(milliseconds: 350),
-                                  curve: Curves.easeInOut,
-                                );
-                              } else {
-                                Navigator.pushNamed(context, AppRoutes.resultProgress);
-                              }
-                            },
+                    text: currentQuestionIndex == questions.length - 1
+                        ? 'Submit'
+                        : 'Next',
+                    onTap: answers[currentQuestionIndex] == null
+                        ? null
+                        : () {
+                            if (currentQuestionIndex < questions.length - 1) {
+                              controller.nextPage(
+                                duration: const Duration(milliseconds: 350),
+                                curve: Curves.easeInOut,
+                              );
+                            } else {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.resultProgress,
+                              );
+                            }
+                          },
                   ),
                 ],
               ),
