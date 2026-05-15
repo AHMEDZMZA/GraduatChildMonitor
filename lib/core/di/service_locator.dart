@@ -54,6 +54,20 @@ import 'package:child_monitor_app/features/progress/data/repositories/progress_r
 import 'package:child_monitor_app/features/progress/domain/repositories/progress_repository.dart';
 import 'package:child_monitor_app/features/progress/domain/usecases/get_child_progress_usecase.dart';
 import 'package:child_monitor_app/features/progress/presentation/cubit/progress_cubit.dart';
+
+// ==================== CHAT ====================
+import 'package:child_monitor_app/features/chat/data/datasources/chat_remote_data_source.dart';
+import 'package:child_monitor_app/features/chat/data/repositories/chat_repository_impl.dart';
+import 'package:child_monitor_app/features/chat/domain/repositories/chat_repository.dart';
+import 'package:child_monitor_app/features/chat/presentation/cubit/chat_cubit.dart';
+
+// ==================== TESTS ====================
+import 'package:child_monitor_app/features/tests/data/datasources/tests_remote_data_source.dart';
+import 'package:child_monitor_app/features/tests/data/repositories/tests_repository_impl.dart';
+import 'package:child_monitor_app/features/tests/domain/repositories/tests_repository.dart';
+import 'package:child_monitor_app/features/tests/domain/usecases/test_usecases.dart';
+import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
+
 import 'package:child_monitor_app/core/managers/theme_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -110,6 +124,8 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   _setupProfileFeature();
   _setupNotificationFeature();
   _setupProgressFeature();
+  _setupChatFeature();
+  _setupTestsFeature();
   // Theme cubit (singleton so theme state is shared and persisted)
   getIt.registerSingleton<ThemeCubit>(ThemeCubit(prefs));
 }
@@ -384,6 +400,57 @@ void _setupProgressFeature() {
   getIt.registerFactory<ProgressCubit>(
     () => ProgressCubit(
       getChildProgressUseCase: getIt<GetChildProgressUseCase>(),
+    ),
+  );
+}
+
+// ==================== CHAT Feature ====================
+void _setupChatFeature() {
+  // Data Sources
+  getIt.registerLazySingleton<ChatRemoteDataSource>(
+    () => ChatRemoteDataSourceImpl(apiClient: getIt<ApiClient>()),
+  );
+
+  // Repositories
+  getIt.registerLazySingleton<ChatRepository>(
+    () => ChatRepositoryImpl(remoteDataSource: getIt<ChatRemoteDataSource>()),
+  );
+
+  // Cubit
+  getIt.registerFactory<ChatCubit>(
+    () => ChatCubit(repository: getIt<ChatRepository>()),
+  );
+}
+
+// ==================== TESTS Feature ====================
+void _setupTestsFeature() {
+  // Data Sources
+  getIt.registerLazySingleton<TestsRemoteDataSource>(
+    () => TestsRemoteDataSourceImpl(apiClient: getIt<ApiClient>()),
+  );
+
+  // Repositories
+  getIt.registerLazySingleton<TestsRepository>(
+    () => TestsRepositoryImpl(remoteDataSource: getIt<TestsRemoteDataSource>()),
+  );
+
+  // Use Cases
+  getIt.registerLazySingleton(
+    () => GetTestQuestionsUseCase(repository: getIt<TestsRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => SubmitTestUseCase(repository: getIt<TestsRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetTestHistoryUseCase(repository: getIt<TestsRepository>()),
+  );
+
+  // Cubit
+  getIt.registerFactory<TestsCubit>(
+    () => TestsCubit(
+      getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
+      submitTestUseCase: getIt<SubmitTestUseCase>(),
+      getTestHistoryUseCase: getIt<GetTestHistoryUseCase>(),
     ),
   );
 }

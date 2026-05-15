@@ -1,3 +1,4 @@
+/// Simple UI model used in ChatView for displaying bubbles
 class ChatMessageModel {
   final String text;
   final bool isMe;
@@ -5,20 +6,24 @@ class ChatMessageModel {
   const ChatMessageModel({required this.text, required this.isMe});
 }
 
-final List<ChatMessageModel> messages = [
-  const ChatMessageModel(text: 'Hi, I need some help.', isMe: true),
-  const ChatMessageModel(
-    text: 'I’m here to help!\nCan you tell me what happened ?',
-    isMe: false,
-  ),
-  const ChatMessageModel(
-    text: 'Typically, you’ll want about 2 cups of flour for every egg.',
-    isMe: false,
-  ),
-  const ChatMessageModel(text: 'And how do I mix them together?', isMe: true),
-  const ChatMessageModel(
-    text:
-        'First, make a mound of flour on a clean surface, then create a well in the center. Crack the eggs into the well and sprinkle a little salt.',
-    isMe: false,
-  ),
-];
+/// Domain model representing a full chat message with metadata
+class ChatMessage {
+  final String id;
+  final String text;
+  final String sender; // 'user' or 'bot'
+  final DateTime timestamp;
+  final String? conversationId;
+  final String? botReply; // Optional bot response text bundled with user message
+
+  const ChatMessage({
+    required this.id,
+    required this.text,
+    required this.sender,
+    required this.timestamp,
+    this.conversationId,
+    this.botReply,
+  });
+
+  bool get isUser => sender == 'user';
+  bool get isBot => sender == 'bot';
+}

@@ -6,8 +6,12 @@ import 'package:child_monitor_app/core/navigation/app_routes.dart';
 import 'package:child_monitor_app/core/navigation/routing_manager.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/today_plan/presentation/cubit/today_plan_cubit.dart';
+import 'package:child_monitor_app/features/progress/presentation/cubit/progress_cubit.dart';
+import 'package:child_monitor_app/features/chat/presentation/cubit/chat_cubit.dart';
+import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
 import 'package:child_monitor_app/core/helpers/notification_helper.dart';
 import 'package:child_monitor_app/features/notification/presentation/cubit/notification_cubit.dart';
+import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +25,12 @@ void main() async {
 
   await setupServiceLocator(prefs);
   await NotificationHelper.init();
+
+  // Initialize local notifications and schedule daily quote
+  final notificationService = LocalNotificationService();
+  await notificationService.initializeNotifications();
+  await notificationService.scheduleDailyQuoteNotification(hour: 9, minute: 0);
+
   runApp(const MyApp());
 }
 
@@ -36,6 +46,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<TodayPlanCubit>(create: (_) => getIt<TodayPlanCubit>()),
         BlocProvider<ProfileCubit>(create: (_) => getIt<ProfileCubit>()),
         BlocProvider<HomeCubit>(create: (_) => getIt<HomeCubit>()),
+        BlocProvider<ProgressCubit>(create: (_) => getIt<ProgressCubit>()),
+        BlocProvider<ChatCubit>(create: (_) => getIt<ChatCubit>()),
+        BlocProvider<TestsCubit>(create: (_) => getIt<TestsCubit>()),
         BlocProvider<NotificationCubit>(
           create: (_) => getIt<NotificationCubit>(),
         ),

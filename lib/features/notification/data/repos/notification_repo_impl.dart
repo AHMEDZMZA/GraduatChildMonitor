@@ -81,4 +81,3 @@ class NotificationRepositoryImpl implements NotificationRepository {
     }
   }
 }
-}
