@@ -10,10 +10,43 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   Future<void> getNotifications() async {
     emit(NotificationLoading());
-    final result = await repository.getNotifications();
+    final result = await repository.getNotificationsWithQuote();
     result.fold(
       (failure) => emit(NotificationError(failure.message)),
       (notifications) => emit(NotificationLoaded(notifications)),
+    );
+  }
+
+  Future<void> getDailyQuote() async {
+    final result = await repository.getDailyQuote();
+    result.fold(
+      (failure) => emit(NotificationError(failure.message)),
+      (quote) {
+        final quoteNotification = NotificationEntity(
+          title: 'Daily Quote',
+          date: DateTime.now().toString(),
+          highlighted: true,
+          type: 'daily_quote',
+          quote: quote,
+        );
+        
+        final currentState = state;
+        if (currentState is NotificationLoaded) {
+          // Replace existing daily quote or add new one
+          final notifications = List<NotificationEntity>.from(currentState.notifications);
+          final quoteIndex = notifications.indexWhere((n) => n.type == 'daily_quote');
+          
+          if (quoteIndex >= 0) {
+            notifications[quoteIndex] = quoteNotification;
+          } else {
+            notifications.insert(0, quoteNotification);
+          }
+          
+          emit(NotificationLoaded(notifications));
+        } else {
+          emit(NotificationLoaded([quoteNotification]));
+        }
+      },
     );
   }
 
@@ -47,6 +80,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       );
     }
   }
+}
 
   Future<void> cancelAllNotifications() async {
     final result = await repository.cancelAllNotifications();

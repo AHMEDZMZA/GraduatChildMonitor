@@ -11,7 +11,76 @@ class NotificationListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isHighlighted = item.highlighted;
+    final isDailyQuote = item.type == 'daily_quote';
 
+    // Special layout for daily quote
+    if (isDailyQuote && item.quote != null) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF0E68C), // Light yellow background
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: const Color(0xFFFFD700), // Gold border
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.stars, color: Color(0xFFFFD700), size: 24),
+                  const SizedBox(width: 12),
+                  const Expanded(
+                    child: Text(
+                      'Daily Quote',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: ColorManager.nearBlack,
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.quote, color: Color(0xFFFFD700), size: 20),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '"${item.quote}"',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: ColorManager.nearBlack,
+                  fontStyle: FontStyle.italic,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                item.date,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: ColorManager.grayB0,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Default layout for other notifications
     return GestureDetector(
       onTap: onTap,
       child: Container(

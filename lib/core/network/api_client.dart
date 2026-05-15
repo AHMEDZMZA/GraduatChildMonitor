@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://10.0.2.2:8086/api';
+  static const String baseUrl = 'http://192.168.1.4:8086/api';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
@@ -134,6 +134,106 @@ abstract class ApiClient {
   @POST('/password/change')
   Future<HttpResponse<MessageResponse>> changePassword(
     @Body() ChangePasswordRequest request,
+  );
+
+  // ==================== ACTIVITIES ENDPOINTS ====================
+  @GET('/activities/all')
+  Future<HttpResponse<ActivitiesResponse>> getAllActivities();
+
+  @GET('/activities/type/{type}')
+  Future<HttpResponse<ActivitiesResponse>> getActivitiesByType(
+    @Path('type') String type,
+  );
+
+  @GET('/activities/for-child/{childId}')
+  Future<HttpResponse<ActivitiesResponse>> getActivitiesForChild(
+    @Path('childId') String childId,
+  );
+
+  @GET('/activities/{activityId}')
+  Future<HttpResponse<ActivityDetailResponse>> getActivityDetail(
+    @Path('activityId') String activityId,
+  );
+
+  @POST('/activities/complete')
+  Future<HttpResponse<ActivityCompletionResponse>> completeActivity(
+    @Query('childId') String childId,
+    @Query('activityId') String activityId,
+  );
+
+  @GET('/activities/stats/{childId}')
+  Future<HttpResponse<ActivityStatsResponse>> getActivityStats(
+    @Path('childId') String childId,
+  );
+
+  @GET('/activities/recommended/{childId}')
+  Future<HttpResponse<RecommendedActivitiesResponse>> getRecommendedActivities(
+    @Path('childId') String childId,
+  );
+
+  // ==================== CHATBOT ENDPOINTS ====================
+  @POST('/chatbot/send')
+  Future<HttpResponse<ChatbotResponse>> sendChatMessage(
+    @Body() ChatMessageRequest request,
+  );
+
+  @GET('/chatbot/history')
+  Future<HttpResponse<ChatHistoryResponse>> getChatHistory(
+    @Query('conversationId') String? conversationId,
+  );
+
+  // ==================== QUIZ ENDPOINTS ====================
+  @GET('/quiz/questions')
+  Future<HttpResponse<QuizQuestionsResponse>> getQuizQuestions();
+
+  @POST('/quiz/submit')
+  Future<HttpResponse<QuizResultResponse>> submitQuiz(
+    @Query('childId') String childId,
+    @Body() QuizSubmitRequest request,
+  );
+
+  @GET('/quiz/history/{childId}')
+  Future<HttpResponse<QuizHistoryResponse>> getQuizHistory(
+    @Path('childId') String childId,
+  );
+
+  // ==================== ASSESSMENT ENDPOINTS ====================
+  @POST('/monthly-assessment/submit')
+  Future<HttpResponse<AssessmentResponse>> submitAssessment(
+    @Query('childId') String childId,
+    @Body() AssessmentRequest request,
+  );
+
+  @GET('/monthly-assessment/child/{childId}')
+  Future<HttpResponse<AssessmentHistoryResponse>> getChildAssessments(
+    @Path('childId') String childId,
+  );
+
+  @GET('/monthly-assessment/trend/{childId}')
+  Future<HttpResponse<AssessmentTrendResponse>> getAssessmentTrend(
+    @Path('childId') String childId,
+  );
+
+  @GET('/monthly-assessment/{assessmentId}')
+  Future<HttpResponse<AssessmentDetailResponse>> getAssessmentDetail(
+    @Path('assessmentId') String assessmentId,
+  );
+
+  // ==================== TESTS ENDPOINTS ====================
+  @POST('/tests/submit')
+  Future<HttpResponse<TestResultResponse>> submitTest(
+    @Body() TestSubmitRequest request,
+  );
+
+  @GET('/tests/questions/{testType}')
+  Future<HttpResponse<TestQuestionsResponse>> getTestQuestions(
+    @Path('testType') String testType,
+  );
+
+  // ==================== HOME PROGRESS ENDPOINT ====================
+  @GET('/home/progress')
+  Future<HttpResponse<HomeProgressResponse>> getHomeProgress(
+    @Query('childId') String childId,
   );
 }
 
@@ -673,5 +773,631 @@ class MessageResponse {
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) {
     return MessageResponse(message: json['message'] ?? '');
+  }
+}
+
+// ==================== ACTIVITIES DTOs ====================
+class ActivitiesResponse {
+  final List<ActivityItem> activities;
+
+  ActivitiesResponse({required this.activities});
+
+  factory ActivitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ActivitiesResponse(
+      activities:
+          (json['activities'] as List?)
+              ?.map((e) => ActivityItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class ActivityItem {
+  final String id;
+  final String title;
+  final String? description;
+  final String type;
+  final String? image;
+  final int? duration;
+
+  ActivityItem({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.type,
+    this.image,
+    this.duration,
+  });
+
+  factory ActivityItem.fromJson(Map<String, dynamic> json) {
+    return ActivityItem(
+      id: json['id']?.toString() ?? '',
+      title: json['title'] ?? '',
+      description: json['description'],
+      type: json['type'] ?? '',
+      image: json['image'],
+      duration: json['duration'],
+    );
+  }
+}
+
+class ActivityDetailResponse {
+  final String id;
+  final String title;
+  final String? description;
+  final String type;
+  final String? image;
+  final int? duration;
+  final String? instructions;
+  final List<String>? materials;
+
+  ActivityDetailResponse({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.type,
+    this.image,
+    this.duration,
+    this.instructions,
+    this.materials,
+  });
+
+  factory ActivityDetailResponse.fromJson(Map<String, dynamic> json) {
+    return ActivityDetailResponse(
+      id: json['id']?.toString() ?? '',
+      title: json['title'] ?? '',
+      description: json['description'],
+      type: json['type'] ?? '',
+      image: json['image'],
+      duration: json['duration'],
+      instructions: json['instructions'],
+      materials: List<String>.from(json['materials'] ?? []),
+    );
+  }
+}
+
+class ActivityCompletionResponse {
+  final String message;
+  final int completedCount;
+
+  ActivityCompletionResponse({
+    required this.message,
+    required this.completedCount,
+  });
+
+  factory ActivityCompletionResponse.fromJson(Map<String, dynamic> json) {
+    return ActivityCompletionResponse(
+      message: json['message'] ?? '',
+      completedCount: json['completed_count'] ?? 0,
+    );
+  }
+}
+
+class ActivityStatsResponse {
+  final int completedCount;
+  final int totalActivities;
+  final double completionPercentage;
+  final List<ProgressItem> progress;
+
+  ActivityStatsResponse({
+    required this.completedCount,
+    required this.totalActivities,
+    required this.completionPercentage,
+    required this.progress,
+  });
+
+  factory ActivityStatsResponse.fromJson(Map<String, dynamic> json) {
+    return ActivityStatsResponse(
+      completedCount: json['completed_count'] ?? 0,
+      totalActivities: json['total_activities'] ?? 0,
+      completionPercentage: (json['completion_percentage'] ?? 0).toDouble(),
+      progress:
+          (json['progress'] as List?)
+              ?.map((e) => ProgressItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class ProgressItem {
+  final String date;
+  final int completed;
+  final int total;
+
+  ProgressItem({
+    required this.date,
+    required this.completed,
+    required this.total,
+  });
+
+  factory ProgressItem.fromJson(Map<String, dynamic> json) {
+    return ProgressItem(
+      date: json['date'] ?? '',
+      completed: json['completed'] ?? 0,
+      total: json['total'] ?? 0,
+    );
+  }
+}
+
+class RecommendedActivitiesResponse {
+  final List<ActivityItem> recommendedActivities;
+
+  RecommendedActivitiesResponse({required this.recommendedActivities});
+
+  factory RecommendedActivitiesResponse.fromJson(Map<String, dynamic> json) {
+    return RecommendedActivitiesResponse(
+      recommendedActivities:
+          (json['recommended_activities'] as List?)
+              ?.map((e) => ActivityItem.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+// ==================== CHATBOT DTOs ====================
+class ChatbotResponse {
+  final ChatMessage userMessage;
+  final ChatMessage botResponse;
+  final String conversationId;
+
+  ChatbotResponse({
+    required this.userMessage,
+    required this.botResponse,
+    required this.conversationId,
+  });
+
+  factory ChatbotResponse.fromJson(Map<String, dynamic> json) {
+    return ChatbotResponse(
+      userMessage: ChatMessage.fromJson(
+        json['user_message'] as Map<String, dynamic>,
+      ),
+      botResponse: ChatMessage.fromJson(
+        json['bot_response'] as Map<String, dynamic>,
+      ),
+      conversationId: json['conversation_id'] ?? '',
+    );
+  }
+}
+
+class ChatMessage {
+  final String message;
+  final String timestamp;
+
+  ChatMessage({required this.message, required this.timestamp});
+
+  factory ChatMessage.fromJson(Map<String, dynamic> json) {
+    return ChatMessage(
+      message: json['message'] ?? '',
+      timestamp: json['timestamp'] ?? '',
+    );
+  }
+}
+
+class ChatMessageRequest {
+  final String message;
+  final String? conversationId;
+
+  ChatMessageRequest({required this.message, this.conversationId});
+
+  Map<String, dynamic> toJson() => {
+    'message': message,
+    if (conversationId != null) 'conversation_id': conversationId,
+  };
+}
+
+class ChatHistoryResponse {
+  final List<ChatMessage> messages;
+
+  ChatHistoryResponse({required this.messages});
+
+  factory ChatHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return ChatHistoryResponse(
+      messages:
+          (json['messages'] as List?)
+              ?.map((e) => ChatMessage.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+// ==================== QUIZ DTOs ====================
+class QuizQuestionsResponse {
+  final String title;
+  final int totalQuestions;
+  final List<QuizQuestion> questions;
+
+  QuizQuestionsResponse({
+    required this.title,
+    required this.totalQuestions,
+    required this.questions,
+  });
+
+  factory QuizQuestionsResponse.fromJson(Map<String, dynamic> json) {
+    return QuizQuestionsResponse(
+      title: json['title'] ?? '',
+      totalQuestions: json['total_questions'] ?? 0,
+      questions:
+          (json['questions'] as List?)
+              ?.map((e) => QuizQuestion.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class QuizQuestion {
+  final int id;
+  final String question;
+  final String type;
+
+  QuizQuestion({required this.id, required this.question, required this.type});
+
+  factory QuizQuestion.fromJson(Map<String, dynamic> json) {
+    return QuizQuestion(
+      id: json['id'] ?? 0,
+      question: json['question'] ?? '',
+      type: json['type'] ?? '',
+    );
+  }
+}
+
+class QuizSubmitRequest {
+  final Map<String, dynamic> answers;
+
+  QuizSubmitRequest({required this.answers});
+
+  Map<String, dynamic> toJson() => answers;
+}
+
+class QuizResultResponse {
+  final String message;
+  final int score;
+  final String feedback;
+  final int resultId;
+
+  QuizResultResponse({
+    required this.message,
+    required this.score,
+    required this.feedback,
+    required this.resultId,
+  });
+
+  factory QuizResultResponse.fromJson(Map<String, dynamic> json) {
+    return QuizResultResponse(
+      message: json['message'] ?? '',
+      score: json['score'] ?? 0,
+      feedback: json['feedback'] ?? '',
+      resultId: json['result_id'] ?? 0,
+    );
+  }
+}
+
+class QuizHistoryResponse {
+  final int childId;
+  final List<QuizAttempt> history;
+  final int totalAttempts;
+
+  QuizHistoryResponse({
+    required this.childId,
+    required this.history,
+    required this.totalAttempts,
+  });
+
+  factory QuizHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return QuizHistoryResponse(
+      childId: json['child_id'] ?? 0,
+      history:
+          (json['history'] as List?)
+              ?.map((e) => QuizAttempt.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      totalAttempts: json['total_attempts'] ?? 0,
+    );
+  }
+}
+
+class QuizAttempt {
+  final int attemptNumber;
+  final int score;
+  final String date;
+  final String feedback;
+
+  QuizAttempt({
+    required this.attemptNumber,
+    required this.score,
+    required this.date,
+    required this.feedback,
+  });
+
+  factory QuizAttempt.fromJson(Map<String, dynamic> json) {
+    return QuizAttempt(
+      attemptNumber: json['attempt_number'] ?? 0,
+      score: json['score'] ?? 0,
+      date: json['date'] ?? '',
+      feedback: json['feedback'] ?? '',
+    );
+  }
+}
+
+// ==================== ASSESSMENT DTOs ====================
+class AssessmentRequest {
+  final int q1Focus;
+  final int q2Social;
+  final int q3Communication;
+  final int q4Behavior;
+  final int q5Learning;
+
+  AssessmentRequest({
+    required this.q1Focus,
+    required this.q2Social,
+    required this.q3Communication,
+    required this.q4Behavior,
+    required this.q5Learning,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'q1_focus': q1Focus,
+    'q2_social': q2Social,
+    'q3_communication': q3Communication,
+    'q4_behavior': q4Behavior,
+    'q5_learning': q5Learning,
+  };
+}
+
+class AssessmentResponse {
+  final String message;
+  final int assessmentId;
+  final String result;
+
+  AssessmentResponse({
+    required this.message,
+    required this.assessmentId,
+    required this.result,
+  });
+
+  factory AssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return AssessmentResponse(
+      message: json['message'] ?? '',
+      assessmentId: json['assessment_id'] ?? 0,
+      result: json['result'] ?? '',
+    );
+  }
+}
+
+class AssessmentHistoryResponse {
+  final int childId;
+  final List<Assessment> assessments;
+  final int total;
+
+  AssessmentHistoryResponse({
+    required this.childId,
+    required this.assessments,
+    required this.total,
+  });
+
+  factory AssessmentHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return AssessmentHistoryResponse(
+      childId: json['child_id'] ?? 0,
+      assessments:
+          (json['assessments'] as List?)
+              ?.map((e) => Assessment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      total: json['total'] ?? 0,
+    );
+  }
+}
+
+class Assessment {
+  final int id;
+  final String date;
+  final String result;
+  final Map<String, dynamic> scores;
+
+  Assessment({
+    required this.id,
+    required this.date,
+    required this.result,
+    required this.scores,
+  });
+
+  factory Assessment.fromJson(Map<String, dynamic> json) {
+    return Assessment(
+      id: json['id'] ?? 0,
+      date: json['date'] ?? '',
+      result: json['result'] ?? '',
+      scores: json['scores'] ?? {},
+    );
+  }
+}
+
+class AssessmentTrendResponse {
+  final List<Assessment> assessments;
+  final String trend;
+  final int improvement;
+
+  AssessmentTrendResponse({
+    required this.assessments,
+    required this.trend,
+    required this.improvement,
+  });
+
+  factory AssessmentTrendResponse.fromJson(Map<String, dynamic> json) {
+    return AssessmentTrendResponse(
+      assessments:
+          (json['assessments'] as List?)
+              ?.map((e) => Assessment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      trend: json['trend'] ?? '',
+      improvement: json['improvement'] ?? 0,
+    );
+  }
+}
+
+class AssessmentDetailResponse {
+  final int id;
+  final int childId;
+  final String date;
+  final String result;
+  final Map<String, dynamic> scores;
+
+  AssessmentDetailResponse({
+    required this.id,
+    required this.childId,
+    required this.date,
+    required this.result,
+    required this.scores,
+  });
+
+  factory AssessmentDetailResponse.fromJson(Map<String, dynamic> json) {
+    return AssessmentDetailResponse(
+      id: json['id'] ?? 0,
+      childId: json['child_id'] ?? 0,
+      date: json['date'] ?? '',
+      result: json['result'] ?? '',
+      scores: json['scores'] ?? {},
+    );
+  }
+}
+
+// ==================== TESTS DTOs ====================
+class TestSubmitRequest {
+  final int childId;
+  final String testType;
+  final int age;
+  final String sex;
+  final String jaundice;
+  final String familyAsd;
+  final List<TestAnswer> answers;
+
+  TestSubmitRequest({
+    required this.childId,
+    required this.testType,
+    required this.age,
+    required this.sex,
+    required this.jaundice,
+    required this.familyAsd,
+    required this.answers,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'childId': childId,
+    'testType': testType,
+    'age': age,
+    'sex': sex,
+    'jaundice': jaundice,
+    'familyAsd': familyAsd,
+    'answers': answers.map((e) => e.toJson()).toList(),
+  };
+}
+
+class TestAnswer {
+  final int qId;
+  final String answer;
+
+  TestAnswer({required this.qId, required this.answer});
+
+  Map<String, dynamic> toJson() => {'q_id': qId, 'answer': answer};
+}
+
+class TestResultResponse {
+  final int testId;
+  final String testType;
+  final String result;
+  final double riskScore;
+  final int childId;
+
+  TestResultResponse({
+    required this.testId,
+    required this.testType,
+    required this.result,
+    required this.riskScore,
+    required this.childId,
+  });
+
+  factory TestResultResponse.fromJson(Map<String, dynamic> json) {
+    return TestResultResponse(
+      testId: json['test_id'] ?? 0,
+      testType: json['test_type'] ?? '',
+      result: json['result'] ?? '',
+      riskScore: (json['risk_score'] ?? 0).toDouble(),
+      childId: json['child_id'] ?? 0,
+    );
+  }
+}
+
+class TestQuestionsResponse {
+  final String testType;
+  final int totalQuestions;
+  final String instructions;
+  final List<TestQuestion> questions;
+
+  TestQuestionsResponse({
+    required this.testType,
+    required this.totalQuestions,
+    required this.instructions,
+    required this.questions,
+  });
+
+  factory TestQuestionsResponse.fromJson(Map<String, dynamic> json) {
+    return TestQuestionsResponse(
+      testType: json['test_type'] ?? '',
+      totalQuestions: json['total_questions'] ?? 0,
+      instructions: json['instructions'] ?? '',
+      questions:
+          (json['questions'] as List?)
+              ?.map((e) => TestQuestion.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class TestQuestion {
+  final int id;
+  final String question;
+  final List<String> options;
+
+  TestQuestion({
+    required this.id,
+    required this.question,
+    required this.options,
+  });
+
+  factory TestQuestion.fromJson(Map<String, dynamic> json) {
+    return TestQuestion(
+      id: json['id'] ?? 0,
+      question: json['question'] ?? '',
+      options: List<String>.from(json['options'] ?? []),
+    );
+  }
+}
+
+// ==================== HOME PROGRESS DTOs ====================
+class HomeProgressResponse {
+  final int assessmentImprovement;
+  final String trend;
+  final int completedActivities;
+  final String progressSummary;
+
+  HomeProgressResponse({
+    required this.assessmentImprovement,
+    required this.trend,
+    required this.completedActivities,
+    required this.progressSummary,
+  });
+
+  factory HomeProgressResponse.fromJson(Map<String, dynamic> json) {
+    return HomeProgressResponse(
+      assessmentImprovement: json['assessment_improvement'] ?? 0,
+      trend: json['trend'] ?? '',
+      completedActivities: json['completed_activities'] ?? 0,
+      progressSummary: json['progress_summary'] ?? '',
+    );
   }
 }
