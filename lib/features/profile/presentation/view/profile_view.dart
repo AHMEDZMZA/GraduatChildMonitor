@@ -1,5 +1,9 @@
-import 'package:child_monitor_app/features/profile/presentation/view/settings_view.dart';
+import 'package:child_monitor_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:child_monitor_app/features/auth/presentation/state/auth_state.dart';
+import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -7,110 +11,156 @@ import '../../../../core/widgets/app_bottom_sheet.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/profile_avatar_section.dart';
 import '../widgets/profile_option_item.dart';
-import 'children_profiles_view.dart';
-import 'edit_profile_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManager.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
+  State<ProfileView> createState() => _ProfileViewState();
+}
 
-              Center(
-                child: CustomText(
-                  text: 'My Profile',
-                  style: AppTextStyles.nunito30w900Black.copyWith(
-                    color: ColorManager.primaryBlue,
+class _ProfileViewState extends State<ProfileView> {
+  String _userName = 'User Name';
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getUserProfile();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is UserProfileLoaded) {
+              setState(() => _userName = state.profile.monitorName);
+            } else if (state is AccountDeleted) {
+              // Account deleted - go back to login
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Account deleted successfully.'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+            } else if (state is ProfileError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is LogoutSuccess) {
+              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Logged out successfully.'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            } else if (state is AuthError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        backgroundColor: ColorManager.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 16),
+
+                Center(
+                  child: CustomText(
+                    text: 'My Profile',
+                    style: AppTextStyles.nunito30w900Black.copyWith(
+                      color: ColorManager.primaryBlue,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 28),
+                const SizedBox(height: 28),
 
-              const Center(
-                child: ProfileAvatarSection(
-                  imagePath: AppAssets.profileProfile,
-                  userName: 'User Name',
+                Center(
+                  child: ProfileAvatarSection(
+                    imagePath: AppAssets.profileProfile,
+                    userName: _userName,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 34),
+                const SizedBox(height: 34),
 
-              ProfileOptionItem(
-                icon: Icons.person_outline,
-                title: 'Children Profiles',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const ChildrenProfilesView(),
-                    ),
-                  );
-                },
-              ),
+                ProfileOptionItem(
+                  icon: Icons.person_outline,
+                  title: 'Children Profiles',
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.childrenProfiles);
+                  },
+                ),
 
-              const SizedBox(height: 8),
+                const SizedBox(height: 8),
 
-              ProfileOptionItem(
-                icon: Icons.person_outline,
-                title: 'Profile',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const EditProfileView(),
-                    ),
-                  );
-                },
-              ),
+                ProfileOptionItem(
+                  icon: Icons.person_outline,
+                  title: 'Profile',
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.editProfile);
+                  },
+                ),
 
-              const SizedBox(height: 8),
+                const SizedBox(height: 8),
 
-              ProfileOptionItem(
-                icon: Icons.settings_outlined,
-                title: 'Settings',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const SettingsView(),
-                    ),
-                  );
-                },
-              ),
+                ProfileOptionItem(
+                  icon: Icons.settings_outlined,
+                  title: 'Settings',
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.settings);
+                  },
+                ),
 
-              const SizedBox(height: 8),
+                const SizedBox(height: 8),
 
-              ProfileOptionItem(
-                icon: Icons.logout_outlined,
-                title: 'Logout',
-                onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    builder: (_) {
-                      return AppBottomSheet(
-                        title: 'Logout',
-                        description: 'Are you sure you want to logout ',
-                        confirmText: 'Yes,Logout',
-                        onConfirm: () {
-                          Navigator.pop(context);
-                        },
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
+                ProfileOptionItem(
+                  icon: Icons.logout_outlined,
+                  title: 'Logout',
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      builder: (_) {
+                        return AppBottomSheet(
+                          title: 'Logout',
+                          description:
+                              'Are you sure you want to logout?',
+                          confirmText: 'Yes, Logout',
+                          onConfirm: () {
+                            Navigator.pop(context);
+                            context.read<AuthCubit>().logout();
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

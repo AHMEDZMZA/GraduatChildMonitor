@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/widgets/glow_blur_circle.dart';
-import '../../../onboarding/presentation/view/onboarding_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -23,10 +22,7 @@ class _SplashViewState extends State<SplashView> {
   void _navigateAfterDelay() {
     Timer(const Duration(seconds: 2), () {
       if (mounted) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const OnboardingView()),
-        );
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
       }
     });
   }

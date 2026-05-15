@@ -3,7 +3,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../data/activity_model.dart';
-import 'activity_steps_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class ActivityDetailsView extends StatefulWidget {
   final ActivityModel activity;
@@ -24,11 +24,10 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
   }
 
   Future<void> _startActivity() async {
-    final bool? done = await Navigator.push<bool>(
+    final bool? done = await Navigator.pushNamed<bool>(
       context,
-      MaterialPageRoute(
-        builder: (_) => ActivityStepsView(activity: widget.activity),
-      ),
+      AppRoutes.activitySteps,
+      arguments: widget.activity,
     );
 
     if (done == true) {

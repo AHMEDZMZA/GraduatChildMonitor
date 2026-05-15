@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/today_plan/presentation/views/result_quiz_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -179,13 +179,7 @@ class _TestQuizState extends State<TestQuizView> {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => const ResultQuizView(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, AppRoutes.resultQuiz);
                       }
                     },
                   ),

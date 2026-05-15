@@ -1,4 +1,4 @@
-import 'package:child_monitor_app/features/auth/presentation/views/login_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -41,10 +41,7 @@ class SuccessOtpVerifyView extends StatelessWidget {
             CustomButton(
               text: 'Change Password',
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginView()),
-                );
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
               },
             ),
           ],

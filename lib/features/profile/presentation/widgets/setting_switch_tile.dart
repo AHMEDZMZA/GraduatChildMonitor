@@ -32,7 +32,7 @@ class SettingSwitchTile extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: ColorManager.white,
+            activeThumbColor: ColorManager.white,
             activeTrackColor: ColorManager.primaryBlue,
             inactiveThumbColor: ColorManager.white,
             inactiveTrackColor: ColorManager.lightGray,

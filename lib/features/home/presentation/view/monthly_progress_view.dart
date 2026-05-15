@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
-import '../../../bottom_nav/presentation/views/app_bottom_nav_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import '../../data/model.dart';
 import '../widgets/progress_item.dart';
-import 'monthly_progress_details_view.dart';
 
 class MonthlyProgressView extends StatefulWidget {
   const MonthlyProgressView({super.key});
@@ -60,12 +59,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const AppBottomNavBarView(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
                   },
                   child: const CircleAvatar(
                     backgroundColor: ColorManager.buttonBlue,
@@ -117,12 +111,10 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                           selectedIndex = index;
                         });
 
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                MonthlyProgressDetailsView(item: item),
-                          ),
+                          AppRoutes.monthlyProgressDetails,
+                          arguments: item,
                         );
                       },
                     );

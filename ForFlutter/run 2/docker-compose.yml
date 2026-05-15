@@ -1,0 +1,72 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password --bind-address=0.0.0.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: childmonitor
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3310:3306"
+  
+  # ✅ أضف الـ AI Engine هنا
+  ai-engine:
+    image: metwalley/ai-engine:latest
+    container_name: ai-engine
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}  # لازم يحط الـ API Key بتاعه
+      - GROQ_MODEL=llama-3.3-70b-versatile
+      - TRACKER_JSON_PATH=/seed_data/monthly_tracker.json
+    volumes:
+      - ./seed_data:/seed_data:ro  # لازم يعمل folder اسمه seed_data
+    restart: unless-stopped
+      
+  backend:
+    image: mo7amedsala7/childmonitor-backend:latest
+    depends_on:
+      - db
+      - ai-engine  # ✅ ينتظر الـ AI Engine
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/childmonitor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_MAIL_USERNAME: mohamed.sala2003@gmail.com
+      SPRING_MAIL_PASSWORD: xcsp mpgk ghxo sqex
+
+      # ✅ دلوقتي AI_URL بيشاور على الخدمة جوه Docker
+      AI_URL: http://ai-engine:8000
+
+      # OAuth configurations...
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_SCOPE: email,profile
+
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENT_ID: ${FACEBOOK_CLIENT_ID}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENT_SECRET: ${FACEBOOK_CLIENT_SECRET}
+      SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_SCOPE: email,public_profile
+
+    ports:
+      - "8086:8081"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: myuser
+      PMA_PASSWORD: mypassword
+
+volumes:
+  db_data:

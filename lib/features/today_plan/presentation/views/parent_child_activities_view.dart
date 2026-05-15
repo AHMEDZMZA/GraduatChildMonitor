@@ -3,7 +3,7 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../data/activity_model.dart';
-import 'activity_details_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'activity_list_item.dart';
 
 class ParentChildActivitiesView extends StatefulWidget {
@@ -151,11 +151,10 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
   Future<void> _openActivity(int index) async {
     final ActivityModel selected = activities[index];
 
-    final bool? completed = await Navigator.push<bool>(
+    final bool? completed = await Navigator.pushNamed<bool>(
       context,
-      MaterialPageRoute(
-        builder: (_) => ActivityDetailsView(activity: selected),
-      ),
+      AppRoutes.activityDetails,
+      arguments: selected,
     );
 
     if (completed == true) {

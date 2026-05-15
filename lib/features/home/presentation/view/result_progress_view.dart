@@ -5,7 +5,7 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/result_info_card.dart';
-import 'monthly_progress_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 
 class ResultProgressView extends StatelessWidget {
   const ResultProgressView({super.key});
@@ -63,12 +63,7 @@ class ResultProgressView extends StatelessWidget {
               CustomButton(
                 text: 'Ok',
                 onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const MonthlyProgressView(),
-                    ),
-                  );                },
+                  Navigator.pushReplacementNamed(context, AppRoutes.monthlyProgress);                },
               ),
 
               const SizedBox(height: 10),

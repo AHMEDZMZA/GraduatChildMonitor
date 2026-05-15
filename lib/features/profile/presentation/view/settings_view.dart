@@ -1,9 +1,9 @@
-import 'package:child_monitor_app/features/profile/presentation/view/password_manager_view.dart';
+import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/app_bottom_sheet.dart';
 import '../widgets/profile_option_item.dart';
 import '../widgets/profile_top_header.dart';
-import 'notification_setting_view.dart';
+import '../widgets/theme_toggle_item.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -21,16 +21,15 @@ class SettingsView extends StatelessWidget {
               const ProfileTopHeader(title: 'Settings'),
               const SizedBox(height: 34),
 
+              const ThemeToggleItem(),
+
+              const SizedBox(height: 8),
+
               ProfileOptionItem(
                 icon: Icons.lightbulb_outline,
                 title: 'Notification Setting',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const NotificationSettingView(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, AppRoutes.notificationSettings);
                 },
               ),
 
@@ -40,12 +39,7 @@ class SettingsView extends StatelessWidget {
                 icon: Icons.key_outlined,
                 title: 'Password Manager',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PasswordManagerView(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, AppRoutes.passwordManager);
                 },
               ),
 
@@ -54,22 +48,24 @@ class SettingsView extends StatelessWidget {
               ProfileOptionItem(
                 icon: Icons.person_outline,
                 title: 'Delete Account',
-                onTap: () {      showModalBottomSheet(
-                  context: context,
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  builder: (_) {
-                    return AppBottomSheet(
-                      title: 'Delete Account',
-                      description:
-                      'Are you sure you want to delete your account?',
-                      confirmText: 'Yes,Delete',
-                      onConfirm: () {
-                        Navigator.pop(context);
-                      },
-                    );
-                  },
-                );},
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    builder: (_) {
+                      return AppBottomSheet(
+                        title: 'Delete Account',
+                        description:
+                            'Are you sure you want to delete your account?',
+                        confirmText: 'Yes,Delete',
+                        onConfirm: () {
+                          Navigator.pop(context);
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),

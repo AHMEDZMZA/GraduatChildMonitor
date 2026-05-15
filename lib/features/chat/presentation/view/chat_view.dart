@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/managers/app_text_styles.dart';
-import '../../../../../core/managers/color_manager.dart';
+import '../../../../core/managers/app_text_styles.dart';
+import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../model/chat_message_model.dart';
 import '../widgets/chat_bubble.dart';

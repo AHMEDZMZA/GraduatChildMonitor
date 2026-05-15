@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../core/constants/app_assets.dart';
-import '../../../../core/managers/color_manager.dart';
+import '../../../../core/managers/theme_helper.dart';
 import '../../../../core/widgets/animation_wrapper/animation_wrapper.dart';
 import '../../../chat/presentation/view/chat_view.dart';
 import '../../../home/presentation/view/home_view.dart';
-import '../../../noification/presentation/view/notification_view.dart';
+import '../../../notification/presentation/view/notification_view.dart';
 import '../../../profile/presentation/view/profile_view.dart';
 
 class AppBottomNavBarView extends StatefulWidget {
@@ -28,16 +28,13 @@ class _AppBottomNavBarViewState extends State<AppBottomNavBarView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: AnimationWrapper(
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
           onTap: (index) => setState(() => _currentIndex = index),
-          backgroundColor: ColorManager.white,
+          backgroundColor: context.cardBackground,
           elevation: 8,
           items: [
             BottomNavigationBarItem(
