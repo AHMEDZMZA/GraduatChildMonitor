@@ -14,16 +14,13 @@ import 'package:child_monitor_app/features/notification/presentation/cubit/notif
 import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'core/managers/theme_cubit.dart';
 import 'core/managers/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final prefs = await SharedPreferences.getInstance();
-
-  await setupServiceLocator(prefs);
+  await setupServiceLocator();
   await NotificationHelper.init();
 
   // Initialize local notifications and schedule daily quote
