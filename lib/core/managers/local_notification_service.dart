@@ -36,7 +36,7 @@ class LocalNotificationService {
       iOS: iosInitSettings,
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(initSettings);
+    await _flutterLocalNotificationsPlugin.initialize(settings: initSettings);
     _isInitialized = true;
   }
 
@@ -78,11 +78,11 @@ class LocalNotificationService {
 
     // Schedule periodic daily notification using updated API
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
-      getGreetingTitle(),
-      getNotificationPreview(),
-      tz.TZDateTime.from(scheduledDate, tz.local),
-      notificationDetails,
+      id: 0,
+      title: getGreetingTitle(),
+      body: getNotificationPreview(),
+      scheduledDate: tz.TZDateTime.from(scheduledDate, tz.local),
+      notificationDetails: notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
     );
@@ -113,10 +113,10 @@ class LocalNotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.show(
-      1,
-      getGreetingTitle(),
-      getNotificationPreview(),
-      notificationDetails,
+      id: 1,
+      title: getGreetingTitle(),
+      body: getNotificationPreview(),
+      notificationDetails: notificationDetails,
     );
   }
 
@@ -144,6 +144,6 @@ class LocalNotificationService {
 
   /// Cancel specific notification
   Future<void> cancelNotification(int id) async {
-    await _flutterLocalNotificationsPlugin.cancel(id);
+    await _flutterLocalNotificationsPlugin.cancel(id: id);
   }
 }

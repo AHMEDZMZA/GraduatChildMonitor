@@ -80,7 +80,6 @@ class NotificationCubit extends Cubit<NotificationState> {
       );
     }
   }
-}
 
   Future<void> cancelAllNotifications() async {
     final result = await repository.cancelAllNotifications();

@@ -29,7 +29,7 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/home/progress',
+            '/home/progress',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -56,7 +56,7 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/monthly-assessment/trend/${childId}',
+            '/monthly-assessment/trend/${childId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -83,7 +83,7 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/activities/stats/${childId}',
+            '/activities/stats/${childId}',
             queryParameters: queryParameters,
             data: _data,
           )

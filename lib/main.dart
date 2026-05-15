@@ -29,7 +29,7 @@ void main() async {
   // Initialize local notifications and schedule daily quote
   final notificationService = LocalNotificationService();
   await notificationService.initializeNotifications();
-  await notificationService.scheduleDailyQuoteNotification(hour: 9, minute: 0);
+  await notificationService.scheduleDailyQuoteNotification(hour: 14, minute: 0);
 
   runApp(const MyApp());
 }

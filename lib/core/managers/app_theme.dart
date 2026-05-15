@@ -4,7 +4,6 @@ import 'color_manager.dart';
 class AppTheme {
   // Light Theme Colors
   static const Color _lightPrimary = ColorManager.primaryBlue;
-  static const Color _lightBackground = ColorManager.backgroundWhite;
   static const Color _lightScaffold = ColorManager.backgroundWhite;
   static const Color _lightText = ColorManager.darkText;
   static const Color _lightSecondaryText = ColorManager.mediumGray;
@@ -13,7 +12,6 @@ class AppTheme {
 
   // Dark Theme Colors
   static const Color _darkPrimary = ColorManager.primaryBlue;
-  static const Color _darkBackground = ColorManager.nearBlack;
   static const Color _darkScaffold = ColorManager.nearBlack;
   static const Color _darkText = ColorManager.backgroundWhite;
   static const Color _darkSecondaryText = ColorManager.mediumGray;

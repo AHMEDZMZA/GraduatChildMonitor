@@ -22,10 +22,9 @@ Map<String, dynamic> _$ProgressSummaryModelToJson(
 
 TrendModel _$TrendModelFromJson(Map<String, dynamic> json) => TrendModel(
   status: json['status'] as String,
-  trendData:
-      (json['trend_data'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
+  trendData: (json['trend_data'] as List<dynamic>)
+      .map((e) => (e as num).toDouble())
+      .toList(),
 );
 
 Map<String, dynamic> _$TrendModelToJson(TrendModel instance) =>

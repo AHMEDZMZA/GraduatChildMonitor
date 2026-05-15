@@ -14,224 +14,224 @@ abstract class ApiClient {
   factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
 
   // ==================== AUTH ENDPOINTS ====================
-  @POST('/auth/signup')
+  @POST('auth/signup')
   Future<HttpResponse<AuthResponse>> signup(@Body() SignupRequest request);
 
-  @POST('/auth/login')
+  @POST('auth/login')
   Future<HttpResponse<AuthResponse>> login(@Body() LoginRequest request);
 
-  @POST('/auth/logout')
+  @POST('auth/logout')
   Future<HttpResponse<MessageResponse>> logout();
 
-  @POST('/auth/reset-password/request')
+  @POST('auth/reset-password/request')
   Future<HttpResponse<MessageResponse>> requestPasswordReset(
     @Body() RequestPasswordResetRequest request,
   );
 
-  @POST('/auth/reset-password/verify')
+  @POST('auth/reset-password/verify')
   Future<HttpResponse<MessageResponse>> verifyOtp(
     @Body() VerifyOtpRequest request,
   );
 
-  @POST('/auth/reset-password/confirm')
+  @POST('auth/reset-password/confirm')
   Future<HttpResponse<MessageResponse>> confirmPasswordReset(
     @Body() ConfirmPasswordResetRequest request,
   );
 
   // ==================== ARTICLES ENDPOINTS ====================
-  @GET('/articles/all')
+  @GET('articles/all')
   Future<HttpResponse<ArticlesResponse>> getAllArticles();
 
-  @GET('/articles/{articleId}')
+  @GET('articles/{articleId}')
   Future<HttpResponse<ArticleDetailResponse>> getArticleDetail(
     @Path('articleId') String articleId,
   );
 
-  @GET('/articles/category/{category}')
+  @GET('articles/category/{category}')
   Future<HttpResponse<ArticlesResponse>> getArticlesByCategory(
     @Path('category') String category,
   );
 
-  @POST('/articles/favorite/add')
+  @POST('articles/favorite/add')
   Future<HttpResponse<MessageResponse>> addArticleToFavorite(
     @Query('articleId') String articleId,
   );
 
-  @DELETE('/articles/favorite/remove')
+  @DELETE('articles/favorite/remove')
   Future<HttpResponse<MessageResponse>> removeArticleFromFavorite(
     @Query('articleId') String articleId,
   );
 
-  @GET('/articles/favorites')
+  @GET('articles/favorites')
   Future<HttpResponse<FavoritesResponse>> getFavoriteArticles();
 
-  @GET('/articles/favorite/check')
+  @GET('articles/favorite/check')
   Future<HttpResponse<IsFavoriteResponse>> checkIfArticleIsFavorite(
     @Query('articleId') String articleId,
   );
 
   // ==================== TODAY PLAN ENDPOINTS ====================
-  @GET('/home/today-plan')
+  @GET('home/today-plan')
   Future<HttpResponse<TodayPlanResponse>> getTodayPlan(
     @Query('childId') String childId,
   );
 
-  @POST('/home/plan/complete')
+  @POST('home/plan/complete')
   Future<HttpResponse<MessageResponse>> completeTodayPlan(
     @Query('childId') String childId,
     @Query('date') String date,
   );
 
-  @GET('/home/plan-history')
+  @GET('home/plan-history')
   Future<HttpResponse<PlanHistoryResponse>> getPlanHistory(
     @Query('childId') String childId,
   );
 
-  @GET('/home/data')
+  @GET('home/data')
   Future<HttpResponse<HomeDataResponse>> getHomeData(
     @Query('childId') String? childId,
   );
 
   // ==================== PROFILE/USER ENDPOINTS ====================
-  @GET('/children/profile')
+  @GET('children/profile')
   Future<HttpResponse<UserProfileResponse>> getUserProfile();
 
-  @PUT('/children/update-profile')
+  @PUT('children/update-profile')
   Future<HttpResponse<MessageResponse>> updateUserProfile(
     @Body() UpdateProfileRequest request,
   );
 
-  @DELETE('/children/delete-account')
+  @DELETE('children/delete-account')
   Future<HttpResponse<MessageResponse>> deleteAccount();
 
-  @GET('/children/my-children')
+  @GET('children/my-children')
   Future<HttpResponse<MyChildrenResponse>> getMyChildren();
 
-  @GET('/children/{childId}')
+  @GET('children/{childId}')
   Future<HttpResponse<ChildDetailResponse>> getChildDetail(
     @Path('childId') String childId,
   );
 
-  @POST('/children/add')
+  @POST('children/add')
   Future<HttpResponse<AddChildResponse>> addChild(
     @Body() AddChildRequest request,
   );
 
-  @PUT('/children/{childId}')
+  @PUT('children/{childId}')
   Future<HttpResponse<MessageResponse>> updateChild(
     @Path('childId') String childId,
     @Body() AddChildRequest request,
   );
 
-  @DELETE('/children/{childId}')
+  @DELETE('children/{childId}')
   Future<HttpResponse<MessageResponse>> deleteChild(
     @Path('childId') String childId,
   );
 
-  @GET('/settings')
+  @GET('settings')
   Future<HttpResponse<SettingsResponse>> getSettings();
 
-  @POST('/password/change')
+  @POST('password/change')
   Future<HttpResponse<MessageResponse>> changePassword(
     @Body() ChangePasswordRequest request,
   );
 
   // ==================== ACTIVITIES ENDPOINTS ====================
-  @GET('/activities/all')
+  @GET('activities/all')
   Future<HttpResponse<ActivitiesResponse>> getAllActivities();
 
-  @GET('/activities/type/{type}')
+  @GET('activities/type/{type}')
   Future<HttpResponse<ActivitiesResponse>> getActivitiesByType(
     @Path('type') String type,
   );
 
-  @GET('/activities/for-child/{childId}')
+  @GET('activities/for-child/{childId}')
   Future<HttpResponse<ActivitiesResponse>> getActivitiesForChild(
     @Path('childId') String childId,
   );
 
-  @GET('/activities/{activityId}')
+  @GET('activities/{activityId}')
   Future<HttpResponse<ActivityDetailResponse>> getActivityDetail(
     @Path('activityId') String activityId,
   );
 
-  @POST('/activities/complete')
+  @POST('activities/complete')
   Future<HttpResponse<ActivityCompletionResponse>> completeActivity(
     @Query('childId') String childId,
     @Query('activityId') String activityId,
   );
 
-  @GET('/activities/stats/{childId}')
+  @GET('activities/stats/{childId}')
   Future<HttpResponse<ActivityStatsResponse>> getActivityStats(
     @Path('childId') String childId,
   );
 
-  @GET('/activities/recommended/{childId}')
+  @GET('activities/recommended/{childId}')
   Future<HttpResponse<RecommendedActivitiesResponse>> getRecommendedActivities(
     @Path('childId') String childId,
   );
 
   // ==================== CHATBOT ENDPOINTS ====================
-  @POST('/chatbot/send')
+  @POST('chatbot/send')
   Future<HttpResponse<ChatbotResponse>> sendChatMessage(
     @Body() ChatMessageRequest request,
   );
 
-  @GET('/chatbot/history')
+  @GET('chatbot/history')
   Future<HttpResponse<ChatHistoryResponse>> getChatHistory(
     @Query('conversationId') String? conversationId,
   );
 
   // ==================== QUIZ ENDPOINTS ====================
-  @GET('/quiz/questions')
+  @GET('quiz/questions')
   Future<HttpResponse<QuizQuestionsResponse>> getQuizQuestions();
 
-  @POST('/quiz/submit')
+  @POST('quiz/submit')
   Future<HttpResponse<QuizResultResponse>> submitQuiz(
     @Query('childId') String childId,
     @Body() QuizSubmitRequest request,
   );
 
-  @GET('/quiz/history/{childId}')
+  @GET('quiz/history/{childId}')
   Future<HttpResponse<QuizHistoryResponse>> getQuizHistory(
     @Path('childId') String childId,
   );
 
   // ==================== ASSESSMENT ENDPOINTS ====================
-  @POST('/monthly-assessment/submit')
+  @POST('monthly-assessment/submit')
   Future<HttpResponse<AssessmentResponse>> submitAssessment(
     @Query('childId') String childId,
     @Body() AssessmentRequest request,
   );
 
-  @GET('/monthly-assessment/child/{childId}')
+  @GET('monthly-assessment/child/{childId}')
   Future<HttpResponse<AssessmentHistoryResponse>> getChildAssessments(
     @Path('childId') String childId,
   );
 
-  @GET('/monthly-assessment/trend/{childId}')
+  @GET('monthly-assessment/trend/{childId}')
   Future<HttpResponse<AssessmentTrendResponse>> getAssessmentTrend(
     @Path('childId') String childId,
   );
 
-  @GET('/monthly-assessment/{assessmentId}')
+  @GET('monthly-assessment/{assessmentId}')
   Future<HttpResponse<AssessmentDetailResponse>> getAssessmentDetail(
     @Path('assessmentId') String assessmentId,
   );
 
   // ==================== TESTS ENDPOINTS ====================
-  @POST('/tests/submit')
+  @POST('tests/submit')
   Future<HttpResponse<TestResultResponse>> submitTest(
     @Body() TestSubmitRequest request,
   );
 
-  @GET('/tests/questions/{testType}')
+  @GET('tests/questions/{testType}')
   Future<HttpResponse<TestQuestionsResponse>> getTestQuestions(
     @Path('testType') String testType,
   );
 
   // ==================== HOME PROGRESS ENDPOINT ====================
-  @GET('/home/progress')
+  @GET('home/progress')
   Future<HttpResponse<HomeProgressResponse>> getHomeProgress(
     @Query('childId') String childId,
   );
@@ -1401,3 +1401,5 @@ class HomeProgressResponse {
     );
   }
 }
+
+
