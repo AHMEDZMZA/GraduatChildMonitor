@@ -57,7 +57,6 @@ import '../../features/progress/presentation/view/statistics_view.dart';
 import '../../features/tests/presentation/view/add_child_data_view.dart';
 import '../../features/tests/presentation/view/select_test_view.dart';
 import '../../features/tests/presentation/view/known_condition_view.dart';
-import '../../features/tests/presentation/view/unknown_condition_view.dart';
 import '../../features/tests/presentation/view/test_questions_known_view.dart';
 import '../../features/tests/presentation/view/test_questions_unknown_view.dart';
 import '../../features/tests/presentation/view/test_complete_view.dart';

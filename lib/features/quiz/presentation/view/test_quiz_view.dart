@@ -225,7 +225,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                                     };
 
                                     answers.forEach((qId, answer) {
-                                      String key = keyMap[qId] ?? 'q${qId}';
+                                      String key = keyMap[qId] ?? 'q$qId';
                                       formattedAnswers[key] = answer == 'Yes';
                                     });
                                     context.read<QuizCubit>().submitQuiz(

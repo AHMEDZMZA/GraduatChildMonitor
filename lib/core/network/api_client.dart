@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.14:8086/api/';
+  static const String baseUrl = 'http://192.168.1.4:8086/api/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
