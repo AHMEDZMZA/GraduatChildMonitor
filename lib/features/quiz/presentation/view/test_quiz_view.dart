@@ -10,19 +10,27 @@ import 'package:child_monitor_app/features/quiz/presentation/cubit/quiz_state.da
 import 'package:child_monitor_app/core/di/service_locator.dart';
 
 class TestQuizView extends StatelessWidget {
-  const TestQuizView({super.key});
+  final String? childId;
+
+  const TestQuizView({super.key, this.childId});
 
   @override
   Widget build(BuildContext context) {
+    // Get childId from arguments if not provided as constructor parameter
+    final String? passedChildId =
+        childId ?? ModalRoute.of(context)?.settings.arguments as String?;
+
     return BlocProvider(
       create: (context) => getIt<QuizCubit>()..getQuizQuestions(),
-      child: const TestQuizContent(),
+      child: TestQuizContent(childId: passedChildId ?? "1"),
     );
   }
 }
 
 class TestQuizContent extends StatefulWidget {
-  const TestQuizContent({super.key});
+  final String childId;
+
+  const TestQuizContent({super.key, required this.childId});
 
   @override
   State<TestQuizContent> createState() => _TestQuizContentState();
@@ -221,7 +229,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                                       formattedAnswers[key] = answer == 'Yes';
                                     });
                                     context.read<QuizCubit>().submitQuiz(
-                                      "5",
+                                      widget.childId,
                                       formattedAnswers,
                                     );
                                   }

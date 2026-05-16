@@ -7,10 +7,16 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/info_card_quiz.dart';
 
 class InteractiveQuizTodayView extends StatelessWidget {
-  const InteractiveQuizTodayView({super.key});
+  final String? childId;
+
+  const InteractiveQuizTodayView({super.key, this.childId});
 
   @override
   Widget build(BuildContext context) {
+    // Get childId from arguments if not provided
+    final String? passedChildId =
+        childId ?? ModalRoute.of(context)?.settings.arguments as String?;
+
     return Scaffold(
       backgroundColor: ColorManager.backgroundWhite,
       body: SafeArea(
@@ -46,7 +52,7 @@ class InteractiveQuizTodayView extends StatelessWidget {
 
               const CustomText(
                 text:
-                'A short quiz to help your child learn through fun and simple questions.',
+                    'A short quiz to help your child learn through fun and simple questions.',
                 style: AppTextStyles.nunito14w400Grey,
               ),
 
@@ -56,9 +62,16 @@ class InteractiveQuizTodayView extends StatelessWidget {
 
               const SizedBox(height: 80),
 
-              CustomButton(text: 'Start Quiz', onTap: () {
-                Navigator.pushNamed(context, AppRoutes.testQuiz);
-              }),
+              CustomButton(
+                text: 'Start Quiz',
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.testQuiz,
+                    arguments: passedChildId,
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -66,5 +79,3 @@ class InteractiveQuizTodayView extends StatelessWidget {
     );
   }
 }
-
-

@@ -956,8 +956,11 @@ class ChatbotResponse {
 
     // Extract user message safely
     ChatMessage userMsg;
-    if (data['user_message'] != null && data['user_message'] is Map<String, dynamic>) {
-      userMsg = ChatMessage.fromJson(data['user_message'] as Map<String, dynamic>);
+    if (data['user_message'] != null &&
+        data['user_message'] is Map<String, dynamic>) {
+      userMsg = ChatMessage.fromJson(
+        data['user_message'] as Map<String, dynamic>,
+      );
     } else {
       userMsg = ChatMessage(message: '', timestamp: '');
     }
@@ -969,11 +972,19 @@ class ChatbotResponse {
         message: data['bot_response'] as String,
         timestamp: '',
       );
-    } else if (data['bot_response'] != null && data['bot_response'] is Map<String, dynamic>) {
-      botMsg = ChatMessage.fromJson(data['bot_response'] as Map<String, dynamic>);
+    } else if (data['bot_response'] != null &&
+        data['bot_response'] is Map<String, dynamic>) {
+      botMsg = ChatMessage.fromJson(
+        data['bot_response'] as Map<String, dynamic>,
+      );
     } else {
       botMsg = ChatMessage(
-        message: data['message'] ?? data['response'] ?? data['reply'] ?? data['text'] ?? 'Sorry, I am not able to answer right now.',
+        message:
+            data['message'] ??
+            data['response'] ??
+            data['reply'] ??
+            data['text'] ??
+            'Sorry, I am not able to answer right now.',
         timestamp: data['timestamp'] ?? '',
       );
     }
@@ -981,7 +992,10 @@ class ChatbotResponse {
     return ChatbotResponse(
       userMessage: userMsg,
       botResponse: botMsg,
-      conversationId: data['conversation_id']?.toString() ?? data['conversationId']?.toString() ?? '',
+      conversationId:
+          data['conversation_id']?.toString() ??
+          data['conversationId']?.toString() ??
+          '',
     );
   }
 }
@@ -1079,10 +1093,7 @@ class QuizSubmitRequest {
 
   QuizSubmitRequest({required this.childId, required this.answers});
 
-  Map<String, dynamic> toJson() => {
-    'childId': childId,
-    'answers': answers,
-  };
+  Map<String, dynamic> toJson() => {'childId': childId, 'answers': answers};
 }
 
 class QuizResultResponse {
@@ -1099,12 +1110,22 @@ class QuizResultResponse {
   });
 
   factory QuizResultResponse.fromJson(Map<String, dynamic> json) {
+    // Handle both direct response and wrapped response
+    final data = json['data'] is Map ? json['data'] : json;
+
     return QuizResultResponse(
-      message: json['message'] ?? '',
-      score: json['score'] ?? 0,
-      feedback: json['feedback'] ?? '',
-      resultId: json['result_id'] ?? 0,
+      message: data['message'] ?? json['message'] ?? '',
+      score: _parseInt(data['score'] ?? json['score']),
+      feedback: data['feedback'] ?? json['feedback'] ?? '',
+      resultId: _parseInt(data['result_id'] ?? json['result_id']),
     );
+  }
+
+  static int _parseInt(dynamic value) {
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 }
 
