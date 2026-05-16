@@ -188,7 +188,6 @@ abstract class ApiClient {
 
   @POST('quiz/submit')
   Future<HttpResponse<QuizResultResponse>> submitQuiz(
-    @Query('childId') String childId,
     @Body() QuizSubmitRequest request,
   );
 
@@ -953,29 +952,36 @@ class ChatbotResponse {
   });
 
   factory ChatbotResponse.fromJson(Map<String, dynamic> json) {
+    final data = json['data'] ?? json;
+
     // Extract user message safely
     ChatMessage userMsg;
-    if (json['user_message'] != null && json['user_message'] is Map<String, dynamic>) {
-      userMsg = ChatMessage.fromJson(json['user_message'] as Map<String, dynamic>);
+    if (data['user_message'] != null && data['user_message'] is Map<String, dynamic>) {
+      userMsg = ChatMessage.fromJson(data['user_message'] as Map<String, dynamic>);
     } else {
       userMsg = ChatMessage(message: '', timestamp: '');
     }
 
-    // Extract bot response safely, falling back to top-level message keys
+    // Extract bot response safely, handling string or map
     ChatMessage botMsg;
-    if (json['bot_response'] != null && json['bot_response'] is Map<String, dynamic>) {
-      botMsg = ChatMessage.fromJson(json['bot_response'] as Map<String, dynamic>);
+    if (data['bot_response'] != null && data['bot_response'] is String) {
+      botMsg = ChatMessage(
+        message: data['bot_response'] as String,
+        timestamp: '',
+      );
+    } else if (data['bot_response'] != null && data['bot_response'] is Map<String, dynamic>) {
+      botMsg = ChatMessage.fromJson(data['bot_response'] as Map<String, dynamic>);
     } else {
       botMsg = ChatMessage(
-        message: json['message'] ?? json['response'] ?? json['reply'] ?? json['text'] ?? 'Sorry, I am not able to answer right now.',
-        timestamp: json['timestamp'] ?? '',
+        message: data['message'] ?? data['response'] ?? data['reply'] ?? data['text'] ?? 'Sorry, I am not able to answer right now.',
+        timestamp: data['timestamp'] ?? '',
       );
     }
 
     return ChatbotResponse(
       userMessage: userMsg,
       botResponse: botMsg,
-      conversationId: json['conversation_id'] ?? json['conversationId'] ?? '',
+      conversationId: data['conversation_id']?.toString() ?? data['conversationId']?.toString() ?? '',
     );
   }
 }
@@ -989,7 +995,7 @@ class ChatMessage {
   factory ChatMessage.fromJson(Map<String, dynamic> json) {
     return ChatMessage(
       message: json['message'] ?? '',
-      timestamp: json['timestamp'] ?? '',
+      timestamp: json['timestamp'] ?? json['createdAt'] ?? '',
     );
   }
 }
@@ -1025,21 +1031,25 @@ class ChatHistoryResponse {
 // ==================== QUIZ DTOs ====================
 class QuizQuestionsResponse {
   final String title;
+  final String description;
   final int totalQuestions;
   final List<QuizQuestion> questions;
 
   QuizQuestionsResponse({
     required this.title,
+    required this.description,
     required this.totalQuestions,
     required this.questions,
   });
 
   factory QuizQuestionsResponse.fromJson(Map<String, dynamic> json) {
+    final data = json['quiz'] ?? json;
     return QuizQuestionsResponse(
-      title: json['title'] ?? '',
-      totalQuestions: json['total_questions'] ?? 0,
+      title: data['title'] ?? '',
+      description: data['description'] ?? '',
+      totalQuestions: data['total_questions'] ?? 0,
       questions:
-          (json['questions'] as List?)
+          (data['questions'] as List?)
               ?.map((e) => QuizQuestion.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -1064,11 +1074,15 @@ class QuizQuestion {
 }
 
 class QuizSubmitRequest {
+  final int childId;
   final Map<String, dynamic> answers;
 
-  QuizSubmitRequest({required this.answers});
+  QuizSubmitRequest({required this.childId, required this.answers});
 
-  Map<String, dynamic> toJson() => answers;
+  Map<String, dynamic> toJson() => {
+    'childId': childId,
+    'answers': answers,
+  };
 }
 
 class QuizResultResponse {
@@ -1304,7 +1318,7 @@ class TestSubmitRequest {
   });
 
   Map<String, dynamic> toJson() => {
-    'childId': childId,
+    'child_id': childId,
     'testType': testType,
     'age': age,
     'sex': sex,

@@ -37,11 +37,13 @@ import '../../features/today_plan/presentation/views/today_view.dart';
 import '../../features/today_plan/presentation/views/activity_details_view.dart';
 import '../../features/today_plan/presentation/views/activity_steps_view.dart';
 import '../../features/today_plan/presentation/views/activity_done_view.dart';
-import '../../features/today_plan/presentation/views/interactive_quiz_today_view.dart';
 import '../../features/today_plan/presentation/views/parent_child_activities_view.dart';
 import '../../features/today_plan/presentation/views/physical_activities_view.dart';
-import '../../features/today_plan/presentation/views/result_quiz_view.dart';
-import '../../features/today_plan/presentation/views/test_quiz_view.dart';
+
+// Quiz
+import '../../features/quiz/presentation/view/interactive_quiz_today_view.dart';
+import '../../features/quiz/presentation/view/result_quiz_view.dart';
+import '../../features/quiz/presentation/view/test_quiz_view.dart';
 
 // Home / Progress Tracker
 import '../../features/home/presentation/view/progress_tracker_view.dart';

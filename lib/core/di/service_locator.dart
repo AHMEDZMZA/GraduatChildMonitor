@@ -69,6 +69,13 @@ import 'package:child_monitor_app/features/tests/domain/usecases/test_usecases.d
 import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
 import 'package:child_monitor_app/features/tests/presentation/bloc/test_cubit.dart';
 
+// ==================== QUIZ ====================
+import 'package:child_monitor_app/features/quiz/data/datasources/quiz_remote_data_source.dart';
+import 'package:child_monitor_app/features/quiz/data/repositories/quiz_repository_impl.dart';
+import 'package:child_monitor_app/features/quiz/domain/repositories/quiz_repository.dart';
+import 'package:child_monitor_app/features/quiz/domain/usecases/quiz_usecases.dart';
+import 'package:child_monitor_app/features/quiz/presentation/cubit/quiz_cubit.dart';
+
 import 'package:child_monitor_app/core/managers/theme_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -127,6 +134,7 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   _setupProgressFeature();
   _setupChatFeature();
   _setupTestsFeature();
+  _setupQuizFeature();
   // Theme cubit (singleton so theme state is shared and persisted)
   getIt.registerSingleton<ThemeCubit>(ThemeCubit(prefs));
 }
@@ -420,6 +428,35 @@ void _setupChatFeature() {
   // Cubit
   getIt.registerFactory<ChatCubit>(
     () => ChatCubit(repository: getIt<ChatRepository>()),
+  );
+}
+
+// ==================== QUIZ Feature ====================
+void _setupQuizFeature() {
+  // Data Sources
+  getIt.registerLazySingleton<QuizRemoteDataSource>(
+    () => QuizRemoteDataSourceImpl(apiClient: getIt<ApiClient>()),
+  );
+
+  // Repositories
+  getIt.registerLazySingleton<QuizRepository>(
+    () => QuizRepositoryImpl(remoteDataSource: getIt<QuizRemoteDataSource>()),
+  );
+
+  // Use Cases
+  getIt.registerLazySingleton(
+    () => GetQuizQuestionsUseCase(repository: getIt<QuizRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => SubmitQuizUseCase(repository: getIt<QuizRepository>()),
+  );
+
+  // Cubit
+  getIt.registerFactory<QuizCubit>(
+    () => QuizCubit(
+      getQuizQuestionsUseCase: getIt<GetQuizQuestionsUseCase>(),
+      submitQuizUseCase: getIt<SubmitQuizUseCase>(),
+    ),
   );
 }
 

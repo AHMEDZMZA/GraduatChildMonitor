@@ -6,12 +6,16 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../../home/presentation/widgets/result_info_card.dart';
+import 'package:child_monitor_app/features/quiz/domain/entities/quiz_entity.dart';
 
 class ResultQuizView extends StatelessWidget {
   const ResultQuizView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Get the result from arguments
+    final result = ModalRoute.of(context)?.settings.arguments as QuizResultEntity?;
+
     return Scaffold(
       backgroundColor: ColorManager.backgroundWhite,
       body: SafeArea(
@@ -30,8 +34,8 @@ class ResultQuizView extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              const CustomText(
-                text: 'Your answers have been\n successfully analyzed.',
+              CustomText(
+                text: result?.message ?? 'Your answers have been\n successfully analyzed.',
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
@@ -49,13 +53,9 @@ class ResultQuizView extends StatelessWidget {
 
               const SizedBox(height: 34),
 
-              const ResultInfoCard(
-                title: 'Possible Attention & Focus \nDifficulties',
-                subtitle:
-                    'Your child may show signs of difficulty with attention\n'
-                    'Difficulty staying focused on tasks\n'
-                    'Easily distracted by surroundings\n'
-                    'Needs frequent reminders',
+              ResultInfoCard(
+                title: 'Score: ${result?.score ?? 0}',
+                subtitle: result?.feedback ?? 'No feedback provided.',
               ),
 
               const SizedBox(height: 90),

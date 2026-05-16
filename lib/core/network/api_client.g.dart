@@ -1131,11 +1131,10 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<HttpResponse<QuizResultResponse>> submitQuiz(
-    String childId,
     QuizSubmitRequest request,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'childId': childId};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
