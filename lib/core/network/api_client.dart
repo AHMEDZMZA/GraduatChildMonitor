@@ -4,7 +4,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.14:8086/api/';
+  static const String baseUrl = 'http://192.168.1.4:8086/api/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
@@ -956,8 +956,11 @@ class ChatbotResponse {
 
     // Extract user message safely
     ChatMessage userMsg;
-    if (data['user_message'] != null && data['user_message'] is Map<String, dynamic>) {
-      userMsg = ChatMessage.fromJson(data['user_message'] as Map<String, dynamic>);
+    if (data['user_message'] != null &&
+        data['user_message'] is Map<String, dynamic>) {
+      userMsg = ChatMessage.fromJson(
+        data['user_message'] as Map<String, dynamic>,
+      );
     } else {
       userMsg = ChatMessage(message: '', timestamp: '');
     }
@@ -969,11 +972,19 @@ class ChatbotResponse {
         message: data['bot_response'] as String,
         timestamp: '',
       );
-    } else if (data['bot_response'] != null && data['bot_response'] is Map<String, dynamic>) {
-      botMsg = ChatMessage.fromJson(data['bot_response'] as Map<String, dynamic>);
+    } else if (data['bot_response'] != null &&
+        data['bot_response'] is Map<String, dynamic>) {
+      botMsg = ChatMessage.fromJson(
+        data['bot_response'] as Map<String, dynamic>,
+      );
     } else {
       botMsg = ChatMessage(
-        message: data['message'] ?? data['response'] ?? data['reply'] ?? data['text'] ?? 'Sorry, I am not able to answer right now.',
+        message:
+            data['message'] ??
+            data['response'] ??
+            data['reply'] ??
+            data['text'] ??
+            'Sorry, I am not able to answer right now.',
         timestamp: data['timestamp'] ?? '',
       );
     }
@@ -981,7 +992,10 @@ class ChatbotResponse {
     return ChatbotResponse(
       userMessage: userMsg,
       botResponse: botMsg,
-      conversationId: data['conversation_id']?.toString() ?? data['conversationId']?.toString() ?? '',
+      conversationId:
+          data['conversation_id']?.toString() ??
+          data['conversationId']?.toString() ??
+          '',
     );
   }
 }
@@ -1079,10 +1093,7 @@ class QuizSubmitRequest {
 
   QuizSubmitRequest({required this.childId, required this.answers});
 
-  Map<String, dynamic> toJson() => {
-    'childId': childId,
-    'answers': answers,
-  };
+  Map<String, dynamic> toJson() => {'childId': childId, 'answers': answers};
 }
 
 class QuizResultResponse {
