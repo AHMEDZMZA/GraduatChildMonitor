@@ -22,19 +22,6 @@ class TestCubit extends Cubit<TestState> {
     result.fold(
       (failure) => emit(QuestionsFailure(message: failure.toString())),
       (test) {
-        final questionsResponse = QuestionsResponseEntity(
-          testType: test.testType,
-          totalQuestions: test.totalQuestions,
-          instructions: test.instructions ?? '',
-          questions: test.questions
-              .map((q) => QuestionEntityInner(
-                    qId: q.id,
-                    question: q.question,
-                  ))
-              .toList(),
-        );
-
-        // Convert the inner questions to the QuestionEntity expected by the view
         final viewQuestions = test.questions
             .map((q) => QuestionEntity(
                   qId: q.id,

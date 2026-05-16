@@ -164,41 +164,39 @@ class _AddChildDataViewState extends State<AddChildDataView> {
                         style: AppTextStyles.nunito16w900Black,
                       ),
                       const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Radio<String>(
-                                value: AppStrings.male,
-                                groupValue: gender,
-                                activeColor: ColorManager.primaryBlue,
-                                onChanged: (value) {
-                                  setState(() => gender = value);
-                                },
-                              ),
-                              const Text(
-                                AppStrings.maleDisplay,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Radio<String>(
-                                value: AppStrings.female,
-                                groupValue: gender,
-                                activeColor: ColorManager.primaryBlue,
-                                onChanged: (value) {
-                                  setState(() => gender = value);
-                                },
-                              ),
-                              const Text(
-                                AppStrings.femaleDisplay,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ],
+                      RadioGroup<String>(
+                        groupValue: gender,
+                        onChanged: (value) {
+                          setState(() => gender = value);
+                        },
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Radio<String>(
+                                  value: AppStrings.male,
+                                  activeColor: ColorManager.primaryBlue,
+                                ),
+                                const Text(
+                                  AppStrings.maleDisplay,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Radio<String>(
+                                  value: AppStrings.female,
+                                  activeColor: ColorManager.primaryBlue,
+                                ),
+                                const Text(
+                                  AppStrings.femaleDisplay,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 60),
                       CustomButton(
