@@ -46,14 +46,14 @@ class _EditProfileViewState extends State<EditProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Profile updated successfully!'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
         } else if (state is ProfileError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.errorRed,
             ),
           );
         }
@@ -61,14 +61,16 @@ class _EditProfileViewState extends State<EditProfileView> {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          backgroundColor: ColorManager.backgroundWhite,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,7 +126,9 @@ class _EditProfileViewState extends State<EditProfileView> {
                               ? () {}
                               : () {
                                   if (_formKey.currentState!.validate()) {
-                                    context.read<ProfileCubit>().updateUserProfile(
+                                    context
+                                        .read<ProfileCubit>()
+                                        .updateUserProfile(
                                           fullNameController.text.trim(),
                                           emailController.text.trim(),
                                         );

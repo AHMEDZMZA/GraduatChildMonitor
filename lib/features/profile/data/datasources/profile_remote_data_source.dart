@@ -86,7 +86,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   Future<List<Child>> getMyChildren() async {
     try {
       final response = await apiClient.getMyChildren();
-      return response.data.children;
+      return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
@@ -109,7 +109,9 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
-      throw ServerException(message: 'Get child detail failed: ${e.toString()}');
+      throw ServerException(
+        message: 'Get child detail failed: ${e.toString()}',
+      );
     }
   }
 
@@ -219,9 +221,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
         final data = e.response?.data;
         final msg = (data is Map ? data['message'] : null) as String?;
         if (e.response?.statusCode == 401) {
-          return UnauthorizedException(
-            message: msg ?? 'Unauthorized',
-          );
+          return UnauthorizedException(message: msg ?? 'Unauthorized');
         }
         return ServerException(
           message: msg ?? 'Server error',

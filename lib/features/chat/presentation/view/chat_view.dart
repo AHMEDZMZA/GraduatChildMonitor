@@ -54,9 +54,9 @@ class _ChatViewState extends State<ChatView> {
     _scrollToBottom();
 
     await context.read<ChatCubit>().sendMessage(
-          text,
-          conversationId: _conversationId,
-        );
+      text,
+      conversationId: _conversationId,
+    );
   }
 
   @override
@@ -81,10 +81,7 @@ class _ChatViewState extends State<ChatView> {
           setState(() {
             _isSending = false;
             _messages.add(
-              ChatMessageModel(
-                text: 'Error: ${state.message}',
-                isMe: false,
-              ),
+              ChatMessageModel(text: 'Error: ${state.message}', isMe: false),
             );
           });
           _scrollToBottom();
@@ -94,7 +91,7 @@ class _ChatViewState extends State<ChatView> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: ColorManager.backgroundWhite,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -113,7 +110,7 @@ class _ChatViewState extends State<ChatView> {
                               'Start a conversation!\nAsk anything about your child.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.grey,
+                                color: ColorManager.mediumGray,
                                 fontSize: 15,
                               ),
                             ),
@@ -121,8 +118,7 @@ class _ChatViewState extends State<ChatView> {
                         : ListView.separated(
                             controller: _scrollController,
                             padding: const EdgeInsets.only(bottom: 12),
-                            itemCount:
-                                _messages.length + (_isSending ? 1 : 0),
+                            itemCount: _messages.length + (_isSending ? 1 : 0),
                             separatorBuilder: (_, __) =>
                                 const SizedBox(height: 10),
                             itemBuilder: (context, index) {
@@ -132,9 +128,11 @@ class _ChatViewState extends State<ChatView> {
                                   alignment: Alignment.centerLeft,
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 14, vertical: 12),
+                                      horizontal: 14,
+                                      vertical: 12,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: ColorManager.veryLightBlue,
+                                      color: Theme.of(context).cardColor,
                                       borderRadius: BorderRadius.circular(14),
                                     ),
                                     child: const SizedBox(
@@ -152,8 +150,10 @@ class _ChatViewState extends State<ChatView> {
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child:
-                        ChatInput(controller: controller, onSend: sendMessage),
+                    child: ChatInput(
+                      controller: controller,
+                      onSend: sendMessage,
+                    ),
                   ),
                 ],
               ),

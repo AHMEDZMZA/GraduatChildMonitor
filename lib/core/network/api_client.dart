@@ -105,7 +105,7 @@ abstract class ApiClient {
   Future<HttpResponse<MessageResponse>> deleteAccount();
 
   @GET('children/my-children')
-  Future<HttpResponse<MyChildrenResponse>> getMyChildren();
+  Future<HttpResponse<List<Child>>> getMyChildren();
 
   @GET('children/{childId}')
   Future<HttpResponse<ChildDetailResponse>> getChildDetail(

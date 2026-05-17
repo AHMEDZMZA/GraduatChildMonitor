@@ -92,7 +92,10 @@ class _OnboardingContentState extends State<_OnboardingContent> {
                     onPressed: () => _goToLogin(context),
                     child: const Text(
                       AppStrings.skip,
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      style: TextStyle(
+                        color: ColorManager.mediumGray,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                   Row(
@@ -104,8 +107,9 @@ class _OnboardingContentState extends State<_OnboardingContent> {
                         width: 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color:
-                              _index == i ? Colors.blue : Colors.grey.shade300,
+                          color: _index == i
+                              ? ColorManager.primaryBlue
+                              : ColorManager.lightGray,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -124,7 +128,10 @@ class _OnboardingContentState extends State<_OnboardingContent> {
                     },
                     child: const Text(
                       AppStrings.next,
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                      style: TextStyle(
+                        color: ColorManager.primaryBlue,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
@@ -145,10 +152,10 @@ class _OnboardingContentState extends State<_OnboardingContent> {
               },
               child: const CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.white,
+                backgroundColor: ColorManager.white,
                 child: Icon(
                   Icons.arrow_back_ios_new,
-                  color: Colors.black87,
+                  color: ColorManager.darkText,
                   size: 18,
                 ),
               ),
@@ -191,7 +198,7 @@ class _OnboardingStep extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(
               context,
-            ).textTheme.bodyMedium!.copyWith(color: Colors.black54),
+            ).textTheme.bodyMedium!.copyWith(color: ColorManager.mediumGray),
           ),
         ],
       ),

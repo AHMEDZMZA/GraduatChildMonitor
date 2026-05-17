@@ -53,7 +53,7 @@ class TodayView extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -71,7 +71,7 @@ class TodayView extends StatelessWidget {
                       child: Icon(
                         Icons.arrow_back_ios_new,
                         size: 16,
-                        color: Colors.black87,
+                        color: ColorManager.darkText,
                       ),
                     ),
                   ),

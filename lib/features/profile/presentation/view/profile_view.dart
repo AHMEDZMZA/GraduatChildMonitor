@@ -42,15 +42,19 @@ class _ProfileViewState extends State<ProfileView> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Account deleted successfully.'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: ColorManager.brightTeal,
                 ),
               );
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.login,
+                (route) => false,
+              );
             } else if (state is ProfileError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
-                  backgroundColor: Colors.red,
+                  backgroundColor: ColorManager.errorRed,
                 ),
               );
             }
@@ -59,18 +63,22 @@ class _ProfileViewState extends State<ProfileView> {
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LogoutSuccess) {
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.login, (route) => false);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.login,
+                (route) => false,
+              );
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Logged out successfully.'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: ColorManager.brightTeal,
                 ),
               );
             } else if (state is AuthError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
-                  backgroundColor: Colors.red,
+                  backgroundColor: ColorManager.errorRed,
                 ),
               );
             }
@@ -78,7 +86,7 @@ class _ProfileViewState extends State<ProfileView> {
         ),
       ],
       child: Scaffold(
-        backgroundColor: ColorManager.white,
+        // backgroundColor: ColorManager.white,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -147,8 +155,7 @@ class _ProfileViewState extends State<ProfileView> {
                       builder: (_) {
                         return AppBottomSheet(
                           title: 'Logout',
-                          description:
-                              'Are you sure you want to logout?',
+                          description: 'Are you sure you want to logout?',
                           confirmText: 'Yes, Logout',
                           onConfirm: () {
                             Navigator.pop(context);

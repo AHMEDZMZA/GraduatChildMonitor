@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/managers/color_manager.dart';
+
 class AnswerOption extends StatelessWidget {
   final String label;
   final bool selected;
@@ -24,7 +25,7 @@ class AnswerOption extends StatelessWidget {
           color: selected ? ColorManager.primaryBlue : ColorManager.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: selected ? ColorManager.primaryBlue : Colors.grey.shade300,
+            color: selected ? ColorManager.primaryBlue : ColorManager.lightGray,
             width: 1.5,
           ),
           boxShadow: [
@@ -45,18 +46,16 @@ class AnswerOption extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: selected ? ColorManager.white : Colors.grey,
+                  color: selected
+                      ? ColorManager.white
+                      : ColorManager.mediumGray,
                   width: 2,
                 ),
               ),
               child: selected
                   ? const Center(
-                child: Icon(
-                  Icons.circle,
-                  size: 10,
-                  color: Colors.white,
-                ),
-              )
+                      child: Icon(Icons.circle, size: 10, color: Colors.white),
+                    )
                   : null,
             ),
             const SizedBox(width: 10),
@@ -64,7 +63,7 @@ class AnswerOption extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 16,
-                color: selected ? Colors.white : Colors.black,
+                color: selected ? ColorManager.white : ColorManager.darkText,
               ),
             ),
           ],

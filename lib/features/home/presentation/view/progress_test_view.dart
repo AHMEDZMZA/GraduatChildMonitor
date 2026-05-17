@@ -34,7 +34,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
     final progress = (currentQuestionIndex + 1) / questions.length;
 
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -121,7 +121,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            //      color: Colors.black,
                             height: 1.4,
                           ),
                         ),

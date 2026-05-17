@@ -24,7 +24,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -41,7 +41,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       size: 16,
-                      color: Colors.black87,
+                      color: ColorManager.darkText,
                     ),
                   ),
                 ),
@@ -73,13 +73,18 @@ class _StatisticsViewState extends State<StatisticsView> {
                             const SizedBox(height: 24),
                             _buildSectionTitle('Activity Statistics'),
                             _buildStatsCard(
-                              completed: progress.activityStats.completedActivities,
+                              completed:
+                                  progress.activityStats.completedActivities,
                               total: progress.activityStats.totalActivities,
-                              percentage: progress.activityStats.completionPercentage,
+                              percentage:
+                                  progress.activityStats.completionPercentage,
                             ),
                             const SizedBox(height: 24),
                             _buildSectionTitle('Progress Summary'),
-                            _buildSummaryCard(progress.summary.summaryText, progress.summary.improvementPercentage),
+                            _buildSummaryCard(
+                              progress.summary.summaryText,
+                              progress.summary.improvementPercentage,
+                            ),
                           ],
                         ),
                       );
@@ -98,28 +103,25 @@ class _StatisticsViewState extends State<StatisticsView> {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: CustomText(
-        text: title,
-        style: AppTextStyles.nunito20w900Black,
-      ),
+      child: CustomText(text: title, style: AppTextStyles.nunito20w900Black),
     );
   }
 
   Widget _buildTrendCard(String status) {
     Color statusColor;
     IconData statusIcon;
-    
+
     switch (status.toLowerCase()) {
       case 'improving':
-        statusColor = Colors.green;
+        statusColor = ColorManager.brightTeal;
         statusIcon = Icons.trending_up;
         break;
       case 'declining':
-        statusColor = Colors.red;
+        statusColor = ColorManager.errorRed;
         statusIcon = Icons.trending_down;
         break;
       default:
-        statusColor = Colors.orange;
+        statusColor = ColorManager.vibrantOrange;
         statusIcon = Icons.trending_flat;
     }
 
@@ -135,7 +137,9 @@ class _StatisticsViewState extends State<StatisticsView> {
             children: [
               CustomText(
                 text: 'Status: ${status.toUpperCase()}',
-                style: AppTextStyles.nunito16w900Green.copyWith(color: statusColor),
+                style: AppTextStyles.nunito16w900Green.copyWith(
+                  color: statusColor,
+                ),
               ),
               const CustomText(
                 text: 'Based on monthly assessments',
@@ -148,7 +152,11 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
   }
 
-  Widget _buildStatsCard({required int completed, required int total, required double percentage}) {
+  Widget _buildStatsCard({
+    required int completed,
+    required int total,
+    required double percentage,
+  }) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: _cardDecoration(),
@@ -157,14 +165,20 @@ class _StatisticsViewState extends State<StatisticsView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomText(text: 'Activity Completion', style: AppTextStyles.nunito16w900Black),
-              CustomText(text: '$completed/$total', style: AppTextStyles.nunito16w900Green),
+              const CustomText(
+                text: 'Activity Completion',
+                style: AppTextStyles.nunito16w900Black,
+              ),
+              CustomText(
+                text: '$completed/$total',
+                style: AppTextStyles.nunito16w900Green,
+              ),
             ],
           ),
           const SizedBox(height: 16),
           LinearProgressIndicator(
             value: percentage / 100,
-            backgroundColor: Colors.grey[200],
+            backgroundColor: ColorManager.lightGray,
             color: ColorManager.primaryBlue,
             minHeight: 12,
             borderRadius: BorderRadius.circular(6),
@@ -191,7 +205,7 @@ class _StatisticsViewState extends State<StatisticsView> {
         children: [
           Row(
             children: [
-              const Icon(Icons.star, color: Colors.amber),
+              const Icon(Icons.star, color: ColorManager.gold),
               const SizedBox(width: 8),
               CustomText(
                 text: 'Overall Improvement: ${improvement.toStringAsFixed(1)}%',
@@ -200,10 +214,7 @@ class _StatisticsViewState extends State<StatisticsView> {
             ],
           ),
           const SizedBox(height: 12),
-          CustomText(
-            text: text,
-            style: AppTextStyles.nunito14w400Grey,
-          ),
+          CustomText(text: text, style: AppTextStyles.nunito14w400Grey),
         ],
       ),
     );
@@ -211,9 +222,11 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
-      color: ColorManager.veryLightBlue,
+      color: Theme.of(context).cardColor,
       borderRadius: BorderRadius.circular(18),
-      border: Border.all(color: ColorManager.primaryBlue.withValues(alpha: 0.3)),
+      border: Border.all(
+        color: ColorManager.primaryBlue.withValues(alpha: 0.3),
+      ),
       boxShadow: [
         BoxShadow(
           color: ColorManager.black8,

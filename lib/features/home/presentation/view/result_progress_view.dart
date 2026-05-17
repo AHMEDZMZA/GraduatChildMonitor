@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
-import '../../../../core/managers/color_manager.dart';
+
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/result_info_card.dart';
@@ -13,7 +13,7 @@ class ResultProgressView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
@@ -52,7 +52,7 @@ class ResultProgressView extends StatelessWidget {
               const ResultInfoCard(
                 title: 'Noticeable improvement\nin your child’s condition',
                 subtitle:
-                'Continue with the current plan\n'
+                    'Continue with the current plan\n'
                     'as it is showing positive results.\n'
                     'Regular follow-up helps achieve\n'
                     'better outcomes.',
@@ -63,7 +63,11 @@ class ResultProgressView extends StatelessWidget {
               CustomButton(
                 text: 'Ok',
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.monthlyProgress);                },
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.monthlyProgress,
+                  );
+                },
               ),
 
               const SizedBox(height: 10),

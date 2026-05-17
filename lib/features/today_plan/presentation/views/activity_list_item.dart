@@ -7,11 +7,7 @@ class ActivityListItem extends StatelessWidget {
   final ActivityModel item;
   final VoidCallback onTap;
 
-  const ActivityListItem({
-    super.key,
-    required this.item,
-    required this.onTap,
-  });
+  const ActivityListItem({super.key, required this.item, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class ActivityListItem extends StatelessWidget {
         height: 160,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: ColorManager.veryLightBlue,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: item.highlighted
@@ -87,11 +83,12 @@ class ActivityListItem extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           'Completed',
-                          style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                            color: Colors.green,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                          ),
+                          style: AppTextStyles.nunito12w600overlayGray66
+                              .copyWith(
+                                color: ColorManager.brightTeal,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
                       ],
                     ),
@@ -100,12 +97,12 @@ class ActivityListItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const Padding(
-              padding: EdgeInsets.only(top: 50),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
               child: Icon(
                 Icons.arrow_forward_ios,
                 size: 20,
-                color: ColorManager.darkText,
+                color: Theme.of(context).iconTheme.color,
               ),
             ),
           ],

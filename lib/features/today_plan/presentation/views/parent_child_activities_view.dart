@@ -159,21 +159,20 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
 
     if (completed == true) {
       setState(() {
-        activities =
-            activities.asMap().entries.map((entry) {
-              final i = entry.key;
-              final item = entry.value;
+        activities = activities.asMap().entries.map((entry) {
+          final i = entry.key;
+          final item = entry.value;
 
-              if (i == index) {
-                return item.copyWith(completed: true, highlighted: false);
-              }
+          if (i == index) {
+            return item.copyWith(completed: true, highlighted: false);
+          }
 
-              if (i == index + 1) {
-                return item.copyWith(highlighted: true);
-              }
+          if (i == index + 1) {
+            return item.copyWith(highlighted: true);
+          }
 
-              return item.copyWith(highlighted: false);
-            }).toList();
+          return item.copyWith(highlighted: false);
+        }).toList();
       });
     }
   }
@@ -181,7 +180,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
@@ -196,7 +195,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                   child: Icon(
                     Icons.arrow_back_ios_new,
                     size: 14,
-                    color: Colors.black87,
+                    color: ColorManager.darkText,
                   ),
                 ),
               ),

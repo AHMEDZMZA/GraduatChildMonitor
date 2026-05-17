@@ -9,21 +9,18 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w400,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito14w400Grey = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.softGray,
   );
 
   static const TextStyle nunito14w400Black = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito15w400blue = TextStyle(
@@ -37,7 +34,6 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w400,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   // Nunito SemiBold Styles
@@ -45,7 +41,6 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w600,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   // Nunito Bold Styles
@@ -53,42 +48,36 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito16w900Black = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito18w900Black = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito20w900Black = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito32w900Black = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito30w900Black = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w900,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
   // White color variants
   static const TextStyle nunito16w900White = TextStyle(
@@ -118,7 +107,6 @@ class AppTextStyles {
     fontSize: 16,
     fontWeight: FontWeight.w700,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkText,
   );
 
   static const TextStyle nunito15w900primaryBlue = TextStyle(
@@ -128,7 +116,6 @@ class AppTextStyles {
     fontWeight: FontWeight.w900,
   );
   static const TextStyle nunito12w600overlayGray66 = TextStyle(
-    color: ColorManager.overlayGray66,
     fontSize: 12.5,
     fontFamily: FontConstants.primaryFontFamily,
     fontWeight: FontWeight.w600,
@@ -138,7 +125,6 @@ class AppTextStyles {
     fontSize: 14,
     fontWeight: FontWeight.w500,
     fontFamily: FontConstants.primaryFontFamily,
-    color: ColorManager.darkGray,
     height: 1.45,
   );
 }

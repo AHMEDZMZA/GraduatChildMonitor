@@ -13,7 +13,7 @@ class InfoCardQuiz extends StatelessWidget {
       height: 257,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: ColorManager.veryLightBlue,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
         boxShadow: [

@@ -19,7 +19,7 @@ class ChatInput extends StatelessWidget {
           child: Container(
             height: 52,
             decoration: BoxDecoration(
-              color: ColorManager.backgroundWhite,
+              color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(60),
               border: Border.all(
                 color: ColorManager.lightGray50,
@@ -37,9 +37,9 @@ class ChatInput extends StatelessWidget {
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend(),
               cursorColor: ColorManager.primaryBlue,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
-                color: ColorManager.darkText,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
               decoration: const InputDecoration(
                 hintText: 'Ask me anything...',

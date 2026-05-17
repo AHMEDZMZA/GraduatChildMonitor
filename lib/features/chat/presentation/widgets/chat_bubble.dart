@@ -22,7 +22,7 @@ class ChatBubble extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: isMe ? ColorManager.primaryBlue : ColorManager.veryLightBlue,
+          color: isMe ? ColorManager.primaryBlue : Theme.of(context).cardColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(14),
             topRight: const Radius.circular(14),
@@ -35,7 +35,7 @@ class ChatBubble extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             height: 1.4,
-            color: isMe ? ColorManager.white : ColorManager.darkText,
+            color: isMe ? ColorManager.white : Theme.of(context).textTheme.bodyLarge?.color,
             fontWeight: FontWeight.w500,
           ),
         ),

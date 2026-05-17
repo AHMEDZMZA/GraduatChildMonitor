@@ -43,7 +43,7 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                   child: Icon(
                     Icons.arrow_back_ios_new,
                     size: 18,
-                    color: Colors.black87,
+                    color: ColorManager.darkText,
                   ),
                 ),
               ),
@@ -82,8 +82,9 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                           horizontal: 12,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                          isSelected ? ColorManager.babyBlue : Colors.white,
+                          color: isSelected
+                              ? ColorManager.babyBlue
+                              : ColorManager.white,
                           border: Border.all(
                             color: isSelected
                                 ? ColorManager.primaryBlue
@@ -131,24 +132,24 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                 onTap: selectedConditions.isEmpty
                     ? null
                     : () {
-                  // FIX: was passing only `widget.child` — the selected
-                  // conditions were collected but completely ignored.
-                  // Now we resolve the selected display names to their
-                  // API type strings and pass both child + types so
-                  // TestQuestionsUnknownView only loads the chosen tests.
-                  final selectedTypes = selectedConditions
-                      .map((name) => conditions[name]!)
-                      .toList();
+                        // FIX: was passing only `widget.child` — the selected
+                        // conditions were collected but completely ignored.
+                        // Now we resolve the selected display names to their
+                        // API type strings and pass both child + types so
+                        // TestQuestionsUnknownView only loads the chosen tests.
+                        final selectedTypes = selectedConditions
+                            .map((name) => conditions[name]!)
+                            .toList();
 
-                  Navigator.pushNamed(
-                    context,
-                    AppRoutes.testQuestionsUnknown,
-                    arguments: {
-                      'child': widget.child,
-                      'selectedTypes': selectedTypes,
-                    },
-                  );
-                },
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.testQuestionsUnknown,
+                          arguments: {
+                            'child': widget.child,
+                            'selectedTypes': selectedTypes,
+                          },
+                        );
+                      },
               ),
             ],
           ),

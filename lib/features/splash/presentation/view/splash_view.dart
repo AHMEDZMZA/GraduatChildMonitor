@@ -35,7 +35,7 @@ class _SplashViewState extends State<SplashView> {
           Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [ColorManager.grayB9, Colors.white],
+                colors: [ColorManager.grayB9, ColorManager.white],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

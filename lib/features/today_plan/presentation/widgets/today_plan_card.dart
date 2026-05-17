@@ -18,7 +18,7 @@ class TodayPlanCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 18),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ColorManager.backgroundWhite,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
           boxShadow: [
@@ -73,12 +73,12 @@ class TodayPlanCard extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5),
                             child: Icon(
                               Icons.circle,
                               size: 4,
-                              color: ColorManager.darkText,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           ),
                           const SizedBox(width: 6),
@@ -88,7 +88,7 @@ class TodayPlanCard extends StatelessWidget {
                               style: AppTextStyles.nunito12w600overlayGray66
                                   .copyWith(
                                     fontSize: 11,
-                                    color: ColorManager.darkText,
+                                    color: Theme.of(context).textTheme.bodyLarge?.color,
                                     height: 1.35,
                                   ),
                             ),

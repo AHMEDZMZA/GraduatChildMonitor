@@ -26,14 +26,10 @@ class HomeCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
         decoration: BoxDecoration(
-          color: isSelected
-              ? ColorManager.veryLightBlue
-              : ColorManager.backgroundWhite,
+          //  color: isSelected ? ColorManager.veryLightBlue : ColorManager.black,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected
-                ? ColorManager.primaryBlue
-                : Colors.transparent,
+            color: isSelected ? ColorManager.primaryBlue : Colors.black,
             width: 1.4,
           ),
           boxShadow: [

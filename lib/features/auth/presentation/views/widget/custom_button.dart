@@ -60,7 +60,7 @@ class CustomButtonSmallTest extends StatelessWidget {
           child: Text(
             text,
             style: const TextStyle(
-              color: Colors.white,
+              color: ColorManager.white,
               fontSize: 20,
               fontFamily: 'Nunito',
               fontWeight: FontWeight.w700,

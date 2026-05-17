@@ -10,10 +10,7 @@ import '../../../../core/managers/color_manager.dart';
 class ArticleDetailsView extends StatefulWidget {
   final ArticleEntity article;
 
-  const ArticleDetailsView({
-    super.key,
-    required this.article,
-  });
+  const ArticleDetailsView({super.key, required this.article});
 
   @override
   State<ArticleDetailsView> createState() => _ArticleDetailsViewState();
@@ -31,7 +28,9 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
 
   void _toggleFavourite(BuildContext context) {
     if (isFavourite) {
-      context.read<ArticlesCubit>().removeArticleFromFavorite(widget.article.id);
+      context.read<ArticlesCubit>().removeArticleFromFavorite(
+        widget.article.id,
+      );
     } else {
       context.read<ArticlesCubit>().addArticleToFavorite(widget.article.id);
     }
@@ -50,11 +49,11 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             SnackBar(
               content: const Text('This article added to favourites.'),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.black.withValues(alpha: 0.75),
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
+              backgroundColor: ColorManager.overlayBlack20,
+              margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               duration: const Duration(seconds: 2),
             ),
           );
@@ -65,24 +64,25 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             SnackBar(
               content: const Text('This article removed from favourites.'),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.black.withValues(alpha: 0.75),
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
+              backgroundColor: ColorManager.overlayBlack20,
+              margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(12),
+              ),
               duration: const Duration(seconds: 2),
             ),
           );
         } else if (state is ArticlesError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red),
+              content: Text(state.message),
+              backgroundColor: ColorManager.errorRed,
+            ),
           );
         }
       },
       child: Scaffold(
-        backgroundColor: ColorManager.backgroundWhite,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -98,7 +98,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                           bottomLeft: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                         ),
-                        color: Colors.grey[400],
+                        color: ColorManager.mediumGray,
                       ),
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
@@ -110,18 +110,17 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                                 imageUrl: widget.article.image!,
                                 fit: BoxFit.cover,
                                 placeholder: (_, __) =>
-                                    Container(color: Colors.grey[300]),
+                                    Container(color: ColorManager.lightGray),
                                 errorWidget: (_, __, ___) =>
-                                    Container(color: Colors.grey[400]),
+                                    Container(color: ColorManager.mediumGray),
                               )
-                            : Container(color: Colors.grey[400]),
+                            : Container(color: ColorManager.mediumGray),
                       ),
                     ),
                     Container(
                       width: double.infinity,
                       height: 430,
-                      padding:
-                          const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
                       decoration: BoxDecoration(
                         borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(30),
@@ -148,7 +147,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                               child: Icon(
                                 Icons.arrow_back_ios_new,
                                 size: 14,
-                                color: Colors.black87,
+                                color: ColorManager.darkText,
                               ),
                             ),
                           ),
@@ -202,7 +201,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                     child: Text(
                       widget.article.description ?? widget.article.content,
                       style: AppTextStyles.nunito14w400Grey.copyWith(
-                        color: ColorManager.sloganColor,
+                        color: ColorManager.primaryBlue,
                         fontSize: 14,
                         height: 1.9,
                       ),

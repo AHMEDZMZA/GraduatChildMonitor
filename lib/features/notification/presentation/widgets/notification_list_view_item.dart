@@ -21,15 +21,15 @@ class NotificationListViewItem extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 12),
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: const Color(0xFFF0E68C), // Light yellow background
+            color: ColorManager.brightYellow, // Light yellow background
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: const Color(0xFFFFD700), // Gold border
+              color: ColorManager.goldFFBB, // Gold border
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
+                color: ColorManager.overlayBlack20,
                 blurRadius: 8,
                 offset: const Offset(0, 3),
               ),
@@ -40,7 +40,11 @@ class NotificationListViewItem extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.stars, color: Color(0xFFFFD700), size: 24),
+                  const Icon(
+                    Icons.stars,
+                    color: ColorManager.goldFFBB,
+                    size: 24,
+                  ),
                   const SizedBox(width: 12),
                   const Expanded(
                     child: Text(
@@ -52,7 +56,11 @@ class NotificationListViewItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.format_quote, color: Color(0xFFFFD700), size: 20),
+                  const Icon(
+                    Icons.format_quote,
+                    color: ColorManager.goldFFBB,
+                    size: 20,
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -87,14 +95,14 @@ class NotificationListViewItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 23),
         decoration: BoxDecoration(
-          color:
-              isHighlighted
-                  ? ColorManager.veryLightBlue
-                  : ColorManager.babyBlue,
+          color: isHighlighted
+              ? ColorManager.veryLightBlue
+              : ColorManager.babyBlue,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color:
-                isHighlighted ? ColorManager.primaryBlue : Colors.transparent,
+            color: isHighlighted
+                ? ColorManager.primaryBlue
+                : Colors.transparent,
             width: 1.2,
           ),
           boxShadow: [

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/managers/color_manager.dart';
-
 class CustomLoginSocial extends StatelessWidget {
   const CustomLoginSocial({
     super.key,
@@ -22,7 +20,7 @@ class CustomLoginSocial extends StatelessWidget {
         width: 372,
         height: 51.23,
         decoration: ShapeDecoration(
-          color: ColorManager.lightGray,
+          color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(7.88),
           ),
@@ -35,8 +33,8 @@ class CustomLoginSocial extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: ColorManager.darkText,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
                 fontSize: 16,
                 fontFamily: 'Nunito',
                 fontWeight: FontWeight.w500,

@@ -28,7 +28,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
     final progress = (currentStep + 1) / total;
 
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
@@ -47,13 +47,13 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                       );
                     }
                   },
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 16,
                     backgroundColor: ColorManager.buttonBlue,
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       size: 14,
-                      color: Colors.black87,
+                      color: Theme.of(context).iconTheme.color,
                     ),
                   ),
                 ),
@@ -119,14 +119,14 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                             vertical: 16,
                           ),
                           decoration: BoxDecoration(
-                            color: ColorManager.veryLightBlue,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Text(
                             step.description,
                             textAlign: TextAlign.center,
                             style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                              color: ColorManager.darkText,
+                              color: Theme.of(context).textTheme.bodyLarge?.color,
                               fontSize: 16,
                               height: 1.45,
                             ),

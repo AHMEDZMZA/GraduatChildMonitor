@@ -26,7 +26,7 @@ class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.white,
+      //  backgroundColor: ColorManager.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -65,7 +65,7 @@ class _NotificationViewState extends State<NotificationView> {
                       child: const Icon(
                         Icons.delete_outline,
                         size: 24,
-                        color: ColorManager.black,
+                        //  color: ColorManager.black,
                       ),
                     ),
                   ),
@@ -93,16 +93,23 @@ class _NotificationViewState extends State<NotificationView> {
                             direction: DismissDirection.endToStart,
                             background: Container(
                               alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
                               margin: const EdgeInsets.symmetric(vertical: 4),
                               decoration: BoxDecoration(
-                                color: Colors.red,
+                                color: ColorManager.errorRed,
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(Icons.delete, color: Colors.white),
+                              child: const Icon(
+                                Icons.delete,
+                                color: ColorManager.white,
+                              ),
                             ),
                             onDismissed: (direction) {
-                              context.read<NotificationCubit>().deleteNotification(index);
+                              context
+                                  .read<NotificationCubit>()
+                                  .deleteNotification(index);
                             },
                             child: NotificationListViewItem(
                               item: item,

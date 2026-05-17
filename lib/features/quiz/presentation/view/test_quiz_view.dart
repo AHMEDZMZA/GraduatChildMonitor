@@ -44,7 +44,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: BlocConsumer<QuizCubit, QuizState>(
           listener: (context, state) {

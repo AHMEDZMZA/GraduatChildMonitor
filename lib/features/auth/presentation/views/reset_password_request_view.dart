@@ -3,6 +3,7 @@ import 'package:child_monitor_app/features/auth/presentation/state/auth_state.da
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
+import '../../../../core/managers/color_manager.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
@@ -40,7 +41,7 @@ class _ResetPasswordRequestViewState extends State<ResetPasswordRequestView> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.errorRed,
             ),
           );
         }
@@ -49,19 +50,18 @@ class _ResetPasswordRequestViewState extends State<ResetPasswordRequestView> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
+          //        backgroundColor: Colors.white,
           appBar: AppBar(
             scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
+            //         backgroundColor: Colors.white,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -99,7 +99,9 @@ class _ResetPasswordRequestViewState extends State<ResetPasswordRequestView> {
                               ? () {}
                               : () {
                                   if (!formKey.currentState!.validate()) return;
-                                  context.read<AuthCubit>().requestPasswordReset(
+                                  context
+                                      .read<AuthCubit>()
+                                      .requestPasswordReset(
                                         emailController.text.trim(),
                                       );
                                 },

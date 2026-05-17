@@ -19,7 +19,7 @@ class ResultInfoCard extends StatelessWidget {
       width: 255,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
       decoration: BoxDecoration(
-        color: ColorManager.veryLightBlue,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
         boxShadow: [

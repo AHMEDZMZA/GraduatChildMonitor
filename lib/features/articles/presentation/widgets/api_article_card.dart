@@ -22,10 +22,12 @@ class ApiArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeholderColor =
-        context.isDarkMode ? const Color(0xFF333333) : Colors.grey[300];
-    final shimmerColor =
-        context.isDarkMode ? const Color(0xFF444444) : Colors.grey[400];
+    final placeholderColor = context.isDarkMode
+        ? const Color(0xFF333333)
+        : ColorManager.lightGray;
+    final shimmerColor = context.isDarkMode
+        ? const Color(0xFF444444)
+        : ColorManager.mediumGray;
 
     return GestureDetector(
       onTap: onTap,
@@ -41,17 +43,16 @@ class ApiArticleCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
-              child:
-                  article.image != null
-                      ? CachedNetworkImage(
-                        imageUrl: article.image!,
-                        fit: BoxFit.cover,
-                        placeholder:
-                            (_, __) => Container(color: placeholderColor),
-                        errorWidget:
-                            (_, __, ___) => Container(color: shimmerColor),
-                      )
-                      : Container(color: shimmerColor),
+              child: article.image != null
+                  ? CachedNetworkImage(
+                      imageUrl: article.image!,
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) =>
+                          Container(color: placeholderColor),
+                      errorWidget: (_, __, ___) =>
+                          Container(color: shimmerColor),
+                    )
+                  : Container(color: shimmerColor),
             ),
           ),
           Container(

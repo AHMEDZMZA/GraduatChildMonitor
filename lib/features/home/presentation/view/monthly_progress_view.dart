@@ -48,7 +48,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
     final bool isEmpty = list.isEmpty;
 
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -138,7 +138,7 @@ class _EmptyState extends StatelessWidget {
       height: 48,
       width: 240,
       decoration: BoxDecoration(
-        color: ColorManager.veryLightBlue,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: ColorManager.primaryBlue),
       ),

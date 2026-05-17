@@ -2,7 +2,7 @@ import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
-import '../../../../core/managers/color_manager.dart';
+
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../../home/presentation/widgets/result_info_card.dart';
@@ -14,10 +14,11 @@ class ResultQuizView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get the result from arguments
-    final result = ModalRoute.of(context)?.settings.arguments as QuizResultEntity?;
+    final result =
+        ModalRoute.of(context)?.settings.arguments as QuizResultEntity?;
 
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
@@ -35,7 +36,9 @@ class ResultQuizView extends StatelessWidget {
               const SizedBox(height: 24),
 
               CustomText(
-                text: result?.message ?? 'Your answers have been\n successfully analyzed.',
+                text:
+                    result?.message ??
+                    'Your answers have been\n successfully analyzed.',
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
@@ -63,7 +66,11 @@ class ResultQuizView extends StatelessWidget {
               CustomButton(
                 text: 'Ok',
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.todayPlan, (route) => route.isFirst);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    AppRoutes.todayPlan,
+                    (route) => route.isFirst,
+                  );
                 },
               ),
 

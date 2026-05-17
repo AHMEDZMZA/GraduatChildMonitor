@@ -40,7 +40,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
@@ -51,13 +51,13 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context, isCompleted),
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     radius: 16,
                     backgroundColor: ColorManager.buttonBlue,
                     child: Icon(
                       Icons.arrow_back_ios_new,
                       size: 14,
-                      color: Colors.black87,
+                      color: Theme.of(context).iconTheme.color,
                     ),
                   ),
                 ),
@@ -98,14 +98,14 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                   children: [
                     const Icon(
                       Icons.check_circle,
-                      color: Colors.green,
+                      color: ColorManager.brightTeal,
                       size: 16,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Completed',
                       style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                        color: Colors.green,
+                        color: ColorManager.brightTeal,
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
@@ -145,12 +145,12 @@ class _InfoRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(icon, size: 6, color: ColorManager.black),
+        Icon(icon, size: 6, color: Theme.of(context).iconTheme.color),
         const SizedBox(width: 6),
         Text(
           text,
           style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-            color: ColorManager.darkText,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 16,
           ),
         ),

@@ -27,7 +27,9 @@ class ProfileGenderSelector extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? ColorManager.primaryBlue : Colors.grey,
+                  color: isSelected
+                      ? ColorManager.primaryBlue
+                      : ColorManager.mediumGray,
                   width: 2,
                 ),
               ),
@@ -45,10 +47,7 @@ class ProfileGenderSelector extends StatelessWidget {
                   : null,
             ),
             const SizedBox(width: 12),
-            Text(
-              value,
-              style: AppTextStyles.nunito14w400Black,
-            ),
+            Text(value, style: AppTextStyles.nunito14w400Black),
           ],
         ),
       ),
@@ -59,10 +58,7 @@ class ProfileGenderSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildCustomRadio('Male'),
-        _buildCustomRadio('Female'),
-      ],
+      children: [_buildCustomRadio('Male'), _buildCustomRadio('Female')],
     );
   }
 }

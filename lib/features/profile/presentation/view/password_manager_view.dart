@@ -39,7 +39,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Password changed successfully!'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           // Clear controllers after success
@@ -50,7 +50,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.errorRed,
             ),
           );
         }
@@ -58,13 +58,15 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          backgroundColor: ColorManager.backgroundWhite,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -139,26 +141,25 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                           onTap: state is ProfileLoading
                               ? () {}
                               : () {
-                                  if (!_formKey.currentState!.validate()) return;
+                                  if (!_formKey.currentState!.validate())
+                                    return;
                                   if (newPasswordController.text !=
                                       confirmPasswordController.text) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content:
-                                            Text('Passwords do not match'),
-                                        backgroundColor: Colors.red,
+                                        content: Text('Passwords do not match'),
+                                        backgroundColor: ColorManager.errorRed,
                                       ),
                                     );
                                     return;
                                   }
                                   context.read<ProfileCubit>().changePassword(
-                                        currentPassword:
-                                            currentPasswordController.text,
-                                        newPassword:
-                                            newPasswordController.text,
-                                        confirmNewPassword:
-                                            confirmPasswordController.text,
-                                      );
+                                    currentPassword:
+                                        currentPasswordController.text,
+                                    newPassword: newPasswordController.text,
+                                    confirmNewPassword:
+                                        confirmPasswordController.text,
+                                  );
                                 },
                         );
                       },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
-import '../../../../core/managers/color_manager.dart';
+
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../../core/navigation/app_routes.dart';
 
@@ -12,13 +12,14 @@ class ActivityDoneView extends StatelessWidget {
   const ActivityDoneView({
     super.key,
     required this.title,
-    required this.image, this.onTap,
+    required this.image,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
@@ -59,9 +60,9 @@ class ActivityDoneView extends StatelessWidget {
               const SizedBox(height: 30),
               CustomButton(
                 text: 'Start Next Activity',
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context, true);
-                }
+                },
               ),
               const SizedBox(height: 30),
               CustomButton(

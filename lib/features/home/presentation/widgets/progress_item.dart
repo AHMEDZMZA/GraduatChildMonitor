@@ -23,7 +23,7 @@ class ProgressItem extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 14),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: ColorManager.veryLightBlue,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: highlighted
@@ -47,7 +47,7 @@ class ProgressItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: highlighted
                     ? ColorManager.primaryBlue
-                    : ColorManager.backgroundWhite,
+                    : Theme.of(context).scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Column(
@@ -58,7 +58,7 @@ class ProgressItem extends StatelessWidget {
                     style: TextStyle(
                       color: highlighted
                           ? ColorManager.white
-                          : ColorManager.darkText,
+                          : Theme.of(context).textTheme.bodyLarge?.color,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -83,10 +83,10 @@ class ProgressItem extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
-                      color: ColorManager.darkText,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -103,10 +103,10 @@ class ProgressItem extends StatelessWidget {
 
             const SizedBox(width: 8),
 
-            const Icon(
+            Icon(
               Icons.arrow_forward_ios,
               size: 14,
-              color: ColorManager.darkText,
+              color: Theme.of(context).iconTheme.color,
             ),
           ],
         ),

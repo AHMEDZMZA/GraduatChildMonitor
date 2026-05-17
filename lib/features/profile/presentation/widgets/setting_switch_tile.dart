@@ -25,7 +25,6 @@ class SettingSwitchTile extends StatelessWidget {
               title,
               style: AppTextStyles.nunito16w900Black.copyWith(
                 fontSize: 15,
-                color: ColorManager.darkText,
               ),
             ),
           ),

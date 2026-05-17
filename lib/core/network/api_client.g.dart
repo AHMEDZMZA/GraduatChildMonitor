@@ -615,12 +615,12 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<MyChildrenResponse>> getMyChildren() async {
+  Future<HttpResponse<List<Child>>> getMyChildren() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<MyChildrenResponse>>(
+    final _options = _setStreamType<HttpResponse<List<Child>>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -630,10 +630,12 @@ class _ApiClient implements ApiClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late MyChildrenResponse _value;
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<Child> _value;
     try {
-      _value = MyChildrenResponse.fromJson(_result.data!);
+      _value = (_result.data as List)
+          .map((e) => Child.fromJson(e as Map<String, dynamic>))
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

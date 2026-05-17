@@ -28,7 +28,6 @@ class ThemeToggleItem extends StatelessWidget {
                   text: 'Dark Mode',
                   style: AppTextStyles.nunito20w900Black.copyWith(
                     fontSize: 16,
-                    color: ColorManager.darkText,
                   ),
                 ),
               ),

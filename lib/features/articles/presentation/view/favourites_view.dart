@@ -26,7 +26,7 @@ class _FavouritesViewState extends State<FavouritesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -42,7 +42,7 @@ class _FavouritesViewState extends State<FavouritesView> {
                       child: Icon(
                         Icons.arrow_back_ios_new,
                         size: 14,
-                        color: Colors.black87,
+                        color: ColorManager.darkText,
                       ),
                     ),
                   ),
@@ -84,8 +84,11 @@ class _FavouritesViewState extends State<FavouritesView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.error_outline,
-                                size: 48, color: Colors.red),
+                            const Icon(
+                              Icons.error_outline,
+                              size: 48,
+                              color: ColorManager.errorRed,
+                            ),
                             const SizedBox(height: 12),
                             Text(
                               state.message,
@@ -136,7 +139,8 @@ class _FavouritesViewState extends State<FavouritesView> {
                                       context
                                           .read<ArticlesCubit>()
                                           .removeArticleFromFavorite(
-                                              article.id);
+                                            article.id,
+                                          );
                                     },
                                   );
                                 },

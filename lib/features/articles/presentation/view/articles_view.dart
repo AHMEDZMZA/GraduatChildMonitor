@@ -25,7 +25,7 @@ class _ArticlesViewState extends State<ArticlesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -41,7 +41,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                       child: Icon(
                         Icons.arrow_back_ios_new,
                         size: 14,
-                        color: Colors.black87,
+                        color: ColorManager.darkText,
                       ),
                     ),
                   ),
@@ -89,8 +89,11 @@ class _ArticlesViewState extends State<ArticlesView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.error_outline,
-                                size: 48, color: Colors.red),
+                            const Icon(
+                              Icons.error_outline,
+                              size: 48,
+                              color: ColorManager.errorRed,
+                            ),
                             const SizedBox(height: 12),
                             Text(
                               state.message,
@@ -99,8 +102,9 @@ class _ArticlesViewState extends State<ArticlesView> {
                             ),
                             const SizedBox(height: 16),
                             TextButton(
-                              onPressed: () =>
-                                  context.read<ArticlesCubit>().getAllArticles(),
+                              onPressed: () => context
+                                  .read<ArticlesCubit>()
+                                  .getAllArticles(),
                               child: const Text('Retry'),
                             ),
                           ],

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
+import '../../../../core/managers/color_manager.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_login_social.dart';
 import 'widget/custom_text.dart';
@@ -42,14 +43,17 @@ class _SignupViewState extends State<SignupView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Account created successfully!'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           // Navigate to login after successful signup
           Navigator.pushReplacementNamed(context, AppRoutes.addChildData);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: ColorManager.errorRed,
+            ),
           );
         }
       },
@@ -57,13 +61,13 @@ class _SignupViewState extends State<SignupView> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
+          //        backgroundColor: ColorManager.white,
           appBar: AppBar(
             scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
+            //         backgroundColor: Colors.white,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -113,7 +117,7 @@ class _SignupViewState extends State<SignupView> {
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 8),
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            color: Colors.white,
+                            //      color: Colors.white,
                             child: const Text(
                               'or sign up with',
                               textAlign: TextAlign.center,

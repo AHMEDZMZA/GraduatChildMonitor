@@ -13,7 +13,7 @@ class SingleNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.white,
+      // backgroundColor: ColorManager.white,
       body: SafeArea(
         child: Column(
           children: [
@@ -54,7 +54,7 @@ class SingleNotificationScreen extends StatelessWidget {
                       child: const Icon(
                         Icons.delete_outline,
                         size: 24,
-                        color: ColorManager.black,
+                        //    color: ColorManager.black,
                       ),
                     ),
                   ),
@@ -72,7 +72,7 @@ class SingleNotificationScreen extends StatelessWidget {
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           size: 16,
-                          color: Colors.black87,
+                          color: ColorManager.darkText,
                         ),
                       ),
                     ),
@@ -92,7 +92,7 @@ class SingleNotificationScreen extends StatelessWidget {
                     vertical: 28,
                   ),
                   decoration: BoxDecoration(
-                    color: ColorManager.veryLightBlue,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(28),
                     border: Border.all(
                       color: ColorManager.primaryBlue,

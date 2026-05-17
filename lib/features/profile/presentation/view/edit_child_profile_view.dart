@@ -23,7 +23,8 @@ class EditChildProfileView extends StatefulWidget {
 
 class _EditChildProfileViewState extends State<EditChildProfileView> {
   final TextEditingController childNameController = TextEditingController();
-  final TextEditingController ageController = TextEditingController(); // Or birthDate depending on API
+  final TextEditingController ageController =
+      TextEditingController(); // Or birthDate depending on API
   final TextEditingController conditionController = TextEditingController();
 
   String? gender = 'Female';
@@ -65,7 +66,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Child profile added successfully.'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
@@ -74,7 +75,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Child profile updated successfully.'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
@@ -83,7 +84,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Child profile deleted successfully.'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
@@ -92,7 +93,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.errorRed,
             ),
           );
         }
@@ -100,17 +101,24 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          backgroundColor: ColorManager.backgroundWhite,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProfileTopHeader(title: isEdit ? 'Edit Child Profile' : 'Add Child Profile'),
+                    ProfileTopHeader(
+                      title: isEdit
+                          ? 'Edit Child Profile'
+                          : 'Add Child Profile',
+                    ),
 
                     const SizedBox(height: 34),
 
@@ -141,7 +149,10 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
 
                     const SizedBox(height: 18),
 
-                    const Text('Birth Date / Age', style: AppTextStyles.nunito16w900Black), // Label updated to indicate birth date is required
+                    const Text(
+                      'Birth Date / Age',
+                      style: AppTextStyles.nunito16w900Black,
+                    ), // Label updated to indicate birth date is required
                     const SizedBox(height: 10),
 
                     CustomTextFormField(
@@ -153,7 +164,10 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
 
                     const SizedBox(height: 18),
 
-                    const Text('Gender', style: AppTextStyles.nunito16w900Black),
+                    const Text(
+                      'Gender',
+                      style: AppTextStyles.nunito16w900Black,
+                    ),
                     const SizedBox(height: 4),
 
                     ProfileGenderSelector(
@@ -164,7 +178,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                         });
                       },
                     ),
-                    
+
                     const SizedBox(height: 18),
 
                     Row(
@@ -177,13 +191,19 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                             });
                           },
                         ),
-                        const Text('Knows Condition', style: AppTextStyles.nunito16w900Black),
+                        const Text(
+                          'Knows Condition',
+                          style: AppTextStyles.nunito16w900Black,
+                        ),
                       ],
                     ),
 
                     if (knowsCondition) ...[
                       const SizedBox(height: 10),
-                      const Text('Diagnosed Condition', style: AppTextStyles.nunito16w900Black),
+                      const Text(
+                        'Diagnosed Condition',
+                        style: AppTextStyles.nunito16w900Black,
+                      ),
                       const SizedBox(height: 10),
                       CustomTextFormField(
                         isPassword: false,
@@ -206,21 +226,25 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                                   if (_formKey.currentState!.validate()) {
                                     if (isEdit) {
                                       context.read<ProfileCubit>().updateChild(
-                                            widget.childId!,
-                                            name: childNameController.text.trim(),
-                                            birthDate: ageController.text.trim(),
-                                            gender: gender!.toUpperCase(),
-                                            knowsCondition: knowsCondition,
-                                            diagnosedCondition: knowsCondition ? conditionController.text.trim() : null,
-                                          );
+                                        widget.childId!,
+                                        name: childNameController.text.trim(),
+                                        birthDate: ageController.text.trim(),
+                                        gender: gender!.toUpperCase(),
+                                        knowsCondition: knowsCondition,
+                                        diagnosedCondition: knowsCondition
+                                            ? conditionController.text.trim()
+                                            : null,
+                                      );
                                     } else {
                                       context.read<ProfileCubit>().addChild(
-                                            name: childNameController.text.trim(),
-                                            birthDate: ageController.text.trim(),
-                                            gender: gender!.toUpperCase(),
-                                            knowsCondition: knowsCondition,
-                                            diagnosedCondition: knowsCondition ? conditionController.text.trim() : null,
-                                          );
+                                        name: childNameController.text.trim(),
+                                        birthDate: ageController.text.trim(),
+                                        gender: gender!.toUpperCase(),
+                                        knowsCondition: knowsCondition,
+                                        diagnosedCondition: knowsCondition
+                                            ? conditionController.text.trim()
+                                            : null,
+                                      );
                                     }
                                   }
                                 },
@@ -246,14 +270,16 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                                 confirmText: 'Yes, Delete',
                                 onConfirm: () {
                                   Navigator.pop(context); // Close bottom sheet
-                                  context.read<ProfileCubit>().deleteChild(widget.childId!);
+                                  context.read<ProfileCubit>().deleteChild(
+                                    widget.childId!,
+                                  );
                                 },
                               );
                             },
                           );
                         },
                       ),
-                    ]
+                    ],
                   ],
                 ),
               ),

@@ -7,15 +7,12 @@ import '../../data/model.dart';
 class MonthlyProgressDetailsView extends StatelessWidget {
   final MonthlyProgressModel item;
 
-  const MonthlyProgressDetailsView({
-    super.key,
-    required this.item,
-  });
+  const MonthlyProgressDetailsView({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundWhite,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
@@ -59,7 +56,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                   width: 260,
                   padding: const EdgeInsets.all(38),
                   decoration: BoxDecoration(
-                    color: ColorManager.veryLightBlue,
+                    color: Theme.of(context).cardColor,
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(color: ColorManager.primaryBlue),
                     boxShadow: [
@@ -78,7 +75,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                         height: 36,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: ColorManager.backgroundWhite,
+                          color: Theme.of(context).scaffoldBackgroundColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -89,7 +86,9 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                               style: TextStyle(
                                 color: item.highlighted
                                     ? ColorManager.white
-                                    : ColorManager.darkText,
+                                    : Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
@@ -110,7 +109,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
 
                       const CustomText(
                         text:
-                        'Noticeable improvement in your child’s condition',
+                            'Noticeable improvement in your child’s condition',
                         style: AppTextStyles.nunito16w900Green,
                         textAlign: TextAlign.center,
                       ),
@@ -119,7 +118,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
 
                       const CustomText(
                         text:
-                        'Continue with the current plan as it shows positive results.\nRegular follow-up leads to better outcomes.',
+                            'Continue with the current plan as it shows positive results.\nRegular follow-up leads to better outcomes.',
                         style: AppTextStyles.nunito12w600overlayGray66,
                         textAlign: TextAlign.center,
                       ),

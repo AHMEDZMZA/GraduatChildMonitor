@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
+import '../../../../core/managers/color_manager.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_login_social.dart';
 import 'widget/custom_text.dart';
@@ -38,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Login successful!'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           Navigator.pushNamedAndRemoveUntil(
@@ -48,7 +49,10 @@ class _LoginViewState extends State<LoginView> {
           );
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: ColorManager.errorRed,
+            ),
           );
         }
       },
@@ -56,11 +60,11 @@ class _LoginViewState extends State<LoginView> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
+          //   backgroundColor: ColorManager.white,
           appBar: AppBar(
             automaticallyImplyLeading: false,
             scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
+            //   backgroundColor: ColorManager.white,
             elevation: 0,
           ),
           body: Padding(
@@ -109,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 8),
                             padding: const EdgeInsets.symmetric(horizontal: 8),
-                            color: Colors.white,
+                            //               color: Colors.white,
                             child: const Text(
                               'or sign in with',
                               textAlign: TextAlign.center,
@@ -171,17 +175,16 @@ class _LoginViewState extends State<LoginView> {
                       builder: (context, state) {
                         return CustomButton(
                           text: state is AuthLoading ? 'Loading...' : 'Login',
-                          onTap:
-                              state is AuthLoading
-                                  ? () {}
-                                  : () {
-                                    if (formKey.currentState!.validate()) {
-                                      context.read<AuthCubit>().login(
-                                        email: emailController.text.trim(),
-                                        password: passwordController.text,
-                                      );
-                                    }
-                                  },
+                          onTap: state is AuthLoading
+                              ? () {}
+                              : () {
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().login(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text,
+                                    );
+                                  }
+                                },
                         );
                       },
                     ),

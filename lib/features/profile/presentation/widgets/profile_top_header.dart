@@ -6,10 +6,7 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 class ProfileTopHeader extends StatelessWidget {
   final String title;
 
-  const ProfileTopHeader({
-    super.key,
-    required this.title,
-  });
+  const ProfileTopHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +29,7 @@ class ProfileTopHeader extends StatelessWidget {
               child: Icon(
                 Icons.arrow_back_ios_new,
                 size: 18,
-                color: Colors.black87,
+                color: ColorManager.darkText,
               ),
             ),
           ),

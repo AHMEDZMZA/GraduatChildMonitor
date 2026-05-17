@@ -32,7 +32,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Child profile deleted.'),
-              backgroundColor: Colors.green,
+              backgroundColor: ColorManager.brightTeal,
             ),
           );
           context.read<ProfileCubit>().getMyChildren();
@@ -40,7 +40,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red,
+              backgroundColor: ColorManager.errorRed,
             ),
           );
         }
@@ -63,7 +63,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         child: Icon(
                           Icons.arrow_back_ios_new,
                           size: 18,
-                          color: Colors.black87,
+                          color: ColorManager.darkText,
                         ),
                       ),
                     ),
@@ -94,8 +94,11 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.error_outline,
-                                  size: 48, color: Colors.red),
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: ColorManager.errorRed,
+                              ),
                               const SizedBox(height: 12),
                               Text(
                                 state.message,
@@ -103,8 +106,9 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                               ),
                               const SizedBox(height: 16),
                               TextButton(
-                                onPressed: () =>
-                                    context.read<ProfileCubit>().getMyChildren(),
+                                onPressed: () => context
+                                    .read<ProfileCubit>()
+                                    .getMyChildren(),
                                 child: const Text('Retry'),
                               ),
                             ],

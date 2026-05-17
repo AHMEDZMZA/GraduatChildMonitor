@@ -29,7 +29,6 @@ class ChildProfileItem extends StatelessWidget {
                 text: name,
                 style: AppTextStyles.nunito20w900Black.copyWith(
                   fontSize: 16,
-                  color: ColorManager.darkText,
                 ),
               ),
             ),
