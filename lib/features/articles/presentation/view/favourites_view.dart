@@ -69,97 +69,111 @@ class _FavouritesViewState extends State<FavouritesView> {
               const SizedBox(height: 18),
 
               Expanded(
-                child: BlocBuilder<ArticlesCubit, ArticlesState>(
-                  builder: (context, state) {
-                    if (state is ArticlesLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: ColorManager.primaryBlue,
-                        ),
-                      );
+                child: BlocListener<ArticlesCubit, ArticlesState>(
+                  listener: (context, state) {
+                    if (state is ArticleRemovedFromFavorites) {
+                      context.read<ArticlesCubit>().getFavoriteArticles();
                     }
-
-                    if (state is ArticlesError) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.error_outline,
-                              size: 48,
-                              color: ColorManager.errorRed,
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              state.message,
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.nunito14w400Grey,
-                            ),
-                            const SizedBox(height: 16),
-                            TextButton(
-                              onPressed: () => context
-                                  .read<ArticlesCubit>()
-                                  .getFavoriteArticles(),
-                              child: const Text('Retry'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-
-                    if (state is FavoriteArticlesLoaded) {
-                      if (state.favorites.isEmpty) {
+                  },
+                  child: BlocBuilder<ArticlesCubit, ArticlesState>(
+                    buildWhen: (previous, current) =>
+                        current is FavoriteArticlesLoaded ||
+                        current is ArticlesError ||
+                        (current is ArticlesLoading &&
+                            previous is! FavoriteArticlesLoaded &&
+                            previous is! ArticleRemovedFromFavorites &&
+                            previous is! ArticlesLoading),
+                    builder: (context, state) {
+                      if (state is ArticlesLoading) {
                         return const Center(
-                          child: Text(
-                            'No favourite articles yet.',
-                            style: AppTextStyles.nunito14w400Grey,
+                          child: CircularProgressIndicator(
+                            color: ColorManager.primaryBlue,
                           ),
                         );
                       }
-                      return ListView.builder(
-                        itemCount: state.favorites.length,
-                        itemBuilder: (context, index) {
-                          final article = state.favorites[index];
-                          return ApiArticleCard(
-                            article: article,
-                            showDelete: true,
-                            onDeleteTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.transparent,
-                                elevation: 0,
-                                builder: (_) {
-                                  return AppBottomSheet(
-                                    title: 'Delete From Favourites',
-                                    description:
-                                        'Are you sure you want to delete from favourites?',
-                                    confirmText: 'Yes, Delete',
-                                    onConfirm: () {
-                                      Navigator.pop(context);
-                                      context
-                                          .read<ArticlesCubit>()
-                                          .removeArticleFromFavorite(
-                                            article.id,
-                                          );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.articleDetails,
-                                arguments: article,
-                              );
-                            },
-                          );
-                        },
-                      );
-                    }
 
-                    return const SizedBox.shrink();
-                  },
+                      if (state is ArticlesError) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                size: 48,
+                                color: ColorManager.errorRed,
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                state.message,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.nunito14w400Grey,
+                              ),
+                              const SizedBox(height: 16),
+                              TextButton(
+                                onPressed: () => context
+                                    .read<ArticlesCubit>()
+                                    .getFavoriteArticles(),
+                                child: const Text('Retry'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      if (state is FavoriteArticlesLoaded) {
+                        if (state.favorites.isEmpty) {
+                          return const Center(
+                            child: Text(
+                              'No favourite articles yet.',
+                              style: AppTextStyles.nunito14w400Grey,
+                            ),
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: state.favorites.length,
+                          itemBuilder: (context, index) {
+                            final article = state.favorites[index];
+                            return ApiArticleCard(
+                              article: article,
+                              showDelete: true,
+                              onDeleteTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  builder: (_) {
+                                    return AppBottomSheet(
+                                      title: 'Delete From Favourites',
+                                      description:
+                                          'Are you sure you want to delete from favourites?',
+                                      confirmText: 'Yes, Delete',
+                                      onConfirm: () {
+                                        Navigator.pop(context);
+                                        context
+                                            .read<ArticlesCubit>()
+                                            .removeArticleFromFavorite(
+                                              article.id,
+                                            );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.articleDetails,
+                                  arguments: article,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 ),
               ),
             ],

@@ -60,7 +60,10 @@ class _ArticlesViewState extends State<ArticlesView> {
 
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.favourites);
+                      final articlesCubit = context.read<ArticlesCubit>();
+                      Navigator.pushNamed(context, AppRoutes.favourites).then((_) {
+                        articlesCubit.getAllArticles();
+                      });
                     },
                     child: const Icon(
                       Icons.favorite_border,
@@ -75,6 +78,12 @@ class _ArticlesViewState extends State<ArticlesView> {
 
               Expanded(
                 child: BlocBuilder<ArticlesCubit, ArticlesState>(
+                  buildWhen: (previous, current) =>
+                      current is AllArticlesLoaded ||
+                      current is ArticlesError ||
+                      (current is ArticlesLoading &&
+                          (previous is ArticlesInitial ||
+                              previous is ArticlesError)),
                   builder: (context, state) {
                     if (state is ArticlesLoading) {
                       return const Center(

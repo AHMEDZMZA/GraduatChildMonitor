@@ -49,7 +49,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             SnackBar(
               content: const Text('This article added to favourites.'),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: ColorManager.overlayBlack20,
+              //backgroundColor: ColorManager.overlayBlack20,
               margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -64,7 +64,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
             SnackBar(
               content: const Text('This article removed from favourites.'),
               behavior: SnackBarBehavior.floating,
-              backgroundColor: ColorManager.overlayBlack20,
+              // backgroundColor: ColorManager.overlayBlack20,
               margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
