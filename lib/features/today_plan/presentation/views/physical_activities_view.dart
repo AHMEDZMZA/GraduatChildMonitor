@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/navigation/app_routes.dart';
 import '../../data/activity_model.dart';
+import '../cubit/activity_cubit.dart';
+import '../state/activity_state.dart';
 import 'activity_list_item.dart';
 
 class PhysicalActivitiesView extends StatefulWidget {
@@ -15,126 +19,30 @@ class PhysicalActivitiesView extends StatefulWidget {
 
 class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
   late List<ActivityModel> activities;
+  List<String> completedActivities = [];
 
   @override
   void initState() {
     super.initState();
-    activities = [
-      const ActivityModel(
-        title: 'Jumping Jacks',
-        shortDescription:
-            'A guided activity that helps your child exercise, stay focused, and improve body control.',
-        image: AppAssets.physicalActivities1,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.physicalActivities1,
-            title: 'Jumping Jacks',
-            description:
-                'Sit with your child in a calm place and introduce the movement.',
-            note: 'Encourage your child to choose freely without pressure.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities1,
-            title: 'Jumping Jacks',
-            description:
-                'Talk together about how to move your child into the chosen exercise.',
-            note: 'Encourage your child to explain freely without pressure.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities1,
-            title: 'Jumping Jacks',
-            description:
-                'End with a positive note and hug to reinforce trust and motivation.',
-            note: 'Encourage your child to express freely without pressure.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities1,
-            title: 'Jumping Jacks',
-            description:
-                'Finish the activity with praise and help your child cool down calmly.',
-            note: 'Celebrate the effort and keep the moment positive.',
-          ),
-        ],
-        highlighted: true,
-      ),
-      const ActivityModel(
-        title: 'Animal Walks',
-        shortDescription:
-            'An interactive activity that builds coordination and supports active movement through playful walking styles.',
-        image: AppAssets.physicalActivities2,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.physicalActivities2,
-            title: 'Animal Walks',
-            description:
-                'Choose an animal movement and ask your child to copy it slowly.',
-            note: 'Use simple movements and make it fun.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities2,
-            title: 'Animal Walks',
-            description: 'Take turns imitating different animals together.',
-            note: 'Praise each correct movement.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities2,
-            title: 'Animal Walks',
-            description:
-                'Increase variety gradually to improve focus and body control.',
-            note: 'Pause if your child gets tired.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities2,
-            title: 'Animal Walks',
-            description: 'Finish with a calm stretch and kind feedback.',
-            note: 'Keep the ending positive and supportive.',
-          ),
-        ],
-        completed: true,
-      ),
-      const ActivityModel(
-        title: 'Balance Challenge',
-        shortDescription:
-            'A guided activity that helps your child improve balance, stability, and body awareness.',
-        image: AppAssets.physicalActivities3,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.physicalActivities3,
-            title: 'Balance Challenge',
-            description:
-                'Ask your child to stand on one foot for a few seconds.',
-            note: 'Stay nearby and support if needed.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities3,
-            title: 'Balance Challenge',
-            description: 'Count together and switch sides slowly.',
-            note: 'Keep your tone encouraging.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities3,
-            title: 'Balance Challenge',
-            description: 'Add simple arm movements to increase coordination.',
-            note: 'Do not rush the activity.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.physicalActivities3,
-            title: 'Balance Challenge',
-            description: 'End with praise and a short rest.',
-            note: 'Celebrate progress, not perfection.',
-          ),
-        ],
-      ),
-    ];
+    _loadCompletedActivities();
+    // Use addPostFrameCallback to ensure context is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ActivityCubit>().getActivitiesByType('PHYSICAL');
+      }
+    });
+    activities = [];
+  }
+
+  Future<void> _loadCompletedActivities() async {
+    final prefs = await SharedPreferences.getInstance();
+    final childId = prefs.getString('childId') ?? '';
+    if (childId.isNotEmpty) {
+      final key = 'completed_activities_$childId';
+      setState(() {
+        completedActivities = prefs.getStringList(key) ?? [];
+      });
+    }
   }
 
   double get progressValue {
@@ -155,6 +63,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
     );
 
     if (completed == true) {
+      await _loadCompletedActivities();
       setState(() {
         activities = activities.asMap().entries.map((entry) {
           final i = entry.key;
@@ -227,13 +136,70 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
-                  itemCount: activities.length,
-                  itemBuilder: (context, index) {
-                    return ActivityListItem(
-                      item: activities[index],
-                      onTap: () => _openActivity(index),
-                    );
+                child: BlocBuilder<ActivityCubit, ActivityState>(
+                  builder: (context, state) {
+                    if (state is ActivityLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorManager.primaryBlue,
+                        ),
+                      );
+                    } else if (state is ActivitiesByTypeLoaded) {
+                      activities = state.activities
+                          .map(
+                            (entity) => ActivityModel(
+                              title: entity.title,
+                              shortDescription: entity.description ?? '',
+                              image: AppAssets.physicalActivities1,
+                              duration:
+                                  '⏱ Duration: ${entity.durationMinutes} minutes',
+                              difficulty:
+                                  '⚡ Difficulty: ${entity.difficultyLevel}',
+                              suitableAge:
+                                  '👶 Suitable Age: ${entity.minAge}–${entity.maxAge} years',
+                              steps: entity.steps
+                                  .map(
+                                    (step) => ActivityStepModel(
+                                      image: AppAssets.physicalActivities1,
+                                      title: entity.title,
+                                      description: step,
+                                      note: step,
+                                    ),
+                                  )
+                                  .toList(),
+                              completed: completedActivities.contains(entity.title),
+                              highlighted: false,
+                            ),
+                          )
+                          .toList();
+
+                      if (activities.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No physical activities available',
+                            style: AppTextStyles.nunito14w400Grey,
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: activities.length,
+                        itemBuilder: (context, index) {
+                          return ActivityListItem(
+                            item: activities[index],
+                            onTap: () => _openActivity(index),
+                          );
+                        },
+                      );
+                    } else if (state is ActivityError) {
+                      return Center(
+                        child: Text(
+                          'Error: ${state.message}',
+                          style: AppTextStyles.nunito14w400Grey,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
                   },
                 ),
               ),

@@ -46,15 +46,17 @@ class _HomeViewState extends State<HomeView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
-                    const SizedBox(height: 12),
-                    Text(
-                      state.message,
-                      style: AppTextStyles.nunito14w400Grey,
+                    const Icon(
+                      Icons.error_outline,
+                      size: 48,
+                      color: Colors.red,
                     ),
+                    const SizedBox(height: 12),
+                    Text(state.message, style: AppTextStyles.nunito14w400Grey),
                     const SizedBox(height: 16),
                     TextButton(
-                      onPressed: () => context.read<HomeCubit>().getHomeData(childId: null),
+                      onPressed: () =>
+                          context.read<HomeCubit>().getHomeData(childId: null),
                       child: const Text('Retry'),
                     ),
                   ],
@@ -67,7 +69,11 @@ class _HomeViewState extends State<HomeView> {
             if (state is HomeSuccess) {
               userName = state.homeData.userName;
               // If childId was passed to getHomeData, use it. Otherwise use first child from list if available.
-              childId = state.homeData.selectedChildId ?? (state.homeData.children.isNotEmpty ? state.homeData.children.first.id : null);
+              childId =
+                  state.homeData.selectedChildId ??
+                  (state.homeData.children.isNotEmpty
+                      ? state.homeData.children.first.id
+                      : null);
             }
 
             return Padding(
@@ -82,7 +88,11 @@ class _HomeViewState extends State<HomeView> {
                     childId: childId,
                     onStatisticsTap: () {
                       if (childId != null) {
-                        Navigator.pushNamed(context, AppRoutes.statistics, arguments: childId);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.statistics,
+                          arguments: childId,
+                        );
                       }
                     },
                   ),

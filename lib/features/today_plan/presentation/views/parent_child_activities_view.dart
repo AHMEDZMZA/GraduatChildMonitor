@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../data/activity_model.dart';
 import '../../../../core/navigation/app_routes.dart';
+import '../cubit/activity_cubit.dart';
+import '../state/activity_state.dart';
 import 'activity_list_item.dart';
 
 class ParentChildActivitiesView extends StatefulWidget {
@@ -16,128 +20,30 @@ class ParentChildActivitiesView extends StatefulWidget {
 
 class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
   late List<ActivityModel> activities;
+  List<String> completedActivities = [];
 
   @override
   void initState() {
     super.initState();
-    activities = [
-      const ActivityModel(
-        title: 'Emotion Sharing Time',
-        shortDescription:
-            'A guided activity that helps your child express feelings in a safe and supportive way.',
-        image: AppAssets.activities1,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.activities1,
-            title: 'Emotion Sharing Time',
-            description:
-                'Sit with your child in a calm place and introduce the feelings cards.',
-            note: 'Encourage your child to choose freely without pressure.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities1,
-            title: 'Emotion Sharing Time',
-            description:
-                'Talk together about a time your child felt the chosen emotion.',
-            note: 'Encourage your child to explain\n freely without pressure.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities1,
-            title: 'Emotion Sharing Time',
-            description:
-                'Ask your child what helped them feel better and what they can do next time.',
-            note: 'Praise every effort and keep the tone calm and positive.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities1,
-            title: 'Emotion Sharing Time',
-            description:
-                'End with a positive note and hug to reinforce trust and comfort.',
-            note: 'Encourage your child to express freely without pressure.',
-          ),
-        ],
-        highlighted: true,
-      ),
-      const ActivityModel(
-        title: 'Follow My Lead',
-        shortDescription:
-            'An interactive activity that builds trust and improves attention through shared play.',
-        image: AppAssets.activities2,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.activities2,
-            title: 'Follow My Lead',
-            description:
-                'Choose a simple movement and ask your child to copy it.',
-            note: 'Use clear gestures and keep it fun.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities2,
-            title: 'Follow My Lead',
-            description: 'Take turns letting your child lead and you follow.',
-            note: 'Celebrate every successful try.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities2,
-            title: 'Follow My Lead',
-            description:
-                'Increase the number of movements slowly to challenge attention.',
-            note: 'Stop if your child seems tired.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities2,
-            title: 'Follow My Lead',
-            description:
-                'Finish with praise and a calm transition to the next activity.',
-            note: 'Keep the ending positive and encouraging.',
-          ),
-        ],
-        completed: true,
-      ),
-      const ActivityModel(
-        title: 'Emotion Sharing Time',
-        shortDescription:
-            'A guided activity that helps your child express feelings in a safe and supportive way.',
-        image: AppAssets.activities3,
-        duration: '⏱ Duration: 10 minutes',
-        difficulty: '⚡ Difficulty: Easy',
-        suitableAge: '👶 Suitable Age: 4–8 years',
-        steps: [
-          ActivityStepModel(
-            image: AppAssets.activities3,
-            title: 'Emotion Sharing Time',
-            description:
-                'Use emotion cards to help your child identify how they feel.',
-            note: 'Offer reassurance and support.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities3,
-            title: 'Emotion Sharing Time',
-            description:
-                'Discuss a recent moment where your child felt that emotion.',
-            note: 'Let them answer in their own words.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities3,
-            title: 'Emotion Sharing Time',
-            description: 'Ask what could help when that feeling happens again.',
-            note: 'Suggest simple coping strategies.',
-          ),
-          ActivityStepModel(
-            image: AppAssets.activities3,
-            title: 'Emotion Sharing Time',
-            description: 'Close with positive reinforcement and validation.',
-            note: 'Keep it calm and safe.',
-          ),
-        ],
-      ),
-    ];
+    _loadCompletedActivities();
+    // Use addPostFrameCallback to ensure context is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ActivityCubit>().getActivitiesByType('PARENT_CHILD');
+      }
+    });
+    activities = [];
+  }
+
+  Future<void> _loadCompletedActivities() async {
+    final prefs = await SharedPreferences.getInstance();
+    final childId = prefs.getString('childId') ?? '';
+    if (childId.isNotEmpty) {
+      final key = 'completed_activities_$childId';
+      setState(() {
+        completedActivities = prefs.getStringList(key) ?? [];
+      });
+    }
   }
 
   double get progressValue {
@@ -158,6 +64,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
     );
 
     if (completed == true) {
+      await _loadCompletedActivities();
       setState(() {
         activities = activities.asMap().entries.map((entry) {
           final i = entry.key;
@@ -230,13 +137,72 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
               ),
               const SizedBox(height: 30),
               Expanded(
-                child: ListView.builder(
-                  itemCount: activities.length,
-                  itemBuilder: (context, index) {
-                    return ActivityListItem(
-                      item: activities[index],
-                      onTap: () => _openActivity(index),
-                    );
+                child: BlocBuilder<ActivityCubit, ActivityState>(
+                  builder: (context, state) {
+                    if (state is ActivityLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorManager.primaryBlue,
+                        ),
+                      );
+                    } else if (state is ActivitiesByTypeLoaded) {
+                      activities = state.activities
+                          .map(
+                            (entity) => ActivityModel(
+                              title: entity.title,
+                              shortDescription: entity.description ?? '',
+                              image: AppAssets.activities1,
+                              duration:
+                                  '⏱ Duration: ${entity.durationMinutes} minutes',
+                              difficulty:
+                                  '⚡ Difficulty: ${entity.difficultyLevel}',
+                              suitableAge:
+                                  '👶 Suitable Age: ${entity.minAge}–${entity.maxAge} years',
+                              steps: entity.steps
+                                  .map(
+                                    (step) => ActivityStepModel(
+                                      image: AppAssets.activities1,
+                                      title: entity.title,
+                                      description: step,
+                                      note: step,
+                                    ),
+                                  )
+                                  .toList(),
+                              completed: completedActivities.contains(
+                                entity.title,
+                              ),
+                              highlighted: false,
+                            ),
+                          )
+                          .toList();
+
+                      if (activities.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No parent-child activities available',
+                            style: AppTextStyles.nunito14w400Grey,
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        itemCount: activities.length,
+                        itemBuilder: (context, index) {
+                          return ActivityListItem(
+                            item: activities[index],
+                            onTap: () => _openActivity(index),
+                          );
+                        },
+                      );
+                    } else if (state is ActivityError) {
+                      return Center(
+                        child: Text(
+                          'Error: ${state.message}',
+                          style: AppTextStyles.nunito14w400Grey,
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
                   },
                 ),
               ),

@@ -7,6 +7,7 @@ import 'package:child_monitor_app/core/navigation/app_routes.dart';
 import 'package:child_monitor_app/core/navigation/routing_manager.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/today_plan/presentation/cubit/today_plan_cubit.dart';
+import 'package:child_monitor_app/features/today_plan/presentation/cubit/activity_cubit.dart';
 import 'package:child_monitor_app/features/progress/presentation/cubit/progress_cubit.dart';
 import 'package:child_monitor_app/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(create: (_) => getIt<AuthCubit>()),
         BlocProvider<ArticlesCubit>(create: (_) => getIt<ArticlesCubit>()),
         BlocProvider<TodayPlanCubit>(create: (_) => getIt<TodayPlanCubit>()),
+        BlocProvider<ActivityCubit>(create: (_) => getIt<ActivityCubit>()),
         BlocProvider<ProfileCubit>(create: (_) => getIt<ProfileCubit>()),
         BlocProvider<HomeCubit>(create: (_) => getIt<HomeCubit>()),
         BlocProvider<ProgressCubit>(create: (_) => getIt<ProgressCubit>()),

@@ -3,6 +3,7 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../domain/entities/test_submission_entity.dart';
 
@@ -105,10 +106,7 @@ class TestCompleteView extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: _getRiskColor().withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: _getRiskColor(),
-                            width: 1,
-                          ),
+                          border: Border.all(color: _getRiskColor(), width: 1),
                         ),
                         child: Column(
                           children: [
@@ -142,8 +140,8 @@ class TestCompleteView extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    '/home',
-                        (route) => false,
+                    AppRoutes.mainNav,
+                    (route) => false,
                   );
                 },
               ),

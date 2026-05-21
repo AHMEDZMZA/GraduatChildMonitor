@@ -160,7 +160,7 @@ class RoutingManager {
         return MaterialPageRoute(builder: (_) => const TodayView());
       case AppRoutes.activityDetails:
         if (settings.arguments is ActivityModel) {
-          return MaterialPageRoute(
+          return MaterialPageRoute<bool>(
             builder: (_) => ActivityDetailsView(
               activity: settings.arguments as ActivityModel,
             ),
@@ -169,7 +169,7 @@ class RoutingManager {
         return _errorRoute(settings);
       case AppRoutes.activitySteps:
         if (settings.arguments is ActivityModel) {
-          return MaterialPageRoute(
+          return MaterialPageRoute<bool>(
             builder: (_) => ActivityStepsView(
               activity: settings.arguments as ActivityModel,
             ),
@@ -179,7 +179,7 @@ class RoutingManager {
       case AppRoutes.activityDone:
         if (settings.arguments is Map<String, dynamic>) {
           final args = settings.arguments as Map<String, dynamic>;
-          return MaterialPageRoute(
+          return MaterialPageRoute<bool>(
             builder: (_) => ActivityDoneView(
               title: args['title'] as String,
               image: args['image'] as String,

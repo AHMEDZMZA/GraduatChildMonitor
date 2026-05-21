@@ -27,6 +27,13 @@ import 'package:child_monitor_app/features/today_plan/domain/repositories/today_
 import 'package:child_monitor_app/features/today_plan/domain/usecases/today_plan_usecases.dart';
 import 'package:child_monitor_app/features/today_plan/presentation/cubit/today_plan_cubit.dart';
 
+// ==================== ACTIVITY ====================
+import 'package:child_monitor_app/features/today_plan/data/datasources/activity_remote_data_source.dart';
+import 'package:child_monitor_app/features/today_plan/data/repositories/activity_repository_impl.dart';
+import 'package:child_monitor_app/features/today_plan/domain/repositories/activity_repository.dart';
+import 'package:child_monitor_app/features/today_plan/domain/usecases/activity_usecases.dart';
+import 'package:child_monitor_app/features/today_plan/presentation/cubit/activity_cubit.dart';
+
 // ==================== HOME ====================
 import 'package:child_monitor_app/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:child_monitor_app/features/home/data/repositories/home_repository_impl.dart';
@@ -128,6 +135,7 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   _setupAuthFeature();
   _setupArticlesFeature();
   _setupTodayPlanFeature();
+  _setupActivityFeature();
   _setupHomeFeature();
   _setupProfileFeature();
   _setupNotificationFeature();
@@ -278,6 +286,59 @@ void _setupTodayPlanFeature() {
       completeTodayPlanUseCase: getIt<CompleteTodayPlanUseCase>(),
       getPlanHistoryUseCase: getIt<GetPlanHistoryUseCase>(),
       getHomeDataUseCase: getIt<GetHomeDataUseCase>(),
+    ),
+  );
+}
+
+// ==================== ACTIVITY Feature ====================
+void _setupActivityFeature() {
+  // Data Sources
+  getIt.registerLazySingleton<ActivityRemoteDataSource>(
+    () => ActivityRemoteDataSourceImpl(apiClient: getIt<ApiClient>()),
+  );
+
+  // Repositories
+  getIt.registerLazySingleton<ActivityRepository>(
+    () => ActivityRepositoryImpl(
+      remoteDataSource: getIt<ActivityRemoteDataSource>(),
+    ),
+  );
+
+  // Use Cases
+  getIt.registerLazySingleton(
+    () => GetAllActivitiesUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetActivitiesByTypeUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetActivitiesForChildUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetActivityDetailUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => CompleteActivityUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetActivityStatsUseCase(repository: getIt<ActivityRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetRecommendedActivitiesUseCase(
+      repository: getIt<ActivityRepository>(),
+    ),
+  );
+
+  // Cubit
+  getIt.registerFactory<ActivityCubit>(
+    () => ActivityCubit(
+      getAllActivitiesUseCase: getIt<GetAllActivitiesUseCase>(),
+      getActivitiesByTypeUseCase: getIt<GetActivitiesByTypeUseCase>(),
+      getActivitiesForChildUseCase: getIt<GetActivitiesForChildUseCase>(),
+      getActivityDetailUseCase: getIt<GetActivityDetailUseCase>(),
+      completeActivityUseCase: getIt<CompleteActivityUseCase>(),
+      getActivityStatsUseCase: getIt<GetActivityStatsUseCase>(),
+      getRecommendedActivitiesUseCase: getIt<GetRecommendedActivitiesUseCase>(),
     ),
   );
 }

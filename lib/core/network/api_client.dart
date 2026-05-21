@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -800,6 +801,14 @@ class ActivityItem {
   final String type;
   final String? image;
   final int? duration;
+  final int? durationMinutes;
+  final String? difficultyLevel;
+  final int? minAge;
+  final int? maxAge;
+  final List<String>? steps;
+  final String? benefits;
+  final String? exampleActivities;
+  final bool? isActive;
 
   ActivityItem({
     required this.id,
@@ -808,9 +817,30 @@ class ActivityItem {
     required this.type,
     this.image,
     this.duration,
+    this.durationMinutes,
+    this.difficultyLevel,
+    this.minAge,
+    this.maxAge,
+    this.steps,
+    this.benefits,
+    this.exampleActivities,
+    this.isActive,
   });
 
   factory ActivityItem.fromJson(Map<String, dynamic> json) {
+    final stepsJson = json['steps'];
+    List<String> steps = [];
+    if (stepsJson is String) {
+      // Handle JSON string that needs parsing
+      try {
+        steps = List<String>.from(jsonDecode(stepsJson) as List);
+      } catch (e) {
+        steps = [];
+      }
+    } else if (stepsJson is List) {
+      steps = List<String>.from(stepsJson);
+    }
+
     return ActivityItem(
       id: json['id']?.toString() ?? '',
       title: json['title'] ?? '',
@@ -818,6 +848,14 @@ class ActivityItem {
       type: json['type'] ?? '',
       image: json['image'],
       duration: json['duration'],
+      durationMinutes: json['durationMinutes'],
+      difficultyLevel: json['difficultyLevel'],
+      minAge: json['minAge'],
+      maxAge: json['maxAge'],
+      steps: steps,
+      benefits: json['benefits'],
+      exampleActivities: json['exampleActivities'],
+      isActive: json['isActive'],
     );
   }
 }

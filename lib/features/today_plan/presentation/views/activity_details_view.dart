@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../data/activity_model.dart';
 import '../../../../core/navigation/app_routes.dart';
+import '../cubit/activity_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivityDetailsView extends StatefulWidget {
   final ActivityModel activity;
@@ -31,6 +34,27 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
     );
 
     if (done == true) {
+      // Get childId from shared preferences or pass it as parameter
+      final prefs = await SharedPreferences.getInstance();
+      final childId = prefs.getString('childId') ?? '';
+
+      if (childId.isNotEmpty) {
+        if (!mounted) return;
+        // Call the API to mark activity as completed
+        context.read<ActivityCubit>().completeActivity(
+          childId,
+          widget.activity.title,
+        );
+
+        // Save completed status locally in SharedPreferences
+        final key = 'completed_activities_$childId';
+        final completedList = prefs.getStringList(key) ?? [];
+        if (!completedList.contains(widget.activity.title)) {
+          completedList.add(widget.activity.title);
+          await prefs.setStringList(key, completedList);
+        }
+      }
+
       setState(() {
         isCompleted = true;
       });
@@ -44,89 +68,91 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap: () => Navigator.pop(context, isCompleted),
-                  child: CircleAvatar(
-                    radius: 16,
-                    backgroundColor: ColorManager.buttonBlue,
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 14,
-                      color: Theme.of(context).iconTheme.color,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context, isCompleted),
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: ColorManager.buttonBlue,
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 14,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 50),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  widget.activity.image,
-                  width: 261,
-                  height: 191,
-                  fit: BoxFit.cover,
+                const SizedBox(height: 50),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    widget.activity.image,
+                    width: 261,
+                    height: 191,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.activity.title,
-                style: AppTextStyles.nunito30w900Black,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Activity Info',
-                style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                  fontSize: 20,
+                const SizedBox(height: 16),
+                Text(
+                  widget.activity.title,
+                  style: AppTextStyles.nunito30w900Black,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 8),
-              _InfoRow(icon: Icons.circle, text: widget.activity.duration),
-              const SizedBox(height: 4),
-              _InfoRow(icon: Icons.circle, text: widget.activity.difficulty),
-              const SizedBox(height: 4),
-              _InfoRow(icon: Icons.circle, text: widget.activity.suitableAge),
-              if (isCompleted) ...[
-                const SizedBox(height: 6),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.check_circle,
-                      color: ColorManager.brightTeal,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      'Completed',
-                      style: AppTextStyles.nunito12w600overlayGray66.copyWith(
+                const SizedBox(height: 16),
+                Text(
+                  'Activity Info',
+                  style: AppTextStyles.nunito15w900primaryBlue.copyWith(
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                _InfoRow(icon: Icons.circle, text: widget.activity.duration),
+                const SizedBox(height: 4),
+                _InfoRow(icon: Icons.circle, text: widget.activity.difficulty),
+                const SizedBox(height: 4),
+                _InfoRow(icon: Icons.circle, text: widget.activity.suitableAge),
+                if (isCompleted) ...[
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
                         color: ColorManager.brightTeal,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        size: 16,
                       ),
-                    ),
-                  ],
-                ),
-              ],
-              const SizedBox(height: 90),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Completed',
+                        style: AppTextStyles.nunito12w600overlayGray66.copyWith(
+                          color: ColorManager.brightTeal,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: 90),
 
-              CustomButton(
-                text: isCompleted ? 'Done' : 'Start Activity',
-                onTap: () {
-                  if (isCompleted) {
-                    Navigator.pop(context, true);
-                  } else {
-                    _startActivity();
-                  }
-                },
-              ),
-              const SizedBox(height: 14),
-            ],
+                CustomButton(
+                  text: isCompleted ? 'Done' : 'Start Activity',
+                  onTap: () {
+                    if (isCompleted) {
+                      Navigator.pop(context, true);
+                    } else {
+                      _startActivity();
+                    }
+                  },
+                ),
+                const SizedBox(height: 14),
+              ],
+            ),
           ),
         ),
       ),
