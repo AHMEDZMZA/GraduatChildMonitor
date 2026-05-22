@@ -17,7 +17,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (failure) {
-        emit(ChatError(failure.toString()));
+        emit(ChatError(failure.message));
       },
       (chatMessage) {
         emit(ChatMessageSent(chatMessage));
@@ -36,7 +36,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     result.fold(
       (failure) {
-        emit(ChatError(failure.toString()));
+        emit(ChatError(failure.message));
       },
       (messages) {
         emit(ChatSuccess(messages: messages, conversationId: conversationId));

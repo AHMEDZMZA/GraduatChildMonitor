@@ -52,6 +52,8 @@ import '../../features/home/presentation/view/monthly_progress_view.dart';
 import '../../features/home/presentation/view/progress_test_view.dart';
 import '../../features/home/presentation/view/result_progress_view.dart';
 import '../../features/progress/presentation/view/statistics_view.dart';
+import '../../features/profile/domain/entities/profile_entity.dart';
+import '../../core/network/api_client.dart';
 
 // Tests
 import '../../features/tests/presentation/view/add_child_data_view.dart';
@@ -69,7 +71,6 @@ import 'app_routes.dart';
 // Models
 import '../../features/articles/domain/entities/article_entity.dart';
 import '../../features/today_plan/data/activity_model.dart';
-import '../../features/home/data/model.dart';
 
 class RoutingManager {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -200,22 +201,52 @@ class RoutingManager {
 
       // Progress Tracker
       case AppRoutes.progressTracker:
-        return MaterialPageRoute(builder: (_) => const ProgressTrackerView());
+        if (settings.arguments is ChildProfileEntity) {
+          return MaterialPageRoute(
+            builder: (_) => ProgressTrackerView(
+              child: settings.arguments as ChildProfileEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
       case AppRoutes.monthlyProgressDetails:
-        if (settings.arguments is MonthlyProgressModel) {
+        if (settings.arguments is MonthlyAssessmentHistoryItem) {
           return MaterialPageRoute(
             builder: (_) => MonthlyProgressDetailsView(
-              item: settings.arguments as MonthlyProgressModel,
+              item: settings.arguments as MonthlyAssessmentHistoryItem,
             ),
           );
         }
         return _errorRoute(settings);
       case AppRoutes.monthlyProgress:
-        return MaterialPageRoute(builder: (_) => const MonthlyProgressView());
+        if (settings.arguments is ChildProfileEntity) {
+          return MaterialPageRoute(
+            builder: (_) => MonthlyProgressView(
+              child: settings.arguments as ChildProfileEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
       case AppRoutes.progressTest:
-        return MaterialPageRoute(builder: (_) => const ProgressTestView());
+        if (settings.arguments is ChildProfileEntity) {
+          return MaterialPageRoute(
+            builder: (_) => ProgressTestView(
+              child: settings.arguments as ChildProfileEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
       case AppRoutes.resultProgress:
-        return MaterialPageRoute(builder: (_) => const ResultProgressView());
+        if (settings.arguments is Map<String, dynamic>) {
+          final args = settings.arguments as Map<String, dynamic>;
+          return MaterialPageRoute(
+            builder: (_) => ResultProgressView(
+              response: args['response'] as SubmitMonthlyAssessmentResponse,
+              child: args['child'] as ChildProfileEntity,
+            ),
+          );
+        }
+        return _errorRoute(settings);
       case AppRoutes.statistics:
         if (settings.arguments is String) {
           return MaterialPageRoute(

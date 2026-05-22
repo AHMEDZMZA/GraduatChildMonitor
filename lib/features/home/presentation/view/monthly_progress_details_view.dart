@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import '../../../../core/network/api_client.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
-import '../../data/model.dart';
 
 class MonthlyProgressDetailsView extends StatelessWidget {
-  final MonthlyProgressModel item;
+  final MonthlyAssessmentHistoryItem item;
 
   const MonthlyProgressDetailsView({super.key, required this.item});
+
+  String _getShortMonth(String monthYear) {
+    if (monthYear.isEmpty) return 'MAY';
+    final parts = monthYear.split(' ');
+    if (parts.isNotEmpty) {
+      final m = parts[0];
+      if (m.length >= 3) {
+        return m.substring(0, 3).toUpperCase();
+      }
+      return m.toUpperCase();
+    }
+    return 'MAY';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +84,8 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
-                        width: 28,
-                        height: 36,
+                        width: 42,
+                        height: 48,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -84,21 +97,15 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                             Text(
                               '${item.id}',
                               style: TextStyle(
-                                color: item.highlighted
-                                    ? ColorManager.white
-                                    : Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge?.color,
+                                color: Theme.of(context).textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
                             Text(
-                              item.month,
-                              style: TextStyle(
+                              _getShortMonth(item.monthYear),
+                              style: const TextStyle(
                                 fontSize: 10,
-                                color: item.highlighted
-                                    ? ColorManager.white
-                                    : ColorManager.grayB0,
+                                color: ColorManager.grayB0,
                               ),
                             ),
                           ],
@@ -107,18 +114,16 @@ class MonthlyProgressDetailsView extends StatelessWidget {
 
                       const SizedBox(height: 14),
 
-                      const CustomText(
-                        text:
-                            'Noticeable improvement in your child’s condition',
+                      CustomText(
+                        text: item.resultLabel,
                         style: AppTextStyles.nunito16w900Green,
                         textAlign: TextAlign.center,
                       ),
 
                       const SizedBox(height: 10),
 
-                      const CustomText(
-                        text:
-                            'Continue with the current plan as it shows positive results.\nRegular follow-up leads to better outcomes.',
+                      CustomText(
+                        text: item.recommendations,
                         style: AppTextStyles.nunito12w600overlayGray66,
                         textAlign: TextAlign.center,
                       ),

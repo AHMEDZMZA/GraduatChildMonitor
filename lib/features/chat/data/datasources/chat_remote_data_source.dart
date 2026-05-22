@@ -48,7 +48,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
   ServerException _handleDioException(DioException e) {
     final data = e.response?.data;
-    final msg = (data is Map ? data['message'] : null) as String?;
+    String? msg;
+    if (data is Map) {
+      msg = (data['error'] ?? data['message'] ?? data['msg'])?.toString();
+    } else if (data is String) {
+      msg = data;
+    }
+
     if (e.response?.statusCode == 401) {
       throw UnauthorizedException(message: msg ?? 'Unauthorized access');
     } else if (e.response?.statusCode == 404) {

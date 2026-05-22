@@ -5,7 +5,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.4:8086/api/';
+  static const String baseUrl = 'http://192.168.1.14:8086/api/';
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
@@ -218,6 +218,32 @@ abstract class ApiClient {
   Future<HttpResponse<AssessmentDetailResponse>> getAssessmentDetail(
     @Path('assessmentId') String assessmentId,
   );
+
+  // ==================== NEW MONTHLY ASSESSMENT ENDPOINTS ====================
+  @GET('home/monthly-assessment/questions/{disorder}')
+  Future<HttpResponse<MonthlyAssessmentQuestionsResponse>>
+  getMonthlyAssessmentQuestions(@Path('disorder') String disorder);
+
+  @POST('home/monthly-assessment/submit')
+  Future<HttpResponse<SubmitMonthlyAssessmentResponse>> submitMonthlyAssessment(
+    @Body() SubmitMonthlyAssessmentRequest request,
+  );
+
+  @GET('home/monthly-assessment/history/{childId}')
+  Future<HttpResponse<MonthlyAssessmentHistoryResponse>>
+  getMonthlyAssessmentHistory(@Path('childId') String childId);
+
+  @GET('monthly-assessment/{assessmentId}')
+  Future<HttpResponse<MonthlyAssessmentSingleDetailResponse>>
+  getMonthlyAssessmentDetail(@Path('assessmentId') String assessmentId);
+
+  @GET('monthly-assessment/child/{childId}')
+  Future<HttpResponse<MonthlyAssessmentChildListResponse>>
+  getMonthlyAssessmentChildList(@Path('childId') String childId);
+
+  @GET('monthly-assessment/trend/{childId}')
+  Future<HttpResponse<MonthlyAssessmentTrendResponse>>
+  getMonthlyAssessmentTrend(@Path('childId') String childId);
 
   // ==================== TESTS ENDPOINTS ====================
   @POST('tests/submit')
@@ -1470,25 +1496,500 @@ class TestQuestion {
 }
 
 // ==================== HOME PROGRESS DTOs ====================
-class HomeProgressResponse {
+class ChildProgressData {
   final int assessmentImprovement;
+  final double assessmentImprovementPercentage;
+  final int latestScore;
+  final int previousScore;
   final String trend;
   final int completedActivities;
+  final int totalActivitiesAttempted;
+  final double activityCompletionRate;
   final String progressSummary;
 
-  HomeProgressResponse({
+  ChildProgressData({
     required this.assessmentImprovement,
+    required this.assessmentImprovementPercentage,
+    required this.latestScore,
+    required this.previousScore,
     required this.trend,
     required this.completedActivities,
+    required this.totalActivitiesAttempted,
+    required this.activityCompletionRate,
     required this.progressSummary,
   });
 
-  factory HomeProgressResponse.fromJson(Map<String, dynamic> json) {
-    return HomeProgressResponse(
+  factory ChildProgressData.fromJson(Map<String, dynamic> json) {
+    return ChildProgressData(
       assessmentImprovement: json['assessment_improvement'] ?? 0,
+      assessmentImprovementPercentage:
+          ((json['assessment_improvement_percentage'] ?? 0) as num).toDouble(),
+      latestScore: json['latest_score'] ?? 0,
+      previousScore: json['previous_score'] ?? 0,
       trend: json['trend'] ?? '',
       completedActivities: json['completed_activities'] ?? 0,
+      totalActivitiesAttempted: json['total_activities_attempted'] ?? 0,
+      activityCompletionRate: ((json['activity_completion_rate'] ?? 0.0) as num)
+          .toDouble(),
       progressSummary: json['progress_summary'] ?? '',
+    );
+  }
+}
+
+class HomeProgressResponse {
+  final ChildProgressData progress;
+  final int statusCode;
+
+  HomeProgressResponse({required this.progress, required this.statusCode});
+
+  factory HomeProgressResponse.fromJson(Map<String, dynamic> json) {
+    return HomeProgressResponse(
+      progress: ChildProgressData.fromJson(json['progress'] ?? {}),
+      statusCode: json['status_code'] ?? 200,
+    );
+  }
+}
+
+// ==================== NEW MONTHLY ASSESSMENT DTOs ====================
+
+class MonthlyAssessmentQuestionOption {
+  final String text;
+  final int value;
+
+  MonthlyAssessmentQuestionOption({required this.text, required this.value});
+
+  factory MonthlyAssessmentQuestionOption.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentQuestionOption(
+      text: json['text'] ?? '',
+      value: json['value'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {'text': text, 'value': value};
+}
+
+class MonthlyAssessmentQuestion {
+  final String id;
+  final String text;
+  final String type;
+  final List<MonthlyAssessmentQuestionOption> options;
+
+  MonthlyAssessmentQuestion({
+    required this.id,
+    required this.text,
+    required this.type,
+    required this.options,
+  });
+
+  factory MonthlyAssessmentQuestion.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentQuestion(
+      id: json['id'] ?? '',
+      text: json['text'] ?? '',
+      type: json['type'] ?? '',
+      options:
+          (json['options'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentQuestionOption.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'text': text,
+    'type': type,
+    'options': options.map((e) => e.toJson()).toList(),
+  };
+}
+
+class MonthlyAssessmentQuestionsGroup {
+  final String title;
+  final String scoringLogic;
+  final Map<String, dynamic> interpretation;
+  final List<MonthlyAssessmentQuestion> questions;
+
+  MonthlyAssessmentQuestionsGroup({
+    required this.title,
+    required this.scoringLogic,
+    required this.interpretation,
+    required this.questions,
+  });
+
+  factory MonthlyAssessmentQuestionsGroup.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentQuestionsGroup(
+      title: json['title'] ?? '',
+      scoringLogic: json['scoring_logic'] ?? '',
+      interpretation: json['interpretation'] ?? {},
+      questions:
+          (json['questions'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentQuestion.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class MonthlyAssessmentQuestionsResponse {
+  final MonthlyAssessmentQuestionsGroup questions;
+  final String disorder;
+  final int statusCode;
+
+  MonthlyAssessmentQuestionsResponse({
+    required this.questions,
+    required this.disorder,
+    required this.statusCode,
+  });
+
+  factory MonthlyAssessmentQuestionsResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return MonthlyAssessmentQuestionsResponse(
+      questions: MonthlyAssessmentQuestionsGroup.fromJson(
+        json['questions'] ?? {},
+      ),
+      disorder: json['disorder'] ?? '',
+      statusCode: json['status_code'] ?? 200,
+    );
+  }
+}
+
+class MonthlyAssessmentAnswer {
+  final String qId;
+  final int value;
+
+  MonthlyAssessmentAnswer({required this.qId, required this.value});
+
+  Map<String, dynamic> toJson() => {'q_id': qId, 'value': value};
+}
+
+class SubmitMonthlyAssessmentRequest {
+  final int childId;
+  final String disorder;
+  final List<MonthlyAssessmentAnswer> answers;
+
+  SubmitMonthlyAssessmentRequest({
+    required this.childId,
+    required this.disorder,
+    required this.answers,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'childId': childId,
+    'disorder': disorder,
+    'answers': answers.map((e) => e.toJson()).toList(),
+  };
+}
+
+class SubmitMonthlyAssessmentResponse {
+  final String message;
+  final int assessmentId;
+  final int currentScore;
+  final int progressPercentage;
+  final String trend;
+  final String trendLabel;
+  final String interpretation;
+  final int statusCode;
+  final String? error;
+
+  SubmitMonthlyAssessmentResponse({
+    required this.message,
+    required this.assessmentId,
+    required this.currentScore,
+    required this.progressPercentage,
+    required this.trend,
+    required this.trendLabel,
+    required this.interpretation,
+    required this.statusCode,
+    this.error,
+  });
+
+  factory SubmitMonthlyAssessmentResponse.fromJson(Map<String, dynamic> json) {
+    return SubmitMonthlyAssessmentResponse(
+      message: json['message'] ?? '',
+      assessmentId: json['assessment_id'] ?? 0,
+      currentScore: json['current_score'] ?? 0,
+      progressPercentage: json['progress_percentage'] ?? 0,
+      trend: json['trend'] ?? '',
+      trendLabel: json['trend_label'] ?? '',
+      interpretation: json['interpretation'] ?? '',
+      statusCode: json['status_code'] ?? 200,
+      error: json['error'],
+    );
+  }
+}
+
+class MonthlyAssessmentHistoryChild {
+  final int id;
+  final String name;
+
+  MonthlyAssessmentHistoryChild({required this.id, required this.name});
+
+  factory MonthlyAssessmentHistoryChild.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentHistoryChild(
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+    );
+  }
+}
+
+class MonthlyAssessmentHistoryItem {
+  final int id;
+  final MonthlyAssessmentHistoryChild child;
+  final String assessmentDate;
+  final String monthYear;
+  final int q1Focus;
+  final int q2Social;
+  final int q3Communication;
+  final int q4Behavior;
+  final int q5Learning;
+  final int totalScore;
+  final String resultLabel;
+  final String recommendations;
+
+  MonthlyAssessmentHistoryItem({
+    required this.id,
+    required this.child,
+    required this.assessmentDate,
+    required this.monthYear,
+    required this.q1Focus,
+    required this.q2Social,
+    required this.q3Communication,
+    required this.q4Behavior,
+    required this.q5Learning,
+    required this.totalScore,
+    required this.resultLabel,
+    required this.recommendations,
+  });
+
+  factory MonthlyAssessmentHistoryItem.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentHistoryItem(
+      id: json['id'] ?? 0,
+      child: MonthlyAssessmentHistoryChild.fromJson(json['child'] ?? {}),
+      assessmentDate: json['assessmentDate'] ?? '',
+      monthYear: json['monthYear'] ?? '',
+      q1Focus: json['q1Focus'] ?? 0,
+      q2Social: json['q2Social'] ?? 0,
+      q3Communication: json['q3Communication'] ?? 0,
+      q4Behavior: json['q4Behavior'] ?? 0,
+      q5Learning: json['q5Learning'] ?? 0,
+      totalScore: json['totalScore'] ?? 0,
+      resultLabel: json['resultLabel'] ?? '',
+      recommendations: json['recommendations'] ?? '',
+    );
+  }
+}
+
+class MonthlyAssessmentChartData {
+  final String month;
+  final int score;
+  final String resultLabel;
+  final String date;
+
+  MonthlyAssessmentChartData({
+    required this.month,
+    required this.score,
+    required this.resultLabel,
+    required this.date,
+  });
+
+  factory MonthlyAssessmentChartData.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentChartData(
+      month: json['month'] ?? '',
+      score: json['score'] ?? 0,
+      resultLabel: json['result_label'] ?? '',
+      date: json['date'] ?? '',
+    );
+  }
+}
+
+class MonthlyAssessmentHistoryResponse {
+  final List<MonthlyAssessmentHistoryItem> history;
+  final List<MonthlyAssessmentChartData> chartData;
+  final int totalAssessments;
+  final int statusCode;
+
+  MonthlyAssessmentHistoryResponse({
+    required this.history,
+    required this.chartData,
+    required this.totalAssessments,
+    required this.statusCode,
+  });
+
+  factory MonthlyAssessmentHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentHistoryResponse(
+      history:
+          (json['history'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentHistoryItem.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+      chartData:
+          (json['chart_data'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentChartData.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+      totalAssessments: json['total_assessments'] ?? 0,
+      statusCode: json['status_code'] ?? 200,
+    );
+  }
+}
+
+class MonthlyAssessmentSingleDetailResponse {
+  final MonthlyAssessmentHistoryItem assessment;
+  final int statusCode;
+
+  MonthlyAssessmentSingleDetailResponse({
+    required this.assessment,
+    required this.statusCode,
+  });
+
+  factory MonthlyAssessmentSingleDetailResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return MonthlyAssessmentSingleDetailResponse(
+      assessment: MonthlyAssessmentHistoryItem.fromJson(
+        json['assessment'] ?? {},
+      ),
+      statusCode: json['status_code'] ?? 200,
+    );
+  }
+}
+
+class MonthlyAssessmentChildItem {
+  final int id;
+  final String assessmentDate;
+  final String monthYear;
+  final int totalScore;
+  final String resultLabel;
+
+  MonthlyAssessmentChildItem({
+    required this.id,
+    required this.assessmentDate,
+    required this.monthYear,
+    required this.totalScore,
+    required this.resultLabel,
+  });
+
+  factory MonthlyAssessmentChildItem.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentChildItem(
+      id: json['id'] ?? 0,
+      assessmentDate: json['assessmentDate'] ?? '',
+      monthYear: json['monthYear'] ?? '',
+      totalScore: json['totalScore'] ?? 0,
+      resultLabel: json['resultLabel'] ?? '',
+    );
+  }
+}
+
+class MonthlyAssessmentChildListResponse {
+  final int childId;
+  final List<MonthlyAssessmentChildItem> assessments;
+  final int total;
+  final int statusCode;
+
+  MonthlyAssessmentChildListResponse({
+    required this.childId,
+    required this.assessments,
+    required this.total,
+    required this.statusCode,
+  });
+
+  factory MonthlyAssessmentChildListResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return MonthlyAssessmentChildListResponse(
+      childId: json['child_id'] ?? 0,
+      assessments:
+          (json['assessments'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentChildItem.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+      total: json['total'] ?? 0,
+      statusCode: json['status_code'] ?? 200,
+    );
+  }
+}
+
+class MonthlyAssessmentTrendItem {
+  final int id;
+  final int totalScore;
+  final String monthYear;
+
+  MonthlyAssessmentTrendItem({
+    required this.id,
+    required this.totalScore,
+    required this.monthYear,
+  });
+
+  factory MonthlyAssessmentTrendItem.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentTrendItem(
+      id: json['id'] ?? 0,
+      totalScore: json['totalScore'] ?? 0,
+      monthYear: json['monthYear'] ?? '',
+    );
+  }
+}
+
+class MonthlyAssessmentTrendData {
+  final List<MonthlyAssessmentTrendItem> assessments;
+  final String trend;
+  final int improvement;
+
+  MonthlyAssessmentTrendData({
+    required this.assessments,
+    required this.trend,
+    required this.improvement,
+  });
+
+  factory MonthlyAssessmentTrendData.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentTrendData(
+      assessments:
+          (json['assessments'] as List?)
+              ?.map(
+                (e) => MonthlyAssessmentTrendItem.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList() ??
+          [],
+      trend: json['trend'] ?? '',
+      improvement: json['improvement'] ?? 0,
+    );
+  }
+}
+
+class MonthlyAssessmentTrendResponse {
+  final MonthlyAssessmentTrendData data;
+  final int statusCode;
+
+  MonthlyAssessmentTrendResponse({
+    required this.data,
+    required this.statusCode,
+  });
+
+  factory MonthlyAssessmentTrendResponse.fromJson(Map<String, dynamic> json) {
+    return MonthlyAssessmentTrendResponse(
+      data: MonthlyAssessmentTrendData.fromJson(json['data'] ?? {}),
+      statusCode: json['status_code'] ?? 200,
     );
   }
 }

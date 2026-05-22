@@ -41,6 +41,7 @@ import 'package:child_monitor_app/features/home/domain/repositories/home_reposit
 import 'package:child_monitor_app/features/home/domain/usecases/get_home_data_usecase.dart'
     as child_home;
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/monthly_assessment_cubit.dart';
 
 // ==================== PROFILE ====================
 import 'package:child_monitor_app/features/profile/data/datasources/profile_remote_data_source.dart';
@@ -56,7 +57,6 @@ import 'package:child_monitor_app/features/notification/domain/repos/notificatio
 import 'package:child_monitor_app/features/notification/presentation/cubit/notification_cubit.dart';
 
 // ==================== PROGRESS ====================
-import 'package:child_monitor_app/features/progress/data/datasources/progress_remote_data_source.dart';
 import 'package:child_monitor_app/features/progress/data/repositories/progress_repository_impl.dart';
 import 'package:child_monitor_app/features/progress/domain/repositories/progress_repository.dart';
 import 'package:child_monitor_app/features/progress/domain/usecases/get_child_progress_usecase.dart';
@@ -117,8 +117,25 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
       },
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
-          // Token expired - clear stored auth data
-          await getIt<TokenStorage>().clearAuth();
+          final path = error.requestOptions.path;
+          final data = error.response?.data;
+          bool isAiError = false;
+
+          if (path.contains('chatbot')) {
+            isAiError = true;
+          } else if (data != null) {
+            final dataStr = data.toString().toLowerCase();
+            if (dataStr.contains('ai service') ||
+                dataStr.contains('temporarily unavailable') ||
+                dataStr.contains('auth_error')) {
+              isAiError = true;
+            }
+          }
+
+          if (!isAiError) {
+            // Token expired - clear stored auth data
+            await getIt<TokenStorage>().clearAuth();
+          }
         }
         return handler.next(error);
       },
@@ -364,6 +381,9 @@ void _setupHomeFeature() {
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(getIt<child_home.GetHomeDataUseCase>()),
   );
+  getIt.registerFactory<MonthlyAssessmentCubit>(
+    () => MonthlyAssessmentCubit(apiClient: getIt<ApiClient>()),
+  );
 }
 
 // ==================== PROFILE Feature ====================
@@ -451,14 +471,9 @@ void _setupNotificationFeature() {
 
 // ==================== PROGRESS Feature ====================
 void _setupProgressFeature() {
-  // Data Sources
-  getIt.registerLazySingleton<ProgressRemoteDataSource>(
-    () => ProgressRemoteDataSource(getIt<Dio>()),
-  );
-
   // Repositories
   getIt.registerLazySingleton<ProgressRepository>(
-    () => ProgressRepositoryImpl(getIt<ProgressRemoteDataSource>()),
+    () => ProgressRepositoryImpl(getIt<ApiClient>()),
   );
 
   // Use Cases

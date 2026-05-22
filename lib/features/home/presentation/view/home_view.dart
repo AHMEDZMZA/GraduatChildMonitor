@@ -9,6 +9,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../widgets/home_banner.dart';
 import '../widgets/home_card.dart';
 import '../widgets/home_header.dart';
+import '../../../profile/domain/entities/profile_entity.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -66,6 +67,7 @@ class _HomeViewState extends State<HomeView> {
 
             String userName = 'Mam';
             String? childId;
+            ChildProfileEntity? selectedChild;
             if (state is HomeSuccess) {
               userName = state.homeData.userName;
               // If childId was passed to getHomeData, use it. Otherwise use first child from list if available.
@@ -74,6 +76,12 @@ class _HomeViewState extends State<HomeView> {
                   (state.homeData.children.isNotEmpty
                       ? state.homeData.children.first.id
                       : null);
+              if (childId != null && state.homeData.children.isNotEmpty) {
+                selectedChild = state.homeData.children.firstWhere(
+                  (c) => c.id == childId,
+                  orElse: () => state.homeData.children.first,
+                );
+              }
             }
 
             return Padding(
@@ -145,7 +153,13 @@ class _HomeViewState extends State<HomeView> {
                       setState(() {
                         selectedIndex = 2;
                       });
-                      Navigator.pushNamed(context, AppRoutes.progressTracker);
+                      if (selectedChild != null) {
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutes.progressTracker,
+                          arguments: selectedChild,
+                        );
+                      }
                     },
                   ),
 

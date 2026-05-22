@@ -4,11 +4,20 @@ import '../../../../core/managers/app_text_styles.dart';
 
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import '../../../profile/domain/entities/profile_entity.dart';
+import '../../../../core/network/api_client.dart';
 import '../widgets/result_info_card.dart';
 import '../../../../core/navigation/app_routes.dart';
 
 class ResultProgressView extends StatelessWidget {
-  const ResultProgressView({super.key});
+  final SubmitMonthlyAssessmentResponse response;
+  final ChildProfileEntity child;
+
+  const ResultProgressView({
+    super.key,
+    required this.response,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +58,13 @@ class ResultProgressView extends StatelessWidget {
 
               const SizedBox(height: 34),
 
-              const ResultInfoCard(
-                title: 'Noticeable improvement\nin your child’s condition',
-                subtitle:
-                    'Continue with the current plan\n'
-                    'as it is showing positive results.\n'
-                    'Regular follow-up helps achieve\n'
-                    'better outcomes.',
+              ResultInfoCard(
+                title: response.trendLabel.isNotEmpty
+                    ? response.trendLabel
+                    : 'Noticeable improvement in condition',
+                subtitle: response.interpretation.isNotEmpty
+                    ? response.interpretation
+                    : response.message,
               ),
 
               const Spacer(flex: 3),
@@ -66,6 +75,7 @@ class ResultProgressView extends StatelessWidget {
                   Navigator.pushReplacementNamed(
                     context,
                     AppRoutes.monthlyProgress,
+                    arguments: child,
                   );
                 },
               ),

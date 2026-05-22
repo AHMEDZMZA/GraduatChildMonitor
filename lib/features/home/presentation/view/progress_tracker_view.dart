@@ -4,10 +4,13 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import '../../../profile/domain/entities/profile_entity.dart';
 import '../widgets/progress_tracker_info_card.dart';
 
 class ProgressTrackerView extends StatelessWidget {
-  const ProgressTrackerView({super.key});
+  final ChildProfileEntity child;
+
+  const ProgressTrackerView({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,11 @@ class ProgressTrackerView extends StatelessWidget {
               const SizedBox(height: 80),
 
               CustomButton(text: 'Start Test', onTap: () {
-                Navigator.pushNamed(context, AppRoutes.progressTest);
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.progressTest,
+                  arguments: child,
+                );
               }),
             ],
           ),

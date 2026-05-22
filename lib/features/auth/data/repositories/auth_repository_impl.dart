@@ -89,15 +89,13 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, void>> logout() async {
     try {
       await remoteDataSource.logout();
+    } catch (_) {
+      // Ignore server-side logout failures (e.g. invalid/expired token)
+      // to ensure the user can always log out locally.
+    } finally {
       await tokenStorage.clearAuth();
-      return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message, statusCode: e.statusCode));
-    } on NetworkException catch (e) {
-      return Left(NetworkFailure(e.message));
-    } catch (e) {
-      return Left(UnknownFailure(e.toString()));
     }
+    return const Right(null);
   }
 
   @override

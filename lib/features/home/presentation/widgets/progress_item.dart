@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
-import '../../data/model.dart';
+import '../../../../core/network/api_client.dart';
 
 class ProgressItem extends StatelessWidget {
-  final MonthlyProgressModel item;
+  final MonthlyAssessmentHistoryItem item;
   final bool highlighted;
   final VoidCallback onTap;
 
@@ -13,6 +13,49 @@ class ProgressItem extends StatelessWidget {
     required this.highlighted,
     required this.onTap,
   });
+
+  String _getShortMonth(String monthYear) {
+    if (monthYear.isEmpty) return 'MAY';
+    final parts = monthYear.split(' ');
+    if (parts.isNotEmpty) {
+      final m = parts[0];
+      if (m.length >= 3) {
+        return m.substring(0, 3).toUpperCase();
+      }
+      return m.toUpperCase();
+    }
+    return 'MAY';
+  }
+
+  String _formatDate(String dateStr) {
+    try {
+      final dateTime = DateTime.parse(dateStr);
+      final months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+      ];
+      final day = dateTime.day.toString().padLeft(2, '0');
+      final month = months[dateTime.month - 1];
+      final year = dateTime.year;
+      final hour24 = dateTime.hour;
+      final period = hour24 >= 12 ? 'PM' : 'AM';
+      final hour12 = hour24 % 12 == 0 ? 12 : hour24 % 12;
+      final minute = dateTime.minute.toString().padLeft(2, '0');
+      return '$day $month $year | ${hour12.toString().padLeft(2, '0')}:$minute $period';
+    } catch (e) {
+      return dateStr;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +69,7 @@ class ProgressItem extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: highlighted
-                ? ColorManager.primaryBlue
-                : Colors.transparent,
+            color: highlighted ? ColorManager.primaryBlue : Colors.transparent,
             width: 1.3,
           ),
           boxShadow: [
@@ -63,12 +104,10 @@ class ProgressItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    item.month,
+                    _getShortMonth(item.monthYear),
                     style: TextStyle(
                       fontSize: 10,
-                      color: highlighted
-                          ? ColorManager.white
-                          : ColorManager.grayB0,
+                      color: highlighted ? ColorManager.white : ColorManager.grayB0,
                     ),
                   ),
                 ],
@@ -82,7 +121,7 @@ class ProgressItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title,
+                    item.resultLabel,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
@@ -91,7 +130,7 @@ class ProgressItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    item.date,
+                    _formatDate(item.assessmentDate),
                     style: const TextStyle(
                       fontSize: 11,
                       color: ColorManager.grayB0,
