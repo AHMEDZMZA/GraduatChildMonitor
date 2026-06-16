@@ -1,89 +1,5 @@
 import 'package:flutter/material.dart';
 
-//
-// class CustomTextFormField extends StatefulWidget {
-//   const CustomTextFormField({
-//     super.key,
-//     required this.isPassword,
-//     required this.hintText,
-//     required this.controller,
-//     this.keyboardType,
-//     this.prefixIcon,
-//     this.suffixIcon,
-//     this.obscuringCharacter,
-//   });
-//
-//   final String hintText;
-//   final bool isPassword;
-//   final TextInputType? keyboardType;
-//   final Widget? prefixIcon;
-//   final TextEditingController? controller;
-//   final Widget? suffixIcon;
-//   final String? obscuringCharacter;
-//
-//   @override
-//   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
-// }
-//
-// class _CustomTextFormFieldState extends State<CustomTextFormField> {
-//   late bool _obscureText;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _obscureText = widget.isPassword;
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextFormField(
-//       controller: widget.controller,
-//       obscureText: _obscureText,
-//       obscuringCharacter: '*',
-//       cursorHeight: 20,
-//       cursorColor: Colors.black,
-//       validator: (v) {
-//         if (v == null || v.isEmpty) {
-//           return "Please fill this field";
-//         }
-//         return null;
-//       },
-//
-//       decoration: InputDecoration(
-//         contentPadding: const EdgeInsets.symmetric(
-//           horizontal: 14,
-//           vertical: 14,
-//         ),
-//         prefixIcon: widget.prefixIcon,
-//         suffixIcon:
-//             widget.isPassword
-//                 ? GestureDetector(
-//                   onTap: () {
-//                     setState(() {
-//                       _obscureText = !_obscureText;
-//                     });
-//                   },
-//                   child:
-//                       _obscureText
-//                           ? Icon(Icons.visibility_off, color: Colors.grey)
-//                           : Icon(Icons.visibility, color: Colors.grey),
-//                 )
-//                 : null,
-//         hintText: widget.hintText,
-//
-//         filled: true,
-//         fillColor: Colors.white,
-//         enabledBorder: OutlineInputBorder(
-//           borderSide: BorderSide(color: Colors.grey),
-//         ),
-//         focusedBorder: OutlineInputBorder(
-//           borderSide: BorderSide(color: Colors.grey),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
@@ -96,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
     this.obscuringCharacter,
     this.readOnly,
     this.onTap,
+    this.extraValidator,
   });
 
   final String hintText;
@@ -107,6 +24,8 @@ class CustomTextFormField extends StatefulWidget {
   final String? obscuringCharacter;
   final bool? readOnly;
   final Function()? onTap;
+  /// Optional extra validation logic appended after built-in checks.
+  final String? Function(String?)? extraValidator;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -139,7 +58,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       }
     }
 
-    return null;
+    // Allow caller to inject extra validation (e.g. password-match check).
+    return widget.extraValidator?.call(value);
   }
 
   @override

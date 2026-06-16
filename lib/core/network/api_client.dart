@@ -5,7 +5,16 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 class ApiConfig {
-  static const String baseUrl = 'http://192.168.1.14:8086/api/';
+  /// Override at build time with:
+  ///   flutter run --dart-define=BASE_URL=https://your-api.com/api/
+  ///
+  /// ⚠️ The default value is a local dev server — replace with your
+  ///    production HTTPS URL before any release build.
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'http://192.168.1.14:8086/api/',
+  );
+
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 }
@@ -55,7 +64,7 @@ abstract class ApiClient {
   Future<HttpResponse<ArticlesResponse>> getAllArticles();
 
   @GET('articles/{articleId}')
-  Future<HttpResponse<ArticleDetailResponse>> getArticleDetail(
+  Future<HttpResponse<Article>> getArticleDetail(
     @Path('articleId') String articleId,
   );
 
@@ -120,7 +129,7 @@ abstract class ApiClient {
   Future<HttpResponse<List<Child>>> getMyChildren();
 
   @GET('children/{childId}')
-  Future<HttpResponse<ChildDetailResponse>> getChildDetail(
+  Future<HttpResponse<Child>> getChildDetail(
     @Path('childId') String childId,
   );
 
@@ -432,40 +441,7 @@ class Article {
   }
 }
 
-class ArticleDetailResponse {
-  final String id;
-  final String title;
-  final String content;
-  final String? image;
-  final String category;
-  final String? author;
-  final String? publishedDate;
-  final String? description;
 
-  ArticleDetailResponse({
-    required this.id,
-    required this.title,
-    required this.content,
-    this.image,
-    required this.category,
-    this.author,
-    this.publishedDate,
-    this.description,
-  });
-
-  factory ArticleDetailResponse.fromJson(Map<String, dynamic> json) {
-    return ArticleDetailResponse(
-      id: json['id']?.toString() ?? '',
-      title: json['title'] ?? '',
-      content: json['content'] ?? '',
-      image: json['image'],
-      category: json['category'] ?? '',
-      author: json['author'],
-      publishedDate: json['publishedDate'],
-      description: json['description'],
-    );
-  }
-}
 
 class FavoritesResponse {
   final List<Article> favorites;
@@ -657,21 +633,7 @@ class UpdateProfileRequest {
   Map<String, dynamic> toJson() => {'monitorName': monitorName, 'email': email};
 }
 
-class MyChildrenResponse {
-  final List<Child> children;
 
-  MyChildrenResponse({required this.children});
-
-  factory MyChildrenResponse.fromJson(Map<String, dynamic> json) {
-    return MyChildrenResponse(
-      children:
-          (json['children'] as List?)
-              ?.map((e) => Child.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-  }
-}
 
 class Child {
   final String id;
@@ -704,36 +666,7 @@ class Child {
   }
 }
 
-class ChildDetailResponse {
-  final String id;
-  final String name;
-  final String birthDate;
-  final String gender;
-  final bool knowsCondition;
-  final String? diagnosedCondition;
 
-  ChildDetailResponse({
-    required this.id,
-    required this.name,
-    required this.birthDate,
-    required this.gender,
-    required this.knowsCondition,
-    this.diagnosedCondition,
-  });
-
-  factory ChildDetailResponse.fromJson(Map<String, dynamic> json) {
-    return ChildDetailResponse(
-      id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
-      birthDate: json['birthDate'] ?? json['birth_date'] ?? '',
-      gender: json['gender'] ?? '',
-      knowsCondition:
-          json['knowsCondition'] ?? json['knows_condition'] ?? false,
-      diagnosedCondition:
-          json['diagnosedCondition'] ?? json['diagnosed_condition'],
-    );
-  }
-}
 
 class AddChildRequest {
   final String name;

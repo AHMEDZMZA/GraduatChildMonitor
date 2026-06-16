@@ -1,5 +1,5 @@
 name: child_monitor_app
-description: "A new Flutter project."
+description: "GraduatChildMonitor — A Flutter app for monitoring and supporting children's developmental milestones."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -32,7 +32,6 @@ dependencies:
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
-  data_connection_checker_tv: ^0.3.5-nullsafety
   dio: ^5.9.2
   equatable: ^2.0.7
   flutter:
@@ -44,8 +43,6 @@ dependencies:
   pin_code_fields: ^8.0.1
   shared_preferences: ^2.5.3
   retrofit: ^4.9.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
   json_annotation: ^4.11.0
   intl: ^0.19.0
   flutter_local_notifications: ^21.0.0
@@ -83,7 +80,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/images/logo/logo.png
     - assets/images/logo/
     - assets/images/onboarding/
     - assets/images/navbar/

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'color_manager.dart';
-import 'font_manger.dart';
+import 'font_manager.dart';
+
 
 class AppTextStyles {
   // Nunito Regular Styles

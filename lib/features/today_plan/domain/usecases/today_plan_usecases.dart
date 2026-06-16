@@ -33,10 +33,12 @@ class GetPlanHistoryUseCase {
   }
 }
 
-class GetHomeDataUseCase {
+/// H-9: Renamed from GetHomeDataUseCase to avoid collision with the identically-named
+/// use case in the home feature (home/domain/usecases/get_home_data_usecase.dart).
+class GetTodayPlanHomeDataUseCase {
   final TodayPlanRepository repository;
 
-  GetHomeDataUseCase({required this.repository});
+  GetTodayPlanHomeDataUseCase({required this.repository});
 
   Future<Either<Failure, HomeDataEntity>> call(String? childId) {
     return repository.getHomeData(childId);

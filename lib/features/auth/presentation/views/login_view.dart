@@ -3,13 +3,12 @@ import 'package:child_monitor_app/features/auth/presentation/state/auth_state.da
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import 'widget/custom_button.dart';
-import 'widget/custom_login_social.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
+import 'widget/social_auth_section.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -83,53 +82,8 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    CustomLoginSocial(
-                      name: AppAssets.googleLogo,
-                      text: 'Sign in with Google',
-                      onTap: () {
-                        context.read<AuthCubit>().signInWithGoogle();
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    CustomLoginSocial(
-                      name: AppAssets.facebookLogo,
-                      text: 'Sign in with Facebook',
-                      onTap: () {
-                        context.read<AuthCubit>().signInWithFacebook();
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 36,
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xFFCBD2E0),
-                              thickness: 1,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 8),
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            //               color: Colors.white,
-                            child: const Text(
-                              'or sign in with',
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.nunito14w400Grey,
-                            ),
-                          ),
-                          const Expanded(
-                            child: Divider(
-                              color: Color(0xFFCBD2E0),
-                              thickness: 1,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 11),
+                    // M-5: Social auth section extracted into reusable widget.
+                    const SocialAuthSection(dividerLabel: 'or sign in with'),
                     const CustomText(
                       text: 'Email Address',
                       style: AppTextStyles.nunito16w900Black,
@@ -194,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                       children: [
                         const CustomText(
                           text: 'Don\'t have an Account? ',
-                          color: Color(0xFF131111),
+                          color: ColorManager.nearBlack13,
                           fontSize: 14,
                         ),
                         GestureDetector(

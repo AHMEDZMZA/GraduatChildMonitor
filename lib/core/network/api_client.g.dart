@@ -291,14 +291,12 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<ArticleDetailResponse>> getArticleDetail(
-    String articleId,
-  ) async {
+  Future<HttpResponse<Article>> getArticleDetail(String articleId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ArticleDetailResponse>>(
+    final _options = _setStreamType<HttpResponse<Article>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -309,9 +307,9 @@ class _ApiClient implements ApiClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ArticleDetailResponse _value;
+    late Article _value;
     try {
-      _value = ArticleDetailResponse.fromJson(_result.data!);
+      _value = Article.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -707,14 +705,12 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<ChildDetailResponse>> getChildDetail(
-    String childId,
-  ) async {
+  Future<HttpResponse<Child>> getChildDetail(String childId) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<HttpResponse<ChildDetailResponse>>(
+    final _options = _setStreamType<HttpResponse<Child>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -725,9 +721,9 @@ class _ApiClient implements ApiClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ChildDetailResponse _value;
+    late Child _value;
     try {
-      _value = ChildDetailResponse.fromJson(_result.data!);
+      _value = Child.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;

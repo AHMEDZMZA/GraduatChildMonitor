@@ -33,6 +33,12 @@ class AuthCubit extends Cubit<AuthState> {
     required this.tokenStorage,
   }) : super(const AuthInitial());
 
+  /// Called by the network layer when a 401 Unauthorized response is received.
+  /// Signals that the stored token is no longer valid and the user must log in again.
+  void handleUnauthenticated() {
+    emit(const AuthUnauthenticated());
+  }
+
   Future<void> signup({
     required String monitorName,
     required String email,
@@ -118,14 +124,11 @@ class AuthCubit extends Cubit<AuthState> {
       emit(const AuthLoading());
       developer.log('Google Sign-In: Starting Google sign-in flow');
 
-      // Sign out first to ensure a fresh login
-      await googleSignIn.signOut();
-
       // Trigger the authentication flow
       final googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         developer.log('Google Sign-In: User cancelled the sign-in');
-        emit(AuthError('Sign-in cancelled'));
+        emit(const AuthCancelled());
         return;
       }
 
@@ -181,7 +184,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (result.status == LoginStatus.cancelled) {
         developer.log('Facebook Login: User cancelled the login');
-        emit(AuthError('Login cancelled'));
+        emit(const AuthCancelled());
         return;
       }
 

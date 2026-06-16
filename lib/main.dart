@@ -2,6 +2,7 @@ import 'package:child_monitor_app/core/di/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:child_monitor_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:child_monitor_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:child_monitor_app/features/auth/presentation/state/auth_state.dart';
 import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:child_monitor_app/core/navigation/app_routes.dart';
 import 'package:child_monitor_app/core/navigation/routing_manager.dart';
@@ -12,8 +13,9 @@ import 'package:child_monitor_app/features/progress/presentation/cubit/progress_
 import 'package:child_monitor_app/features/chat/presentation/cubit/chat_cubit.dart';
 import 'package:child_monitor_app/features/tests/presentation/cubit/tests_cubit.dart';
 import 'package:child_monitor_app/features/tests/presentation/bloc/test_cubit.dart';
-import 'package:child_monitor_app/core/helpers/notification_helper.dart';
 import 'package:child_monitor_app/features/notification/presentation/cubit/notification_cubit.dart';
+// H-3: Consolidated — LocalNotificationService is the single notification service.
+// NotificationHelper has been removed from startup init.
 import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,13 +25,13 @@ import 'package:timezone/data/latest_all.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Timezone init only once — LocalNotificationService uses this.
   tz.initializeTimeZones();
 
   final prefs = await SharedPreferences.getInstance();
   await setupServiceLocator(prefs);
-  await NotificationHelper.init();
 
-  // Initialize local notifications and schedule daily quote
+  // H-3: Single notification service — no more double-init.
   final notificationService = LocalNotificationService();
   await notificationService.initializeNotifications();
   await notificationService.scheduleDailyQuoteNotification(hour: 14, minute: 0);
@@ -59,17 +61,31 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ThemeCubit>(create: (_) => getIt<ThemeCubit>()),
       ],
-      child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, themeMode) {
-          return MaterialApp(
-            theme: AppTheme.lightTheme(),
-            darkTheme: AppTheme.darkTheme(),
-            themeMode: themeMode,
-            debugShowCheckedModeBanner: false,
-            initialRoute: AppRoutes.splash,
-            onGenerateRoute: RoutingManager.generateRoute,
-          );
+      // C-4: Global AuthUnauthenticated listener — when the network layer
+      // detects an expired token (401), it calls AuthCubit.handleUnauthenticated()
+      // which emits AuthUnauthenticated. This listener catches it at the root
+      // and redirects to login from anywhere in the app.
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthUnauthenticated) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRoutes.login,
+              (route) => false,
+            );
+          }
         },
+        child: BlocBuilder<ThemeCubit, ThemeMode>(
+          builder: (context, themeMode) {
+            return MaterialApp(
+              theme: AppTheme.lightTheme(),
+              darkTheme: AppTheme.darkTheme(),
+              themeMode: themeMode,
+              debugShowCheckedModeBanner: false,
+              initialRoute: AppRoutes.splash,
+              onGenerateRoute: RoutingManager.generateRoute,
+            );
+          },
+        ),
       ),
     );
   }

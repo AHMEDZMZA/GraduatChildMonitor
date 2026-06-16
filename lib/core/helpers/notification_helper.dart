@@ -1,5 +1,4 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest_all.dart' as tz_init;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationHelper {
@@ -26,8 +25,7 @@ class NotificationHelper {
         // Handle notification click logic here
       },
     );
-
-    tz_init.initializeTimeZones();
+    // Note: tz.initializeTimeZones() is called once in main() — no need to repeat here.
   }
 
   static Future<void> showNotification({

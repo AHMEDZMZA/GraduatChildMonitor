@@ -39,9 +39,12 @@ import 'package:child_monitor_app/features/today_plan/presentation/cubit/activit
 // ==================== HOME ====================
 import 'package:child_monitor_app/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:child_monitor_app/features/home/data/repositories/home_repository_impl.dart';
+import 'package:child_monitor_app/features/home/data/repositories/monthly_assessment_repository_impl.dart';
 import 'package:child_monitor_app/features/home/domain/repositories/home_repository.dart';
+import 'package:child_monitor_app/features/home/domain/repositories/monthly_assessment_repository.dart';
 import 'package:child_monitor_app/features/home/domain/usecases/get_home_data_usecase.dart'
     as child_home;
+import 'package:child_monitor_app/features/home/domain/usecases/monthly_assessment_usecases.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/monthly_assessment_cubit.dart';
 
@@ -59,6 +62,7 @@ import 'package:child_monitor_app/features/notification/domain/repos/notificatio
 import 'package:child_monitor_app/features/notification/presentation/cubit/notification_cubit.dart';
 
 // ==================== PROGRESS ====================
+import 'package:child_monitor_app/features/progress/data/datasources/progress_remote_data_source.dart';
 import 'package:child_monitor_app/features/progress/data/repositories/progress_repository_impl.dart';
 import 'package:child_monitor_app/features/progress/domain/repositories/progress_repository.dart';
 import 'package:child_monitor_app/features/progress/domain/usecases/get_child_progress_usecase.dart';
@@ -91,6 +95,9 @@ final getIt = GetIt.instance;
 
 Future<void> setupServiceLocator(SharedPreferences prefs) async {
   // ==================== Storage ====================
+  // H-2: Register SharedPreferences so feature code can resolve it via DI.
+  getIt.registerSingleton<SharedPreferences>(prefs);
+
   const flutterSecureStorage = FlutterSecureStorage();
   getIt.registerSingleton<FlutterSecureStorage>(flutterSecureStorage);
 
@@ -135,8 +142,12 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
           }
 
           if (!isAiError) {
-            // Token expired - clear stored auth data
+            // Token expired — clear stored auth data and notify the app.
             await getIt<TokenStorage>().clearAuth();
+            // Notify the singleton AuthCubit so the UI can redirect to login.
+            if (getIt.isRegistered<AuthCubit>()) {
+              getIt<AuthCubit>().handleUnauthenticated();
+            }
           }
         }
         return handler.next(error);
@@ -211,8 +222,8 @@ void _setupAuthFeature() {
     () => LoginWithFacebookUseCase(repository: getIt<AuthRepository>()),
   );
 
-  // Cubit (factory so each screen gets a fresh instance)
-  getIt.registerFactory<AuthCubit>(
+  // Cubit (lazySingleton — single source of auth truth across the whole app)
+  getIt.registerLazySingleton<AuthCubit>(
     () => AuthCubit(
       signupUseCase: getIt<SignupUseCase>(),
       loginUseCase: getIt<LoginUseCase>(),
@@ -270,8 +281,8 @@ void _setupArticlesFeature() {
     ),
   );
 
-  // Cubit
-  getIt.registerFactory<ArticlesCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider, must be shared.
+  getIt.registerLazySingleton<ArticlesCubit>(
     () => ArticlesCubit(
       getAllArticlesUseCase: getIt<GetAllArticlesUseCase>(),
       getArticleDetailUseCase: getIt<GetArticleDetailUseCase>(),
@@ -309,17 +320,18 @@ void _setupTodayPlanFeature() {
   getIt.registerLazySingleton(
     () => GetPlanHistoryUseCase(repository: getIt<TodayPlanRepository>()),
   );
+  // H-9: Renamed to GetTodayPlanHomeDataUseCase to avoid collision with home feature.
   getIt.registerLazySingleton(
-    () => GetHomeDataUseCase(repository: getIt<TodayPlanRepository>()),
+    () => GetTodayPlanHomeDataUseCase(repository: getIt<TodayPlanRepository>()),
   );
 
-  // Cubit
-  getIt.registerFactory<TodayPlanCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<TodayPlanCubit>(
     () => TodayPlanCubit(
       getTodayPlanUseCase: getIt<GetTodayPlanUseCase>(),
       completeTodayPlanUseCase: getIt<CompleteTodayPlanUseCase>(),
       getPlanHistoryUseCase: getIt<GetPlanHistoryUseCase>(),
-      getHomeDataUseCase: getIt<GetHomeDataUseCase>(),
+      getHomeDataUseCase: getIt<GetTodayPlanHomeDataUseCase>(),
     ),
   );
 }
@@ -363,8 +375,8 @@ void _setupActivityFeature() {
     ),
   );
 
-  // Cubit
-  getIt.registerFactory<ActivityCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<ActivityCubit>(
     () => ActivityCubit(
       getAllActivitiesUseCase: getIt<GetAllActivitiesUseCase>(),
       getActivitiesByTypeUseCase: getIt<GetActivitiesByTypeUseCase>(),
@@ -388,18 +400,42 @@ void _setupHomeFeature() {
   getIt.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(getIt<HomeRemoteDataSource>()),
   );
+  // C-5: MonthlyAssessment repository — clean architecture chain now complete.
+  getIt.registerLazySingleton<MonthlyAssessmentRepository>(
+    () => MonthlyAssessmentRepositoryImpl(apiClient: getIt<ApiClient>()),
+  );
 
   // Use Cases
   getIt.registerLazySingleton(
     () => child_home.GetHomeDataUseCase(getIt<HomeRepository>()),
   );
+  getIt.registerLazySingleton(
+    () => GetMonthlyAssessmentQuestionsUseCase(
+      repository: getIt<MonthlyAssessmentRepository>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => SubmitMonthlyAssessmentUseCase(
+      repository: getIt<MonthlyAssessmentRepository>(),
+    ),
+  );
+  getIt.registerLazySingleton(
+    () => GetMonthlyAssessmentHistoryUseCase(
+      repository: getIt<MonthlyAssessmentRepository>(),
+    ),
+  );
 
-  // Cubit
+  // Cubits
   getIt.registerFactory<HomeCubit>(
     () => HomeCubit(getIt<child_home.GetHomeDataUseCase>()),
   );
+  // C-5: Cubit now receives use cases, not ApiClient directly.
   getIt.registerFactory<MonthlyAssessmentCubit>(
-    () => MonthlyAssessmentCubit(apiClient: getIt<ApiClient>()),
+    () => MonthlyAssessmentCubit(
+      getQuestionsUseCase: getIt<GetMonthlyAssessmentQuestionsUseCase>(),
+      submitAssessmentUseCase: getIt<SubmitMonthlyAssessmentUseCase>(),
+      getHistoryUseCase: getIt<GetMonthlyAssessmentHistoryUseCase>(),
+    ),
   );
 }
 
@@ -449,8 +485,8 @@ void _setupProfileFeature() {
     () => ChangePasswordUseCase(repository: getIt<ProfileRepository>()),
   );
 
-  // Cubit
-  getIt.registerFactory<ProfileCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<ProfileCubit>(
     () => ProfileCubit(
       getUserProfileUseCase: getIt<GetUserProfileUseCase>(),
       updateUserProfileUseCase: getIt<UpdateUserProfileUseCase>(),
@@ -480,17 +516,24 @@ void _setupNotificationFeature() {
     ),
   );
 
-  // Cubit
-  getIt.registerFactory<NotificationCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<NotificationCubit>(
     () => NotificationCubit(repository: getIt<NotificationRepository>()),
   );
 }
 
 // ==================== PROGRESS Feature ====================
 void _setupProgressFeature() {
+  // Data Sources
+  // C-6 Proper Fix: Uses the existing ProgressRemoteDataSource (Retrofit client)
+  // instead of the intermediate shim. Requires Dio from the container.
+  getIt.registerLazySingleton<ProgressRemoteDataSource>(
+    () => ProgressRemoteDataSource(getIt<Dio>()),
+  );
+
   // Repositories
   getIt.registerLazySingleton<ProgressRepository>(
-    () => ProgressRepositoryImpl(getIt<ApiClient>()),
+    () => ProgressRepositoryImpl(remoteDataSource: getIt<ProgressRemoteDataSource>()),
   );
 
   // Use Cases
@@ -498,8 +541,8 @@ void _setupProgressFeature() {
     () => GetChildProgressUseCase(getIt<ProgressRepository>()),
   );
 
-  // Cubit
-  getIt.registerFactory<ProgressCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<ProgressCubit>(
     () => ProgressCubit(
       getChildProgressUseCase: getIt<GetChildProgressUseCase>(),
     ),
@@ -518,8 +561,8 @@ void _setupChatFeature() {
     () => ChatRepositoryImpl(remoteDataSource: getIt<ChatRemoteDataSource>()),
   );
 
-  // Cubit
-  getIt.registerFactory<ChatCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<ChatCubit>(
     () => ChatCubit(repository: getIt<ChatRepository>()),
   );
 }
@@ -576,15 +619,16 @@ void _setupTestsFeature() {
     () => GetTestHistoryUseCase(repository: getIt<TestsRepository>()),
   );
 
-  // Cubit
-  getIt.registerFactory<TestsCubit>(
+  // M-2: lazySingleton — lives in root MultiBlocProvider.
+  getIt.registerLazySingleton<TestsCubit>(
     () => TestsCubit(
       getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
       submitTestUseCase: getIt<SubmitTestUseCase>(),
       getTestHistoryUseCase: getIt<GetTestHistoryUseCase>(),
     ),
   );
-  getIt.registerFactory<TestCubit>(
+  // M-2: lazySingleton — TestCubit is also in root MultiBlocProvider.
+  getIt.registerLazySingleton<TestCubit>(
     () => TestCubit(
       getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
       submitTestUseCase: getIt<SubmitTestUseCase>(),

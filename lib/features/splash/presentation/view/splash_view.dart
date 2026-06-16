@@ -27,8 +27,8 @@ class _SplashViewState extends State<SplashView> {
 
     if (!mounted) return;
 
-    // Check if user has seen onboarding
-    final prefs = await SharedPreferences.getInstance();
+    // H-2: SharedPreferences resolved via DI — no direct getInstance() call.
+    final prefs = getIt<SharedPreferences>();
     final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
     if (!hasSeenOnboarding) {
@@ -91,21 +91,6 @@ class _SplashViewState extends State<SplashView> {
               children: [
                 Image.asset(AppAssets.logo),
                 const SizedBox(height: 20),
-                // Text(
-                //   AppStrings.appName,
-                //   style: getBoldtStyle(
-                //     color: ColorManager.primaryBlue,
-                //     fontSize: 28,
-                //   ),
-                // ),
-                const SizedBox(height: 10),
-                // Text(
-                //   AppStrings.appSlogan,
-                //   style: getRegularStyle(
-                //     color: ColorManager.sloganColor,
-                //     fontSize: 20,
-                //   ),
-                // ),
               ],
             ),
           ),

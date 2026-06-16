@@ -27,6 +27,10 @@ class ColorManager {
   static const Color lightGray = Color(0xFFE2E5EA);
   static final Color lightGray50 = lightGray.withValues(alpha: 0.50);
   static const Color lightGray2 = Color(0xFFD9DADA);
+  /// Used in auth screens as the horizontal divider between social and email sign-in.
+  static const Color dividerSteel = Color(0xFFCBD2E0);
+  /// Near-black used in auth screen account-prompt text.
+  static const Color nearBlack13 = Color(0xFF131111);
 
   static const Color paleGrayCCD8DB = Color(0xFFCCD8DB);
   static const Color paleGrayDCE3DB = Color(0xFFDCE3DB);

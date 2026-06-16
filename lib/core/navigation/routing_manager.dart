@@ -12,7 +12,7 @@ import '../../features/auth/presentation/views/signup_view.dart';
 import '../../features/auth/presentation/views/reset_password_request_view.dart';
 import '../../features/auth/presentation/views/reset_password_verify_view.dart';
 import '../../features/auth/presentation/views/reset_password_confirm_view.dart';
-import '../../features/auth/presentation/views/reset_passowrd_finished_view.dart';
+import '../../features/auth/presentation/views/reset_password_finished_view.dart';
 import '../../features/auth/presentation/views/success_otp_verify_view.dart';
 // Notification
 import '../../features/notification/presentation/view/notification_view.dart';
@@ -113,7 +113,7 @@ class RoutingManager {
         }
         return _errorRoute(settings);
       case AppRoutes.resetPasswordFinished:
-        return MaterialPageRoute(builder: (_) => const ResetPassowrdFinishedView());
+        return MaterialPageRoute(builder: (_) => const ResetPasswordFinishedView());
       case AppRoutes.successOtpVerify:
         return MaterialPageRoute(builder: (_) => const SuccessOtpVerifyView());
 

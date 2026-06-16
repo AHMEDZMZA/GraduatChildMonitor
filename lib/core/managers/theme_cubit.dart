@@ -6,19 +6,15 @@ class ThemeCubit extends Cubit<ThemeMode> {
   static const String _themeKey = 'theme_mode';
   final SharedPreferences _prefs;
 
-  ThemeCubit(this._prefs) : super(ThemeMode.light) {
-    _loadTheme();
-  }
+  /// M-1 Fix: Initial state is resolved synchronously from SharedPreferences
+  /// so only ONE state is emitted at construction \u2014 no redundant double-emit.
+  ThemeCubit(this._prefs) : super(_resolveInitialTheme(_prefs));
 
-  void _loadTheme() {
-    final savedTheme = _prefs.getString(_themeKey);
-    if (savedTheme == 'dark') {
-      emit(ThemeMode.dark);
-    } else if (savedTheme == 'system') {
-      emit(ThemeMode.system);
-    } else {
-      emit(ThemeMode.light);
-    }
+  static ThemeMode _resolveInitialTheme(SharedPreferences prefs) {
+    final saved = prefs.getString(_themeKey);
+    if (saved == 'dark') return ThemeMode.dark;
+    if (saved == 'system') return ThemeMode.system;
+    return ThemeMode.light;
   }
 
   void toggleTheme() {

@@ -1,28 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:dio/dio.dart';
-import '../../../../core/network/api_client.dart';
+import 'package:child_monitor_app/core/network/api_client.dart';
+import '../../domain/usecases/monthly_assessment_usecases.dart';
 import 'monthly_assessment_state.dart';
 
+/// C-5 Fix: Cubit now depends on use cases (domain layer) instead of ApiClient directly.
+/// Error handling, network calls, and data transformation are in the repository impl.
 class MonthlyAssessmentCubit extends Cubit<MonthlyAssessmentState> {
-  final ApiClient apiClient;
+  final GetMonthlyAssessmentQuestionsUseCase getQuestionsUseCase;
+  final SubmitMonthlyAssessmentUseCase submitAssessmentUseCase;
+  final GetMonthlyAssessmentHistoryUseCase getHistoryUseCase;
 
-  MonthlyAssessmentCubit({required this.apiClient}) : super(MonthlyAssessmentInitial());
+  MonthlyAssessmentCubit({
+    required this.getQuestionsUseCase,
+    required this.submitAssessmentUseCase,
+    required this.getHistoryUseCase,
+  }) : super(MonthlyAssessmentInitial());
 
   Future<void> getQuestions(String disorder) async {
     emit(MonthlyAssessmentQuestionsLoading());
-    try {
-      final response = await apiClient.getMonthlyAssessmentQuestions(disorder);
-      if (response.response.statusCode == 200) {
-        emit(MonthlyAssessmentQuestionsLoaded(response.data));
-      } else {
-        emit(const MonthlyAssessmentQuestionsError('Failed to load questions'));
-      }
-    } on DioException catch (e) {
-      final errorMsg = e.response?.data?['error'] ?? e.response?.data?['message'] ?? 'Error connecting to server';
-      emit(MonthlyAssessmentQuestionsError(errorMsg.toString()));
-    } catch (e) {
-      emit(MonthlyAssessmentQuestionsError(e.toString()));
-    }
+    final result = await getQuestionsUseCase(disorder);
+    result.fold(
+      (failure) => emit(MonthlyAssessmentQuestionsError(failure.message)),
+      (response) => emit(MonthlyAssessmentQuestionsLoaded(response)),
+    );
   }
 
   Future<void> submitAssessment({
@@ -31,40 +31,23 @@ class MonthlyAssessmentCubit extends Cubit<MonthlyAssessmentState> {
     required List<MonthlyAssessmentAnswer> answers,
   }) async {
     emit(MonthlyAssessmentSubmitLoading());
-    try {
-      final request = SubmitMonthlyAssessmentRequest(
-        childId: childId,
-        disorder: disorder,
-        answers: answers,
-      );
-      final response = await apiClient.submitMonthlyAssessment(request);
-      if (response.response.statusCode == 200 || response.response.statusCode == 201) {
-        emit(MonthlyAssessmentSubmitSuccess(response.data));
-      } else {
-        emit(const MonthlyAssessmentSubmitError('Failed to submit assessment'));
-      }
-    } on DioException catch (e) {
-      final errorMsg = e.response?.data?['error'] ?? e.response?.data?['message'] ?? 'Error submitting assessment';
-      emit(MonthlyAssessmentSubmitError(errorMsg.toString()));
-    } catch (e) {
-      emit(MonthlyAssessmentSubmitError(e.toString()));
-    }
+    final result = await submitAssessmentUseCase(
+      childId: childId,
+      disorder: disorder,
+      answers: answers,
+    );
+    result.fold(
+      (failure) => emit(MonthlyAssessmentSubmitError(failure.message)),
+      (response) => emit(MonthlyAssessmentSubmitSuccess(response)),
+    );
   }
 
   Future<void> getHistory(String childId) async {
     emit(MonthlyAssessmentHistoryLoading());
-    try {
-      final response = await apiClient.getMonthlyAssessmentHistory(childId);
-      if (response.response.statusCode == 200) {
-        emit(MonthlyAssessmentHistoryLoaded(response.data));
-      } else {
-        emit(const MonthlyAssessmentHistoryError('Failed to load history'));
-      }
-    } on DioException catch (e) {
-      final errorMsg = e.response?.data?['error'] ?? e.response?.data?['message'] ?? 'Error loading history';
-      emit(MonthlyAssessmentHistoryError(errorMsg.toString()));
-    } catch (e) {
-      emit(MonthlyAssessmentHistoryError(e.toString()));
-    }
+    final result = await getHistoryUseCase(childId);
+    result.fold(
+      (failure) => emit(MonthlyAssessmentHistoryError(failure.message)),
+      (response) => emit(MonthlyAssessmentHistoryLoaded(response)),
+    );
   }
 }

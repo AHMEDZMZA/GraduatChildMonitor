@@ -6,7 +6,7 @@ class TodayPlanCubit extends Cubit<TodayPlanState> {
   final GetTodayPlanUseCase getTodayPlanUseCase;
   final CompleteTodayPlanUseCase completeTodayPlanUseCase;
   final GetPlanHistoryUseCase getPlanHistoryUseCase;
-  final GetHomeDataUseCase getHomeDataUseCase;
+  final GetTodayPlanHomeDataUseCase getHomeDataUseCase;
 
   TodayPlanCubit({
     required this.getTodayPlanUseCase,
