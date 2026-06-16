@@ -39,6 +39,17 @@ abstract class ApiClient {
     @Body() ConfirmPasswordResetRequest request,
   );
 
+  // ==================== SOCIAL AUTH ENDPOINTS ====================
+  @POST('auth/google-login')
+  Future<HttpResponse<AuthResponse>> loginWithGoogle(
+    @Body() GoogleLoginRequest request,
+  );
+
+  @POST('auth/facebook-login')
+  Future<HttpResponse<AuthResponse>> loginWithFacebook(
+    @Body() FacebookLoginRequest request,
+  );
+
   // ==================== ARTICLES ENDPOINTS ====================
   @GET('articles/all')
   Future<HttpResponse<ArticlesResponse>> getAllArticles();
@@ -350,6 +361,23 @@ class ConfirmPasswordResetRequest {
     'newPassword': newPassword,
     'confirmPassword': confirmPassword,
   };
+}
+
+// ==================== SOCIAL AUTH DTOs ====================
+class GoogleLoginRequest {
+  final String idToken;
+
+  GoogleLoginRequest({required this.idToken});
+
+  Map<String, dynamic> toJson() => {'idToken': idToken};
+}
+
+class FacebookLoginRequest {
+  final String accessToken;
+
+  FacebookLoginRequest({required this.accessToken});
+
+  Map<String, dynamic> toJson() => {'accessToken': accessToken};
 }
 
 // ==================== ARTICLES DTOs ====================

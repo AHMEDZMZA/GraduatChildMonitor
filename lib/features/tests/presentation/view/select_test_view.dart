@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
-import '../../../../core/router/app_routes.dart';
+import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../bottom_nav/presentation/views/app_bottom_nav_view.dart';
 import '../../domain/entities/child_entity.dart';

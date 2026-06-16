@@ -85,3 +85,23 @@ class ConfirmPasswordResetUseCase {
     );
   }
 }
+
+class LoginWithGoogleUseCase {
+  final AuthRepository repository;
+
+  LoginWithGoogleUseCase({required this.repository});
+
+  Future<Either<Failure, AuthEntity>> call({required String idToken}) {
+    return repository.loginWithGoogle(idToken: idToken);
+  }
+}
+
+class LoginWithFacebookUseCase {
+  final AuthRepository repository;
+
+  LoginWithFacebookUseCase({required this.repository});
+
+  Future<Either<Failure, AuthEntity>> call({required String accessToken}) {
+    return repository.loginWithFacebook(accessToken: accessToken);
+  }
+}

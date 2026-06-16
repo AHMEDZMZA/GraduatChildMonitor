@@ -10,10 +10,11 @@ abstract class AuthRemoteDataSource {
     required String confirmPassword,
   });
 
-  Future<AuthResponse> login({
-    required String email,
-    required String password,
-  });
+  Future<AuthResponse> login({required String email, required String password});
+
+  Future<AuthResponse> loginWithGoogle({required String idToken});
+
+  Future<AuthResponse> loginWithFacebook({required String accessToken});
 
   Future<void> logout();
 
@@ -76,6 +77,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
+  Future<AuthResponse> loginWithGoogle({required String idToken}) async {
+    try {
+      final response = await apiClient.loginWithGoogle(
+        GoogleLoginRequest(idToken: idToken),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw _handleDioException(e);
+    } catch (e) {
+      throw ServerException(message: 'Google login failed: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<AuthResponse> loginWithFacebook({required String accessToken}) async {
+    try {
+      final response = await apiClient.loginWithFacebook(
+        FacebookLoginRequest(accessToken: accessToken),
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw _handleDioException(e);
+    } catch (e) {
+      throw ServerException(message: 'Facebook login failed: ${e.toString()}');
+    }
+  }
+
+  @override
   Future<void> logout() async {
     try {
       await apiClient.logout();
@@ -95,20 +124,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
-      throw ServerException(message: 'Request password reset failed: ${e.toString()}');
+      throw ServerException(
+        message: 'Request password reset failed: ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<void> verifyOtp(String email, String otp) async {
     try {
-      await apiClient.verifyOtp(
-        VerifyOtpRequest(email: email, otp: otp),
-      );
+      await apiClient.verifyOtp(VerifyOtpRequest(email: email, otp: otp));
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {
-      throw ServerException(message: 'OTP verification failed: ${e.toString()}');
+      throw ServerException(
+        message: 'OTP verification failed: ${e.toString()}',
+      );
     }
   }
 
@@ -145,9 +176,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         final data = e.response?.data;
         final msg = (data is Map ? data['message'] : null) as String?;
         if (e.response?.statusCode == 401) {
-          return UnauthorizedException(
-            message: msg ?? 'Unauthorized',
-          );
+          return UnauthorizedException(message: msg ?? 'Unauthorized');
         }
         return ServerException(
           message: msg ?? 'Server error',

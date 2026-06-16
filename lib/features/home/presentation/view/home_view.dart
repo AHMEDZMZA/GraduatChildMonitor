@@ -65,104 +65,18 @@ class _HomeViewState extends State<HomeView> {
               );
             }
 
-            String userName = 'Mam';
-            String? childId;
-            ChildProfileEntity? selectedChild;
-            if (state is HomeSuccess) {
-              userName = state.homeData.userName;
-              // If childId was passed to getHomeData, use it. Otherwise use first child from list if available.
-              childId =
-                  state.homeData.selectedChildId ??
-                  (state.homeData.children.isNotEmpty
-                      ? state.homeData.children.first.id
-                      : null);
-              if (childId != null && state.homeData.children.isNotEmpty) {
-                selectedChild = state.homeData.children.firstWhere(
-                  (c) => c.id == childId,
-                  orElse: () => state.homeData.children.first,
-                );
-              }
-            }
-
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ListView(
                 children: [
                   const SizedBox(height: 10),
-
-                  /// Header
-                  HomeHeader(
-                    userName: userName,
-                    childId: childId,
-                    onStatisticsTap: () {
-                      if (childId != null) {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.statistics,
-                          arguments: childId,
-                        );
-                      }
-                    },
-                  ),
-
+                  _HomeHeaderSection(),
                   const SizedBox(height: 20),
-
-                  /// Banner
                   const HomeBanner(),
-
                   const SizedBox(height: 24),
-
-                  /// Cards
-                  HomeCard(
-                    title: "Today's Plan for Your Child",
-                    subtitle:
-                        "Simple activities tailored to your child's needs today.",
-                    image: AppAssets.cardHome1,
-                    isSelected: selectedIndex == 0,
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = 0;
-                      });
-                      Navigator.pushNamed(context, AppRoutes.todayPlan);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  HomeCard(
-                    title: 'Parent Articles',
-                    subtitle:
-                        "Easy-to-read articles to help you understand your child's condition and support them effectively",
-                    image: AppAssets.cardHome2,
-                    isSelected: selectedIndex == 1,
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = 1;
-                      });
-                      Navigator.pushNamed(context, AppRoutes.articles);
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-                  HomeCard(
-                    title: 'Track Your Child’s Progress',
-                    subtitle:
-                        "Monitor your child's improvement each month based on your observations",
-                    image: AppAssets.cardHome3,
-                    isSelected: selectedIndex == 2,
-                    onTap: () {
-                      setState(() {
-                        selectedIndex = 2;
-                      });
-                      if (selectedChild != null) {
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutes.progressTracker,
-                          arguments: selectedChild,
-                        );
-                      }
-                    },
-                  ),
-
+                  _CardsSection(selectedIndex: selectedIndex, onCardTap: (index) {
+                    setState(() => selectedIndex = index);
+                  }),
                   const SizedBox(height: 20),
                 ],
               ),
@@ -170,6 +84,107 @@ class _HomeViewState extends State<HomeView> {
           },
         ),
       ),
+    );
+  }
+}
+
+class _HomeHeaderSection extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) => current is HomeSuccess,
+      builder: (context, state) {
+        if (state is! HomeSuccess) return const SizedBox.shrink();
+        final childId = state.homeData.selectedChildId ??
+            (state.homeData.children.isNotEmpty
+                ? state.homeData.children.first.id
+                : null);
+        return HomeHeader(
+          userName: state.homeData.userName,
+          childId: childId,
+          onStatisticsTap: () {
+            if (childId != null) {
+              Navigator.pushNamed(
+                context,
+                AppRoutes.statistics,
+                arguments: childId,
+              );
+            }
+          },
+        );
+      },
+    );
+  }
+}
+
+class _CardsSection extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onCardTap;
+
+  const _CardsSection({required this.selectedIndex, required this.onCardTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) => current is HomeSuccess,
+      builder: (context, state) {
+        ChildProfileEntity? selectedChild;
+        if (state is HomeSuccess) {
+          final childId = state.homeData.selectedChildId ??
+              (state.homeData.children.isNotEmpty
+                  ? state.homeData.children.first.id
+                  : null);
+          if (childId != null && state.homeData.children.isNotEmpty) {
+            selectedChild = state.homeData.children.firstWhere(
+              (c) => c.id == childId,
+              orElse: () => state.homeData.children.first,
+            );
+          }
+        }
+
+        return Column(
+          children: [
+            HomeCard(
+              title: "Today's Plan for Your Child",
+              subtitle: "Simple activities tailored to your child's needs today.",
+              image: AppAssets.cardHome1,
+              isSelected: selectedIndex == 0,
+              onTap: () {
+                onCardTap(0);
+                Navigator.pushNamed(context, AppRoutes.todayPlan);
+              },
+            ),
+            const SizedBox(height: 16),
+            HomeCard(
+              title: 'Parent Articles',
+              subtitle: "Easy-to-read articles to help you understand your child's condition and support them effectively",
+              image: AppAssets.cardHome2,
+              isSelected: selectedIndex == 1,
+              onTap: () {
+                onCardTap(1);
+                Navigator.pushNamed(context, AppRoutes.articles);
+              },
+            ),
+            const SizedBox(height: 16),
+            HomeCard(
+              title: 'Track Your Child’s Progress',
+              subtitle: "Monitor your child's improvement each month based on your observations",
+              image: AppAssets.cardHome3,
+              isSelected: selectedIndex == 2,
+              onTap: () {
+                onCardTap(2);
+                if (selectedChild != null) {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.progressTracker,
+                    arguments: selectedChild,
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:child_monitor_app/core/network/api_client.dart';
 import 'package:child_monitor_app/core/network/token_storage.dart';
@@ -148,6 +150,10 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   final apiClient = ApiClient(dio);
   getIt.registerSingleton<ApiClient>(apiClient);
 
+  // ==================== Social Auth ====================
+  getIt.registerSingleton<GoogleSignIn>(GoogleSignIn());
+  getIt.registerSingleton<FacebookAuth>(FacebookAuth.instance);
+
   // ==================== Features ====================
   _setupAuthFeature();
   _setupArticlesFeature();
@@ -198,6 +204,12 @@ void _setupAuthFeature() {
   getIt.registerLazySingleton(
     () => ConfirmPasswordResetUseCase(repository: getIt<AuthRepository>()),
   );
+  getIt.registerLazySingleton(
+    () => LoginWithGoogleUseCase(repository: getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => LoginWithFacebookUseCase(repository: getIt<AuthRepository>()),
+  );
 
   // Cubit (factory so each screen gets a fresh instance)
   getIt.registerFactory<AuthCubit>(
@@ -208,6 +220,11 @@ void _setupAuthFeature() {
       requestPasswordResetUseCase: getIt<RequestPasswordResetUseCase>(),
       verifyOtpUseCase: getIt<VerifyOtpUseCase>(),
       confirmPasswordResetUseCase: getIt<ConfirmPasswordResetUseCase>(),
+      loginWithGoogleUseCase: getIt<LoginWithGoogleUseCase>(),
+      loginWithFacebookUseCase: getIt<LoginWithFacebookUseCase>(),
+      googleSignIn: getIt<GoogleSignIn>(),
+      facebookAuth: getIt<FacebookAuth>(),
+      tokenStorage: getIt<TokenStorage>(),
     ),
   );
 }

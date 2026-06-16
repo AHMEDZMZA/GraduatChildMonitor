@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -43,8 +44,14 @@ class _OnboardingContentState extends State<_OnboardingContent> {
     ),
   ];
 
-  void _goToLogin(BuildContext context) {
-    Navigator.pushReplacementNamed(context, AppRoutes.login);
+  void _goToLogin(BuildContext context) async {
+    // Save onboarding flag
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasSeenOnboarding', true);
+    
+    if (context.mounted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    }
   }
 
   @override

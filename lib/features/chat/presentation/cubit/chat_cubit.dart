@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:child_monitor_app/features/chat/domain/repositories/chat_repository.dart';
+import 'package:child_monitor_app/features/chat/domain/entities/chat_message.dart';
 import 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
@@ -20,9 +21,18 @@ class ChatCubit extends Cubit<ChatState> {
         emit(ChatError(failure.message));
       },
       (chatMessage) {
-        emit(ChatMessageSent(chatMessage));
-        // Fetch updated history
-        getChatHistory(conversationId: chatMessage.conversationId);
+        final currentState = state;
+        if (currentState is ChatSuccess) {
+          // Append new messages to the existing list to avoid redundant loading state
+          final updatedMessages = List<ChatMessage>.from(currentState.messages)
+            ..add(chatMessage);
+          emit(ChatSuccess(
+            messages: updatedMessages,
+            conversationId: chatMessage.conversationId ?? currentState.conversationId,
+          ));
+        } else {
+          emit(ChatMessageSent(chatMessage));
+        }
       },
     );
   }

@@ -15,6 +15,14 @@ abstract class AuthRepository {
     required String password,
   });
 
+  Future<Either<Failure, AuthEntity>> loginWithGoogle({
+    required String idToken,
+  });
+
+  Future<Either<Failure, AuthEntity>> loginWithFacebook({
+    required String accessToken,
+  });
+
   Future<Either<Failure, void>> logout();
 
   Future<Either<Failure, void>> requestPasswordReset(String email);

@@ -141,8 +141,9 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                           onTap: state is ProfileLoading
                               ? () {}
                               : () {
-                                  if (!_formKey.currentState!.validate())
+                                  if (!_formKey.currentState!.validate()) {
                                     return;
+                                  }
                                   if (newPasswordController.text !=
                                       confirmPasswordController.text) {
                                     ScaffoldMessenger.of(context).showSnackBar(

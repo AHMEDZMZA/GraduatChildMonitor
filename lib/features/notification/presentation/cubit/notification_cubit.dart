@@ -70,11 +70,10 @@ class NotificationCubit extends Cubit<NotificationState> {
       final result = await repository.deleteNotification(index);
       result.fold(
         (failure) {
-          // Revert on failure
+          // Revert on failure — keep list intact, don't emit error state (which loses the list)
           final revertedList = List<NotificationEntity>.from(updatedList);
           revertedList.insert(index, removedItem);
           emit(NotificationLoaded(revertedList));
-          emit(NotificationError(failure.message));
         },
         (_) => null, // Keep the updated list
       );

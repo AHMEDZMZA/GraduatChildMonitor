@@ -86,6 +86,66 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthEntity>> loginWithGoogle({
+    required String idToken,
+  }) async {
+    try {
+      final response = await remoteDataSource.loginWithGoogle(idToken: idToken);
+
+      // Save token and email
+      await tokenStorage.saveToken(response.token);
+      await tokenStorage.saveEmail(response.email);
+
+      return Right(
+        AuthEntity(
+          message: response.message,
+          email: response.email,
+          token: response.token,
+        ),
+      );
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on UnauthorizedException catch (e) {
+      return Left(UnauthorizedFailure(e.message));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthEntity>> loginWithFacebook({
+    required String accessToken,
+  }) async {
+    try {
+      final response = await remoteDataSource.loginWithFacebook(
+        accessToken: accessToken,
+      );
+
+      // Save token and email
+      await tokenStorage.saveToken(response.token);
+      await tokenStorage.saveEmail(response.email);
+
+      return Right(
+        AuthEntity(
+          message: response.message,
+          email: response.email,
+          token: response.token,
+        ),
+      );
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on UnauthorizedException catch (e) {
+      return Left(UnauthorizedFailure(e.message));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> logout() async {
     try {
       await remoteDataSource.logout();

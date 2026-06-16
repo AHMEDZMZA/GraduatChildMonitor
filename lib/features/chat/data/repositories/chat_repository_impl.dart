@@ -3,7 +3,7 @@ import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
 import 'package:child_monitor_app/features/chat/data/datasources/chat_remote_data_source.dart';
 import 'package:child_monitor_app/features/chat/domain/repositories/chat_repository.dart';
-import 'package:child_monitor_app/features/chat/model/chat_message_model.dart';
+import 'package:child_monitor_app/features/chat/domain/entities/chat_message.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource remoteDataSource;

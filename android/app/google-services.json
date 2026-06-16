@@ -1,0 +1,14 @@
+{
+  "type": "service_account",
+  "_comment": "PLACEHOLDER - REPLACE WITH YOUR ACTUAL google-services.json",
+  "note": "This file is required for Google Sign-In to work on Android. Follow these steps to generate it:",
+  "steps": [
+    "1. Go to https://console.firebase.google.com/",
+    "2. Create a new Firebase project or select existing one",
+    "3. Add Android app to the project",
+    "4. Download the google-services.json file",
+    "5. Place it in android/app/ directory",
+    "6. Make sure to register your app's SHA-1 and SHA-256 fingerprints in Firebase Console"
+  ],
+  "get_sha_fingerprints": "Run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android"
+}

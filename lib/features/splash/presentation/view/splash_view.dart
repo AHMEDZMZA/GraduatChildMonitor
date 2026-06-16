@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/widgets/glow_blur_circle.dart';
 import '../../../../core/navigation/app_routes.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../../core/network/token_storage.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -19,12 +22,35 @@ class _SplashViewState extends State<SplashView> {
     _navigateAfterDelay();
   }
 
-  void _navigateAfterDelay() {
-    Timer(const Duration(seconds: 2), () {
+  Future<void> _navigateAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    // Check if user has seen onboarding
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+
+    if (!hasSeenOnboarding) {
+      // Show onboarding
       if (mounted) {
         Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
       }
-    });
+    } else {
+      // Onboarding was seen, check for token
+      final tokenStorage = getIt<TokenStorage>();
+      final hasToken = await tokenStorage.isTokenAvailable();
+
+      if (!mounted) return;
+
+      if (hasToken) {
+        // Token exists, navigate to main app
+        Navigator.pushReplacementNamed(context, AppRoutes.mainNav);
+      } else {
+        // No token, navigate to login
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      }
+    }
   }
 
   @override
