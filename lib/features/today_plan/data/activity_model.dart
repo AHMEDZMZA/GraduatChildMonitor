@@ -13,6 +13,7 @@ class ActivityStepModel {
 }
 
 class ActivityModel {
+  final String id;
   final String title;
   final String shortDescription;
   final String image;
@@ -24,6 +25,7 @@ class ActivityModel {
   final bool highlighted;
 
   const ActivityModel({
+    required this.id,
     required this.title,
     required this.shortDescription,
     required this.image,
@@ -36,6 +38,7 @@ class ActivityModel {
   });
 
   ActivityModel copyWith({
+    String? id,
     String? title,
     String? shortDescription,
     String? image,
@@ -47,6 +50,7 @@ class ActivityModel {
     bool? highlighted,
   }) {
     return ActivityModel(
+      id: id ?? this.id,
       title: title ?? this.title,
       shortDescription: shortDescription ?? this.shortDescription,
       image: image ?? this.image,

@@ -58,7 +58,7 @@ class AddChildUseCase {
 
   AddChildUseCase({required this.repository});
 
-  Future<Either<Failure, void>> call({
+  Future<Either<Failure, int>> call({
     required String name,
     required String birthDate,
     required String gender,

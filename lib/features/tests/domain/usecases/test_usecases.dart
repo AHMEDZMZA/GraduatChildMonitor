@@ -23,8 +23,8 @@ class SubmitTestUseCase {
     String testType,
     int age,
     String sex,
-    String jaundice,
-    String familyAsd,
+    String? jaundice,
+    String? familyAsd,
     List<Map<String, dynamic>> answers,
   ) async {
     return await repository.submitTest(

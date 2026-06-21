@@ -91,13 +91,14 @@ class RoutingManager {
       case AppRoutes.signup:
         return MaterialPageRoute(builder: (_) => const SignupView());
       case AppRoutes.resetPasswordRequest:
-        return MaterialPageRoute(builder: (_) => const ResetPasswordRequestView());
+        return MaterialPageRoute(
+          builder: (_) => const ResetPasswordRequestView(),
+        );
       case AppRoutes.resetPasswordVerify:
         if (settings.arguments is String) {
           return MaterialPageRoute(
-            builder: (_) => ResetPasswordVerifyView(
-              email: settings.arguments as String,
-            ),
+            builder: (_) =>
+                ResetPasswordVerifyView(email: settings.arguments as String),
           );
         }
         return _errorRoute(settings);
@@ -113,7 +114,9 @@ class RoutingManager {
         }
         return _errorRoute(settings);
       case AppRoutes.resetPasswordFinished:
-        return MaterialPageRoute(builder: (_) => const ResetPasswordFinishedView());
+        return MaterialPageRoute(
+          builder: (_) => const ResetPasswordFinishedView(),
+        );
       case AppRoutes.successOtpVerify:
         return MaterialPageRoute(builder: (_) => const SuccessOtpVerifyView());
 
@@ -141,16 +144,17 @@ class RoutingManager {
         // Optional parameter for editing an existing child
         if (settings.arguments == null || settings.arguments is String) {
           return MaterialPageRoute(
-            builder: (_) => EditChildProfileView(
-              childId: settings.arguments as String?,
-            ),
+            builder: (_) =>
+                EditChildProfileView(childId: settings.arguments as String?),
           );
         }
         return _errorRoute(settings);
       case AppRoutes.editProfile:
         return MaterialPageRoute(builder: (_) => const EditProfileView());
       case AppRoutes.notificationSettings:
-        return MaterialPageRoute(builder: (_) => const NotificationSettingView());
+        return MaterialPageRoute(
+          builder: (_) => const NotificationSettingView(),
+        );
       case AppRoutes.passwordManager:
         return MaterialPageRoute(builder: (_) => const PasswordManagerView());
       case AppRoutes.settings:
@@ -189,15 +193,30 @@ class RoutingManager {
         }
         return _errorRoute(settings);
       case AppRoutes.interactiveQuizToday:
-        return MaterialPageRoute(builder: (_) => const InteractiveQuizTodayView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const InteractiveQuizTodayView(),
+        );
       case AppRoutes.parentChildActivities:
-        return MaterialPageRoute(builder: (_) => const ParentChildActivitiesView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const ParentChildActivitiesView(),
+        );
       case AppRoutes.physicalActivities:
-        return MaterialPageRoute(builder: (_) => const PhysicalActivitiesView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const PhysicalActivitiesView(),
+        );
       case AppRoutes.resultQuiz:
-        return MaterialPageRoute(builder: (_) => const ResultQuizView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const ResultQuizView(),
+        );
       case AppRoutes.testQuiz:
-        return MaterialPageRoute(builder: (_) => const TestQuizView());
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (_) => const TestQuizView(),
+        );
 
       // Progress Tracker
       case AppRoutes.progressTracker:
@@ -250,31 +269,28 @@ class RoutingManager {
       case AppRoutes.statistics:
         if (settings.arguments is String) {
           return MaterialPageRoute(
-            builder: (_) => StatisticsView(
-              childId: settings.arguments as String,
-            ),
+            builder: (_) =>
+                StatisticsView(childId: settings.arguments as String),
           );
         }
         return _errorRoute(settings);
 
       // Tests
-      case AppRoutes.addChildData:
-        return MaterialPageRoute(builder: (_) => const AddChildDataView());
+      case AppRoutes.addChildProfile:
+        return MaterialPageRoute(builder: (_) => const AddChildProfileView());
       case AppRoutes.selectTest:
         if (settings.arguments is ChildEntity) {
           return MaterialPageRoute(
-            builder: (_) => SelectTestView(
-              child: settings.arguments as ChildEntity,
-            ),
+            builder: (_) =>
+                SelectTestView(child: settings.arguments as ChildEntity),
           );
         }
         return _errorRoute(settings);
       case AppRoutes.knownCondition:
         if (settings.arguments is ChildEntity) {
           return MaterialPageRoute(
-            builder: (_) => KnownConditionView(
-              child: settings.arguments as ChildEntity,
-            ),
+            builder: (_) =>
+                KnownConditionView(child: settings.arguments as ChildEntity),
           );
         }
         return _errorRoute(settings);
@@ -321,7 +337,9 @@ class RoutingManager {
             ),
           );
         }
-        return MaterialPageRoute(builder: (_) => const SingleNotificationScreen());
+        return MaterialPageRoute(
+          builder: (_) => const SingleNotificationScreen(),
+        );
 
       default:
         return _errorRoute(settings);
@@ -332,7 +350,9 @@ class RoutingManager {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         body: Center(
-          child: Text('No route defined for ${settings.name} or invalid arguments'),
+          child: Text(
+            'No route defined for ${settings.name} or invalid arguments',
+          ),
         ),
       ),
     );

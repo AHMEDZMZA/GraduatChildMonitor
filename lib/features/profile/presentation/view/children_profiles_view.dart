@@ -2,6 +2,9 @@ import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cu
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../home/presentation/cubit/home_cubit.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/widgets/app_bottom_sheet.dart';
@@ -133,6 +136,13 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                             final child = state.children[index];
                             return ChildProfileItem(
                               name: child.name,
+                              onEdit: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.editChildProfile,
+                                  arguments: child.id,
+                                );
+                              },
                               onTap: () {
                                 showModalBottomSheet(
                                   context: context,
@@ -142,15 +152,33 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                                     return AppBottomSheet(
                                       title: 'Switch Child Profile',
                                       description:
-                                          'Are you sure you want to switch Child Profile?',
+                                          'Are you sure you want to switch to ${child.name}\'s profile?',
                                       confirmText: 'Yes, Switch',
                                       onConfirm: () {
                                         Navigator.pop(context);
-                                        Navigator.pushNamed(
-                                          context,
-                                          AppRoutes.editChildProfile,
-                                          arguments: child.id,
+                                        // Save to local storage
+                                        getIt<SharedPreferences>().setString(
+                                          'childId',
+                                          child.id.toString(),
                                         );
+                                        // Refresh home data
+                                        context.read<HomeCubit>().getHomeData(
+                                          childId: child.id.toString(),
+                                        );
+                                        // Feedback SnackBar
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Switched active profile to ${child.name}.',
+                                            ),
+                                            backgroundColor:
+                                                ColorManager.brightTeal,
+                                          ),
+                                        );
+                                        // Return to the main screen
+                                        Navigator.pop(context);
                                       },
                                     );
                                   },
@@ -169,7 +197,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                 CustomButton(
                   text: 'Add Child Profile',
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.editChildProfile);
+                    Navigator.pushNamed(context, AppRoutes.addChildProfile);
                   },
                 ),
 

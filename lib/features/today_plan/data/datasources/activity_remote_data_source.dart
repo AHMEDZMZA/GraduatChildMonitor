@@ -53,7 +53,10 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
   @override
   Future<ActivitiesResponse> getActivitiesForChild(String childId) async {
     try {
-      final response = await apiClient.getActivitiesForChild(childId);
+      final childIdInt = int.tryParse(childId) ?? childId;
+      final response = await apiClient.getActivitiesForChild({
+        'childId': childIdInt,
+      });
       return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -84,7 +87,12 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
     String activityId,
   ) async {
     try {
-      final response = await apiClient.completeActivity(childId, activityId);
+      final childIdInt = int.tryParse(childId) ?? childId;
+      final activityIdInt = int.tryParse(activityId) ?? activityId;
+      final response = await apiClient.completeActivity({
+        'childId': childIdInt,
+        'activityId': activityIdInt,
+      });
       return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -98,7 +106,10 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
   @override
   Future<ActivityStatsResponse> getActivityStats(String childId) async {
     try {
-      final response = await apiClient.getActivityStats(childId);
+      final childIdInt = int.tryParse(childId) ?? childId;
+      final response = await apiClient.getActivityStats({
+        'childId': childIdInt,
+      });
       return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);
@@ -114,7 +125,10 @@ class ActivityRemoteDataSourceImpl implements ActivityRemoteDataSource {
     String childId,
   ) async {
     try {
-      final response = await apiClient.getRecommendedActivities(childId);
+      final childIdInt = int.tryParse(childId) ?? childId;
+      final response = await apiClient.getRecommendedActivities({
+        'childId': childIdInt,
+      });
       return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);

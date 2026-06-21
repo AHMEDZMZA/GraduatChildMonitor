@@ -10,12 +10,12 @@ abstract class ProgressRemoteDataSource {
   factory ProgressRemoteDataSource(Dio dio, {String baseUrl}) =
       _ProgressRemoteDataSource;
 
-  @GET('/home/progress')
-  Future<ProgressSummaryModel> getProgressSummary();
+  @GET('home/progress')
+  Future<ProgressSummaryModel> getProgressSummary(@Query('childId') String childId);
 
-  @GET('/monthly-assessment/trend/{childId}')
+  @GET('monthly-assessment/trend/{childId}')
   Future<TrendModel> getTrend(@Path('childId') String childId);
 
-  @GET('/activities/stats/{childId}')
+  @GET('activities/stats/{childId}')
   Future<ActivityStatsModel> getActivityStats(@Path('childId') String childId);
 }

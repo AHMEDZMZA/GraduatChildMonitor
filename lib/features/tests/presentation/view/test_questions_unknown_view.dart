@@ -242,6 +242,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                         final key = '${currentTestIndex}_$qId';
 
                         return Column(
+                          key: ValueKey(key),
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(

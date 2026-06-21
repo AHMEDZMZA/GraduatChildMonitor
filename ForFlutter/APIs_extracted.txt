@@ -1,0 +1,294 @@
+#
+Method
+Endpoint
+Request Body / Params
+Response
+Description
+1
+POST
+/api/auth/signup
+{"monitorName":"string","email":"string","password":"string","confirmPassword":"string"}
+{"message":"User registered successfully","email":"string","token":"JWT"}
+Register new user account
+2
+POST
+/api/auth/login
+{"email":"string","password":"string"}
+{"message":"Login successful","email":"string","token":"JWT"}
+Authenticate user & get JWT
+3
+POST
+/api/auth/reset-password/request
+{"email":"string"}
+{"message":"OTP sent to your email"}
+Send OTP for password reset
+4
+POST
+/api/auth/reset-password/verify
+{"email":"string","otp":"string"}
+{"message":"OTP verified"}
+Verify OTP code
+5
+POST
+/api/auth/reset-password/confirm
+{"email":"string","otp":"string","newPassword":"string","confirmPassword":"string"}
+{"message":"Password reset successful"}
+Reset password after OTP
+6
+POST
+/api/auth/logout
+None
+{"message":"Logged out"}
+Invalidate JWT token
+7
+POST
+/api/children/add
+{"name":"string","birthDate":"YYYY-MM-DD","gender":"MALE/FEMALE","knowsCondition":true/false,"diagnosedCondition":"string"}
+{"message":"Child added successfully","child_id":1,"child_name":"string"}
+Add new child profile
+8
+GET
+/api/children/my-children
+None
+[{Child object}]
+Get all children for user
+9
+GET
+/api/children/{childId}
+Path: childId
+{Child object}
+Get specific child details
+10
+PUT
+/api/children/{childId}
+Path: childId, Body: Same as add child
+{"message":"Child updated successfully","child_id":1}
+Update child profile
+11
+DELETE
+/api/children/{childId}
+Path: childId
+{"message":"Child deleted successfully"}
+Delete child profile
+12
+GET
+/api/children/profile
+None
+{"monitor_name":"string","email":"string","user_id":1}
+Get user profile
+13
+PUT
+/api/children/update-profile
+{"monitorName":"string","email":"string"}
+{"message":"Profile updated successfully"}
+Update user profile
+14
+DELETE
+/api/children/delete-account
+None
+{"message":"Account deleted successfully"}
+Permanently delete account
+15
+POST
+/api/monthly-assessment/submit
+Query: childId, Body: {"q1_focus":1,"q2_social":2,"q3_communication":1,"q4_behavior":2,"q5_learning":1} (1=Better,2=Same,3=Worse)
+{"message":"Assessment submitted successfully","assessment_id":1,"result":"text"}
+Submit monthly assessment
+16
+GET
+/api/monthly-assessment/child/{childId}
+Path: childId
+{"child_id":1,"assessments":[...],"total":4}
+Get all child assessments
+17
+GET
+/api/monthly-assessment/trend/{childId}
+Path: childId
+{"assessments":[...],"trend":"improving/declining/stable","improvement":5}
+Get improvement trend
+18
+GET
+/api/monthly-assessment/{assessmentId}
+Path: assessmentId
+{MonthlyAssessment object}
+Get single assessment
+19
+GET
+/api/articles/all
+None
+{"articles":[...]}
+Get all published articles
+20
+GET
+/api/articles/{articleId}
+Path: articleId
+{Article object}
+Get specific article
+21
+GET
+/api/articles/category/{category}
+Path: category (parenting/communication/routines)
+{"articles":[...],"category":"parenting"}
+Get articles by category
+22
+POST
+/api/articles/favorite/add
+Query: articleId
+{"message":"Article added to favorites"}
+Add article to favorites
+23
+DELETE
+/api/articles/favorite/remove
+Query: articleId
+{"message":"Article removed from favorites"}
+Remove from favorites
+24
+GET
+/api/articles/favorites
+None
+{"favorites":[...]}
+Get user's favorite articles
+25
+GET
+/api/articles/favorite/check
+Query: articleId
+{"is_favorite":true/false}
+Check if article is favorite
+26
+GET
+/api/activities/all
+None
+{"activities":[...]}
+Get all activities
+27
+GET
+/api/activities/type/{type}
+Path: type (PHYSICAL/PARENT_CHILD)
+{"activities":[...],"type":"PHYSICAL"}
+Get activities by type
+28
+GET
+/api/activities/for-child/{childId}
+Path: childId
+{"activities":[...],"child_id":1}
+Get age-appropriate activities
+29
+GET
+/api/activities/{activityId}
+Path: activityId
+{Activity object}
+Get specific activity
+30
+POST
+/api/activities/complete
+Query: childId, activityId
+{"message":"Activity completed successfully","completed_count":3}
+Mark activity as completed
+31
+GET
+/api/activities/stats/{childId}
+Path: childId
+{"completed_count":5,"total_activities":10,"completion_percentage":50.0,"progress":[...]}
+Get child activity statistics
+32
+GET
+/api/activities/recommended/{childId}
+Path: childId
+{"recommended_activities":[...]}
+Get personalized recommendations
+33
+POST
+/api/chatbot/send
+{"message":"string","conversation_id":"optional-uuid"}
+{"user_message":{...},"bot_response":{...},"conversation_id":"uuid"}
+Send message to AI chatbot
+34
+GET
+/api/chatbot/history
+Query: conversationId (optional)
+{"messages":[...]}
+Get conversation history
+35
+GET
+/api/quiz/questions
+None
+{"title":"Interactive Quiz","total_questions":3,"questions":[{"id":1,"question":"text","type":"yes_no"}]}
+Get quiz questions
+36
+POST
+/api/quiz/submit
+Query: childId, Body: {"q1_focus":true/false,"q2_follow_instructions":true/false,"q3_complete_tasks":true/false}
+{"message":"Quiz submitted successfully","score":2,"feedback":"text","result_id":1}
+Submit quiz answers
+37
+GET
+/api/quiz/history/{childId}
+Path: childId
+{"child_id":1,"history":[...],"total_attempts":3}
+Get quiz attempt history
+38
+GET
+/api/home/data
+Query: childId (optional)
+{"user_name":"string","greeting":"Hello!","children":[...],"today_plan":{...},"today_activities":[...],"progress_stats":{...},"articles":[...]}
+Get all home page data
+39
+GET
+/api/home/today-plan
+Query: childId
+{"plan":{...},"activities":[...]}
+Get today's personalized plan
+40
+POST
+/api/home/plan/complete
+Query: childId, date (YYYY-MM-DD)
+{"message":"Plan marked as completed","plan_id":1,"completed":true}
+Mark daily plan completed
+41
+GET
+/api/home/plan-history
+Query: childId
+[{DailyPlan objects}]
+Get all daily plans
+42
+GET
+/api/home/progress
+Query: childId
+{"assessment_improvement":3,"trend":"improving","completed_activities":5,"progress_summary":"text"}
+Get detailed progress
+43
+POST
+/api/password/change
+{"currentPassword":"string","newPassword":"string","confirmNewPassword":"string"}
+{"message":"Password changed successfully"}
+Change user password
+44
+POST
+/api/password/forgot
+{"email":"string"}
+{"message":"Password reset link sent","reset_token":"JWT"}
+Request password reset
+45
+POST
+/api/password/reset
+{"resetToken":"string","newPassword":"string","confirmPassword":"string"}
+{"message":"Password reset successfully"}
+Reset password with token
+46
+GET
+/api/settings
+None
+{"user_id":1,"email":"string","monitor_name":"string","available_settings":{...}}
+Get user settings
+48
+POST
+/api/tests/submit
+{"childId":1,"testType":"adhd/autism/dyslexia","age":5,"sex":"m/f","jaundice":"yes/no","familyAsd":"yes/no","answers":[{"q_id":1,"answer":"yes/no/sometimes"}]}
+{"test_id":1,"test_type":"adhd","result":"text","risk_score":0.85,"child_id":1}
+Submit psychological test
+49
+GET
+/api/tests/questions/{testType}
+Path: testType (autism/adhd/dyslexia)
+{"test_type":"adhd","total_questions":13,"instructions":"text","questions":[...]}
+Get test questions

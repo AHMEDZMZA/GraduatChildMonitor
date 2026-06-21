@@ -44,8 +44,8 @@ class TestsRepositoryImpl implements TestsRepository {
     String testType,
     int age,
     String sex,
-    String jaundice,
-    String familyAsd,
+    String? jaundice,
+    String? familyAsd,
     List<Map<String, dynamic>> answers,
   ) async {
     try {
@@ -73,6 +73,7 @@ class TestsRepositoryImpl implements TestsRepository {
           result: response.result,
           riskScore: response.riskScore,
           childId: response.childId,
+          childName: response.childName,
         ),
       );
     } on ServerException catch (e) {

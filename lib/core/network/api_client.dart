@@ -129,9 +129,7 @@ abstract class ApiClient {
   Future<HttpResponse<List<Child>>> getMyChildren();
 
   @GET('children/{childId}')
-  Future<HttpResponse<Child>> getChildDetail(
-    @Path('childId') String childId,
-  );
+  Future<HttpResponse<Child>> getChildDetail(@Path('childId') String childId);
 
   @POST('children/add')
   Future<HttpResponse<AddChildResponse>> addChild(
@@ -166,9 +164,9 @@ abstract class ApiClient {
     @Path('type') String type,
   );
 
-  @GET('activities/for-child/{childId}')
+  @POST('activities/for-child')
   Future<HttpResponse<ActivitiesResponse>> getActivitiesForChild(
-    @Path('childId') String childId,
+    @Body() Map<String, dynamic> body,
   );
 
   @GET('activities/{activityId}')
@@ -178,18 +176,17 @@ abstract class ApiClient {
 
   @POST('activities/complete')
   Future<HttpResponse<ActivityCompletionResponse>> completeActivity(
-    @Query('childId') String childId,
-    @Query('activityId') String activityId,
+    @Body() Map<String, dynamic> body,
   );
 
-  @GET('activities/stats/{childId}')
+  @POST('activities/stats')
   Future<HttpResponse<ActivityStatsResponse>> getActivityStats(
-    @Path('childId') String childId,
+    @Body() Map<String, dynamic> body,
   );
 
-  @GET('activities/recommended/{childId}')
+  @POST('activities/recommended')
   Future<HttpResponse<RecommendedActivitiesResponse>> getRecommendedActivities(
-    @Path('childId') String childId,
+    @Body() Map<String, dynamic> body,
   );
 
   // ==================== CHATBOT ENDPOINTS ====================
@@ -441,8 +438,6 @@ class Article {
   }
 }
 
-
-
 class FavoritesResponse {
   final List<Article> favorites;
 
@@ -633,8 +628,6 @@ class UpdateProfileRequest {
   Map<String, dynamic> toJson() => {'monitorName': monitorName, 'email': email};
 }
 
-
-
 class Child {
   final String id;
   final String name;
@@ -665,8 +658,6 @@ class Child {
     );
   }
 }
-
-
 
 class AddChildRequest {
   final String name;
@@ -830,9 +821,9 @@ class ActivityItem {
 
     return ActivityItem(
       id: json['id']?.toString() ?? '',
-      title: json['title'] ?? '',
+      title: json['title'] ?? json['name'] ?? '',
       description: json['description'],
-      type: json['type'] ?? '',
+      type: json['type'] ?? json['activityType'] ?? '',
       image: json['image'],
       duration: json['duration'],
       durationMinutes: json['durationMinutes'],
@@ -869,16 +860,29 @@ class ActivityDetailResponse {
   });
 
   factory ActivityDetailResponse.fromJson(Map<String, dynamic> json) {
+    final activityJson = json['activity'] ?? json;
+    final stepsJson = activityJson['steps'];
+    List<String> steps = [];
+    if (stepsJson is String) {
+      try {
+        steps = List<String>.from(jsonDecode(stepsJson) as List);
+      } catch (e) {
+        steps = [];
+      }
+    } else if (stepsJson is List) {
+      steps = List<String>.from(stepsJson);
+    }
+
     return ActivityDetailResponse(
-      id: json['id']?.toString() ?? '',
-      title: json['title'] ?? '',
-      description: json['description'],
-      type: json['type'] ?? '',
-      image: json['image'],
-      duration: json['duration'],
-      instructions: json['instructions'],
-      materials: (json['materials'] is List
-          ? (json['materials'] as List).cast<String>()
+      id: activityJson['id']?.toString() ?? '',
+      title: activityJson['title'] ?? activityJson['name'] ?? '',
+      description: activityJson['description'],
+      type: activityJson['type'] ?? activityJson['activityType'] ?? '',
+      image: activityJson['image'],
+      duration: activityJson['duration'] ?? activityJson['durationMinutes'],
+      instructions: activityJson['instructions'] ?? (steps.isNotEmpty ? steps.join("\n") : null),
+      materials: (activityJson['materials'] is List
+          ? (activityJson['materials'] as List).cast<String>()
           : null),
     );
   }
@@ -915,12 +919,13 @@ class ActivityStatsResponse {
   });
 
   factory ActivityStatsResponse.fromJson(Map<String, dynamic> json) {
+    final statsJson = json['stats'] ?? json;
     return ActivityStatsResponse(
-      completedCount: json['completed_count'] ?? 0,
-      totalActivities: json['total_activities'] ?? 0,
-      completionPercentage: (json['completion_percentage'] ?? 0).toDouble(),
+      completedCount: statsJson['completed_count'] ?? statsJson['completedCount'] ?? 0,
+      totalActivities: statsJson['total_activities'] ?? statsJson['totalActivities'] ?? 0,
+      completionPercentage: (statsJson['completion_percentage'] ?? statsJson['completionPercentage'] ?? 0).toDouble(),
       progress:
-          (json['progress'] as List?)
+          (statsJson['progress'] as List?)
               ?.map((e) => ProgressItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -940,10 +945,13 @@ class ProgressItem {
   });
 
   factory ProgressItem.fromJson(Map<String, dynamic> json) {
+    final dateVal = json['date'] ?? json['completedDate'] ?? '';
+    final completedVal = json['completed'] ?? (json['isCompleted'] == true ? 1 : 0);
+    final totalVal = json['total'] ?? 1;
     return ProgressItem(
-      date: json['date'] ?? '',
-      completed: json['completed'] ?? 0,
-      total: json['total'] ?? 0,
+      date: dateVal,
+      completed: completedVal,
+      total: totalVal,
     );
   }
 }
@@ -956,7 +964,7 @@ class RecommendedActivitiesResponse {
   factory RecommendedActivitiesResponse.fromJson(Map<String, dynamic> json) {
     return RecommendedActivitiesResponse(
       recommendedActivities:
-          (json['recommended_activities'] as List?)
+          (json['recommended_activities'] as List? ?? json['recommendedActivities'] as List?)
               ?.map((e) => ActivityItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -1349,8 +1357,8 @@ class TestSubmitRequest {
   final String testType;
   final int age;
   final String sex;
-  final String jaundice;
-  final String familyAsd;
+  final String? jaundice;
+  final String? familyAsd;
   final List<TestAnswer> answers;
 
   TestSubmitRequest({
@@ -1358,20 +1366,24 @@ class TestSubmitRequest {
     required this.testType,
     required this.age,
     required this.sex,
-    required this.jaundice,
-    required this.familyAsd,
+    this.jaundice,
+    this.familyAsd,
     required this.answers,
   });
 
-  Map<String, dynamic> toJson() => {
-    'child_id': childId,
-    'testType': testType,
-    'age': age,
-    'sex': sex,
-    'jaundice': jaundice,
-    'familyAsd': familyAsd,
-    'answers': answers.map((e) => e.toJson()).toList(),
-  };
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{
+      'childId': childId,
+      'testType': testType,
+      'age': age,
+      'sex': sex,
+      'answers': answers.map((e) => e.toJson()).toList(),
+    };
+    // jaundice & familyAsd are only required for autism tests
+    if (jaundice != null) map['jaundice'] = jaundice;
+    if (familyAsd != null) map['familyAsd'] = familyAsd;
+    return map;
+  }
 }
 
 class TestAnswer {
@@ -1387,15 +1399,17 @@ class TestResultResponse {
   final int testId;
   final String testType;
   final String result;
-  final double riskScore;
+  final double? riskScore;
   final int childId;
+  final String childName;
 
   TestResultResponse({
     required this.testId,
     required this.testType,
     required this.result,
-    required this.riskScore,
+    this.riskScore,
     required this.childId,
+    required this.childName,
   });
 
   factory TestResultResponse.fromJson(Map<String, dynamic> json) {
@@ -1403,8 +1417,10 @@ class TestResultResponse {
       testId: json['test_id'] ?? 0,
       testType: json['test_type'] ?? '',
       result: json['result'] ?? '',
-      riskScore: (json['risk_score'] ?? 0).toDouble(),
+      riskScore:
+          json['risk_score'] != null ? (json['risk_score'] as num).toDouble() : null,
       childId: json['child_id'] ?? 0,
+      childName: json['child_name'] ?? '',
     );
   }
 }
@@ -1449,7 +1465,7 @@ class TestQuestion {
 
   factory TestQuestion.fromJson(Map<String, dynamic> json) {
     return TestQuestion(
-      id: json['id'] ?? 0,
+      id: json['q_id'] ?? json['id'] ?? 0,
       question: json['question'] ?? '',
       options: List<String>.from(json['options'] ?? []),
     );
@@ -1504,8 +1520,29 @@ class HomeProgressResponse {
   HomeProgressResponse({required this.progress, required this.statusCode});
 
   factory HomeProgressResponse.fromJson(Map<String, dynamic> json) {
+    final progressData = json['progress'];
+    if (progressData is String) {
+      return HomeProgressResponse(
+        progress: ChildProgressData(
+          assessmentImprovement: 0,
+          assessmentImprovementPercentage: 0.0,
+          latestScore: 0,
+          previousScore: 0,
+          trend: '',
+          completedActivities: 0,
+          totalActivitiesAttempted: 0,
+          activityCompletionRate: 0.0,
+          progressSummary: progressData,
+        ),
+        statusCode: json['status_code'] ?? 200,
+      );
+    }
     return HomeProgressResponse(
-      progress: ChildProgressData.fromJson(json['progress'] ?? {}),
+      progress: ChildProgressData.fromJson(
+        progressData is Map<String, dynamic>
+            ? progressData
+            : Map<String, dynamic>.from(progressData ?? {}),
+      ),
       statusCode: json['status_code'] ?? 200,
     );
   }

@@ -2,6 +2,9 @@ import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cu
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/di/service_locator.dart';
+import '../../../home/presentation/cubit/home_cubit.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -70,6 +73,8 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
+          // Reload Home data for the newly added child
+          context.read<HomeCubit>().getHomeData(childId: state.childId.toString());
           Navigator.pop(context);
         } else if (state is ChildUpdated) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -79,6 +84,9 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
+          // Reload Home data using the current active childId in case it was updated
+          final activeChildId = getIt<SharedPreferences>().getString('childId');
+          context.read<HomeCubit>().getHomeData(childId: activeChildId);
           Navigator.pop(context);
         } else if (state is ChildDeleted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -88,6 +96,13 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
             ),
           );
           context.read<ProfileCubit>().getMyChildren(); // Refresh
+          // Clear active childId from prefs if the active child was deleted
+          final activeChildId = getIt<SharedPreferences>().getString('childId');
+          if (activeChildId == widget.childId) {
+            getIt<SharedPreferences>().remove('childId');
+          }
+          final newActiveChildId = getIt<SharedPreferences>().getString('childId');
+          context.read<HomeCubit>().getHomeData(childId: newActiveChildId);
           Navigator.pop(context);
         } else if (state is ProfileError) {
           ScaffoldMessenger.of(context).showSnackBar(

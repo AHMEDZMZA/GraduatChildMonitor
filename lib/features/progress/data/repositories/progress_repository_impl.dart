@@ -3,6 +3,7 @@ import '../../../../core/network/failures.dart';
 import '../../domain/entities/progress_entity.dart';
 import '../../domain/repositories/progress_repository.dart';
 import '../datasources/progress_remote_data_source.dart';
+import '../models/progress_model.dart';
 
 /// C-6 Fix: Repository now depends on [ProgressRemoteDataSource] — the proper
 /// Retrofit-based data source for this feature. Previously it was calling
@@ -17,22 +18,25 @@ class ProgressRepositoryImpl implements ProgressRepository {
     String childId,
   ) async {
     try {
-      // Fetch all three data points concurrently.
+      // Fetch summary (which includes stats) and trend concurrently.
+      // Omit the conflicting activities/stats endpoint.
       final results = await Future.wait([
-        remoteDataSource.getProgressSummary(),
+        remoteDataSource.getProgressSummary(childId),
         remoteDataSource.getTrend(childId),
-        remoteDataSource.getActivityStats(childId),
       ]);
 
-      final summary = results[0] as dynamic;
-      final trend = results[1] as dynamic;
-      final stats = results[2] as dynamic;
+      final summary = results[0] as ProgressSummaryModel;
+      final trend = results[1] as TrendModel;
 
       return Right(
         ProgressEntity(
           summary: summary.toEntity(),
           trend: trend.toEntity(),
-          activityStats: stats.toEntity(),
+          activityStats: ActivityStatsEntity(
+            completedActivities: summary.completedActivities,
+            totalActivities: summary.totalActivities,
+            completionPercentage: summary.completionPercentage,
+          ),
         ),
       );
     } catch (e) {

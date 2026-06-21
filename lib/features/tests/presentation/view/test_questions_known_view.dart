@@ -204,6 +204,7 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                         final qId = question.qId;
 
                         return Column(
+                          key: ValueKey(qId),
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(

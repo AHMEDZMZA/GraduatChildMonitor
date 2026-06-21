@@ -4,7 +4,7 @@ class TestResultEntity extends Equatable {
   final int testId;
   final String testType;
   final String result;
-  final double riskScore;
+  final double? riskScore;
   final int childId;
   final String childName;
 
@@ -12,7 +12,7 @@ class TestResultEntity extends Equatable {
     required this.testId,
     required this.testType,
     required this.result,
-    required this.riskScore,
+    this.riskScore,
     required this.childId,
     this.childName = '',
   });

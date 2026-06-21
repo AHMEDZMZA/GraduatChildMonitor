@@ -13,7 +13,7 @@ abstract class ProfileRemoteDataSource {
 
   Future<Child> getChildDetail(String childId);
 
-  Future<void> addChild({
+  Future<int> addChild({
     required String name,
     required String birthDate,
     required String gender,
@@ -116,7 +116,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<void> addChild({
+  Future<int> addChild({
     required String name,
     required String birthDate,
     required String gender,
@@ -124,7 +124,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     String? diagnosedCondition,
   }) async {
     try {
-      await apiClient.addChild(
+      final response = await apiClient.addChild(
         AddChildRequest(
           name: name,
           birthDate: birthDate,
@@ -133,6 +133,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
           diagnosedCondition: diagnosedCondition,
         ),
       );
+      return response.data.childId;
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {

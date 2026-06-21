@@ -13,7 +13,7 @@ abstract class ProfileRepository {
 
   Future<Either<Failure, ChildProfileEntity>> getChildDetail(String childId);
 
-  Future<Either<Failure, void>> addChild({
+  Future<Either<Failure, int>> addChild({
     required String name,
     required String birthDate,
     required String gender,

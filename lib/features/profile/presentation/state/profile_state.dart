@@ -52,7 +52,12 @@ class ChildDetailLoaded extends ProfileState {
 }
 
 class ChildAdded extends ProfileState {
-  const ChildAdded();
+  final int childId;
+
+  const ChildAdded(this.childId);
+
+  @override
+  List<Object?> get props => [childId];
 }
 
 class ChildUpdated extends ProfileState {

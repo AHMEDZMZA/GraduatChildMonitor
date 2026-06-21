@@ -5,6 +5,9 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/info_card_quiz.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
 
 class InteractiveQuizTodayView extends StatelessWidget {
   final String? childId;
@@ -14,8 +17,20 @@ class InteractiveQuizTodayView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get childId from arguments if not provided
-    final String? passedChildId =
+    String? passedChildId =
         childId ?? ModalRoute.of(context)?.settings.arguments as String?;
+
+    if (passedChildId == null) {
+      try {
+        final homeState = context.read<HomeCubit>().state;
+        if (homeState is HomeSuccess) {
+          passedChildId = homeState.homeData.selectedChildId ??
+              (homeState.homeData.children.isNotEmpty
+                  ? homeState.homeData.children.first.id
+                  : null);
+        }
+      } catch (_) {}
+    }
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

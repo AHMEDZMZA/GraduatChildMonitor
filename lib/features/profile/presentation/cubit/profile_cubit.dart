@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:child_monitor_app/features/profile/domain/usecases/profile_usecases.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/di/service_locator.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final GetUserProfileUseCase getUserProfileUseCase;
@@ -89,7 +91,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     result.fold(
       (failure) => emit(ProfileError(failure.message)),
-      (_) => emit(const ChildAdded()),
+      (childId) {
+        getIt<SharedPreferences>().setString('childId', childId.toString());
+        emit(ChildAdded(childId));
+      },
     );
   }
 

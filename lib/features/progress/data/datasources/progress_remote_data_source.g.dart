@@ -22,16 +22,16 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ProgressSummaryModel> getProgressSummary() async {
+  Future<ProgressSummaryModel> getProgressSummary(String childId) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'childId': childId};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ProgressSummaryModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/home/progress',
+            'home/progress',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -58,7 +58,7 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/monthly-assessment/trend/${childId}',
+            'monthly-assessment/trend/${childId}',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -85,7 +85,7 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/activities/stats/${childId}',
+            'activities/stats/${childId}',
             queryParameters: queryParameters,
             data: _data,
           )

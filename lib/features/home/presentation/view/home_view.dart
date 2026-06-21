@@ -10,6 +10,8 @@ import '../widgets/home_banner.dart';
 import '../widgets/home_card.dart';
 import '../widgets/home_header.dart';
 import '../../../profile/domain/entities/profile_entity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/di/service_locator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -24,7 +26,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getHomeData(childId: null);
+    final prefs = getIt<SharedPreferences>();
+    final savedChildId = prefs.getString('childId');
+    context.read<HomeCubit>().getHomeData(childId: savedChildId);
   }
 
   @override
@@ -32,7 +36,18 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is HomeSuccess) {
+              final childId = state.homeData.selectedChildId ??
+                  (state.homeData.children.isNotEmpty
+                      ? state.homeData.children.first.id
+                      : null);
+              if (childId != null) {
+                getIt<SharedPreferences>().setString('childId', childId);
+              }
+            }
+          },
           builder: (context, state) {
             if (state is HomeLoading) {
               return const Center(
@@ -56,8 +71,11 @@ class _HomeViewState extends State<HomeView> {
                     Text(state.message, style: AppTextStyles.nunito14w400Grey),
                     const SizedBox(height: 16),
                     TextButton(
-                      onPressed: () =>
-                          context.read<HomeCubit>().getHomeData(childId: null),
+                      onPressed: () {
+                        final prefs = getIt<SharedPreferences>();
+                        final savedChildId = prefs.getString('childId');
+                        context.read<HomeCubit>().getHomeData(childId: savedChildId);
+                      },
                       child: const Text('Retry'),
                     ),
                   ],

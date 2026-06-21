@@ -13,9 +13,10 @@ class TestCompleteView extends StatelessWidget {
   const TestCompleteView({super.key, required this.result});
 
   Color _getRiskColor() {
-    if (result.riskScore >= 70) {
+    final score = result.riskScore ?? 0.0;
+    if (score >= 70) {
       return Colors.red;
-    } else if (result.riskScore >= 40) {
+    } else if (score >= 40) {
       return Colors.orange;
     } else {
       return Colors.green;
@@ -23,9 +24,10 @@ class TestCompleteView extends StatelessWidget {
   }
 
   String _getRiskLevel() {
-    if (result.riskScore >= 70) {
+    final score = result.riskScore ?? 0.0;
+    if (score >= 70) {
       return 'High Risk';
-    } else if (result.riskScore >= 40) {
+    } else if (score >= 40) {
       return 'Moderate Risk';
     } else {
       return 'Low Risk';
@@ -120,7 +122,7 @@ class TestCompleteView extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Risk Score: ${result.riskScore.toStringAsFixed(1)}%',
+                              'Risk Score: ${(result.riskScore ?? 0.0).toStringAsFixed(1)}%',
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,

@@ -117,27 +117,12 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                 style: AppTextStyles.nunito14w400Grey.copyWith(fontSize: 11),
               ),
               const SizedBox(height: 16),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: LinearProgressIndicator(
-                  value: progressValue,
-                  minHeight: 8,
-                  backgroundColor: ColorManager.lightGray,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    ColorManager.primaryBlue,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Activities Completed: $completedCount/${activities.length}',
-                style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                  fontSize: 20,
-                ),
-              ),
-              const SizedBox(height: 30),
               Expanded(
                 child: BlocBuilder<ActivityCubit, ActivityState>(
+                  buildWhen: (previous, current) =>
+                      current is ActivitiesByTypeLoaded ||
+                      (current is ActivityLoading && activities.isEmpty) ||
+                      (current is ActivityError && activities.isEmpty),
                   builder: (context, state) {
                     if (state is ActivityLoading) {
                       return const Center(
@@ -149,6 +134,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                       activities = state.activities
                           .map(
                             (entity) => ActivityModel(
+                              id: entity.id,
                               title: entity.title,
                               shortDescription: entity.description ?? '',
                               image: AppAssets.activities1,
@@ -169,40 +155,66 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                                   )
                                   .toList(),
                               completed: completedActivities.contains(
-                                entity.title,
+                                entity.id,
                               ),
                               highlighted: false,
                             ),
                           )
                           .toList();
+                    }
 
-                      if (activities.isEmpty) {
+                    if (activities.isEmpty) {
+                      if (state is ActivityError) {
                         return Center(
                           child: Text(
-                            'No parent-child activities available',
+                            'Error: ${state.message}',
                             style: AppTextStyles.nunito14w400Grey,
                           ),
                         );
                       }
-
-                      return ListView.builder(
-                        itemCount: activities.length,
-                        itemBuilder: (context, index) {
-                          return ActivityListItem(
-                            item: activities[index],
-                            onTap: () => _openActivity(index),
-                          );
-                        },
-                      );
-                    } else if (state is ActivityError) {
                       return Center(
                         child: Text(
-                          'Error: ${state.message}',
+                          'No parent-child activities available',
                           style: AppTextStyles.nunito14w400Grey,
                         ),
                       );
                     }
-                    return const SizedBox.shrink();
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: LinearProgressIndicator(
+                            value: progressValue,
+                            minHeight: 8,
+                            backgroundColor: ColorManager.lightGray,
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              ColorManager.primaryBlue,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Activities Completed: $completedCount/${activities.length}',
+                          style: AppTextStyles.nunito15w900primaryBlue.copyWith(
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: activities.length,
+                            itemBuilder: (context, index) {
+                              return ActivityListItem(
+                                item: activities[index],
+                                onTap: () => _openActivity(index),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
                   },
                 ),
               ),

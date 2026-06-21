@@ -8,6 +8,8 @@ import 'package:child_monitor_app/features/tests/presentation/widgets/build_answ
 import 'package:child_monitor_app/features/quiz/presentation/cubit/quiz_cubit.dart';
 import 'package:child_monitor_app/features/quiz/presentation/cubit/quiz_state.dart';
 import 'package:child_monitor_app/core/di/service_locator.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
 
 class TestQuizView extends StatelessWidget {
   final String? childId;
@@ -17,8 +19,20 @@ class TestQuizView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get childId from arguments if not provided as constructor parameter
-    final String? passedChildId =
+    String? passedChildId =
         childId ?? ModalRoute.of(context)?.settings.arguments as String?;
+
+    if (passedChildId == null) {
+      try {
+        final homeState = context.read<HomeCubit>().state;
+        if (homeState is HomeSuccess) {
+          passedChildId = homeState.homeData.selectedChildId ??
+              (homeState.homeData.children.isNotEmpty
+                  ? homeState.homeData.children.first.id
+                  : null);
+        }
+      } catch (_) {}
+    }
 
     return BlocProvider(
       create: (context) => getIt<QuizCubit>()..getQuizQuestions(),

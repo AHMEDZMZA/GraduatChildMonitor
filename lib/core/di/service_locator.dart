@@ -632,6 +632,7 @@ void _setupTestsFeature() {
     () => TestCubit(
       getTestQuestionsUseCase: getIt<GetTestQuestionsUseCase>(),
       submitTestUseCase: getIt<SubmitTestUseCase>(),
+      addChildUseCase: getIt<AddChildUseCase>(),
     ),
   );
 }

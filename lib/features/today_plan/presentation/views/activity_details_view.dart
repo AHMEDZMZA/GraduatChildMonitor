@@ -43,14 +43,14 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
         // Call the API to mark activity as completed
         context.read<ActivityCubit>().completeActivity(
           childId,
-          widget.activity.title,
+          widget.activity.id,
         );
 
         // Save completed status locally in SharedPreferences
         final key = 'completed_activities_$childId';
         final completedList = prefs.getStringList(key) ?? [];
-        if (!completedList.contains(widget.activity.title)) {
-          completedList.add(widget.activity.title);
+        if (!completedList.contains(widget.activity.id)) {
+          completedList.add(widget.activity.id);
           await prefs.setStringList(key, completedList);
         }
       }

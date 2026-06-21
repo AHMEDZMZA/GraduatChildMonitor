@@ -8,14 +8,14 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../bloc/test_cubit.dart';
 
-class AddChildDataView extends StatefulWidget {
-  const AddChildDataView({super.key});
+class AddChildProfileView extends StatefulWidget {
+  const AddChildProfileView({super.key});
 
   @override
-  State<AddChildDataView> createState() => _AddChildDataViewState();
+  State<AddChildProfileView> createState() => _AddChildProfileViewState();
 }
 
-class _AddChildDataViewState extends State<AddChildDataView> {
+class _AddChildProfileViewState extends State<AddChildProfileView> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
   String? gender = AppStrings.female;
@@ -47,9 +47,8 @@ class _AddChildDataViewState extends State<AddChildDataView> {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder:
-                      (context) =>
-                          const Center(child: CircularProgressIndicator()),
+                  builder: (context) =>
+                      const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is AddChildSuccess) {
                 // FIX: only pop if the dialog is actually open

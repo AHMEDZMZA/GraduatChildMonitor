@@ -6,8 +6,14 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 class ChildProfileItem extends StatelessWidget {
   final String name;
   final VoidCallback? onTap;
+  final VoidCallback? onEdit;
 
-  const ChildProfileItem({super.key, required this.name, this.onTap});
+  const ChildProfileItem({
+    super.key,
+    required this.name,
+    this.onTap,
+    this.onEdit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,17 @@ class ChildProfileItem extends StatelessWidget {
                 ),
               ),
             ),
+            if (onEdit != null) ...[
+              IconButton(
+                icon: const Icon(
+                  Icons.edit_outlined,
+                  size: 22,
+                  color: ColorManager.primaryBlue,
+                ),
+                onPressed: onEdit,
+              ),
+              const SizedBox(width: 8),
+            ],
             const Icon(
               Icons.arrow_forward_ios,
               size: 18,

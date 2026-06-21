@@ -10,6 +10,8 @@ import '../../data/today_plan_model.dart';
 import '../widgets/today_plan_card.dart';
 import '../cubit/activity_cubit.dart';
 import '../state/activity_state.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
+import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -36,6 +38,15 @@ class _TodayViewState extends State<TodayView> {
 
   @override
   Widget build(BuildContext context) {
+    final homeState = context.read<HomeCubit>().state;
+    String? selectedChildId;
+    if (homeState is HomeSuccess) {
+      selectedChildId = homeState.homeData.selectedChildId ??
+          (homeState.homeData.children.isNotEmpty
+              ? homeState.homeData.children.first.id
+              : null);
+    }
+
     final List<TodayPlanModel> defaultPlans = [
       const TodayPlanModel(
         title: 'Physical Activities',
@@ -121,6 +132,9 @@ class _TodayViewState extends State<TodayView> {
                 const SizedBox(height: 22),
 
                 BlocBuilder<ActivityCubit, ActivityState>(
+                  buildWhen: (previous, current) =>
+                      current is AllActivitiesLoaded ||
+                      (current is ActivityLoading && previous is! AllActivitiesLoaded),
                   builder: (context, state) {
                     if (state is ActivityLoading) {
                       return const Center(
@@ -207,6 +221,7 @@ class _TodayViewState extends State<TodayView> {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.interactiveQuizToday,
+                                  arguments: selectedChildId,
                                 ).then((_) => _loadActivities());
                               }
                             },
@@ -249,6 +264,7 @@ class _TodayViewState extends State<TodayView> {
                             Navigator.pushNamed(
                               context,
                               AppRoutes.interactiveQuizToday,
+                              arguments: selectedChildId,
                             ).then((_) => _loadActivities());
                           },
                         ),

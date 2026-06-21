@@ -55,5 +55,5 @@ class AppRoutes {
   static const String selectTest = '/selectTest';
   static const String knownCondition = '/knownCondition';
   static const String testComplete = '/testComplete';
-  static const String addChildData = '/addChildData';
+  static const String addChildProfile = '/addChildData';
 }

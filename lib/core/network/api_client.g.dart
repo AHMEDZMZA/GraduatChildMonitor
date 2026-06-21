@@ -942,17 +942,18 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<HttpResponse<ActivitiesResponse>> getActivitiesForChild(
-    String childId,
+    Map<String, dynamic> body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options = _setStreamType<HttpResponse<ActivitiesResponse>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
+      Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'activities/for-child/${childId}',
+            'activities/for-child',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1002,16 +1003,13 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<HttpResponse<ActivityCompletionResponse>> completeActivity(
-    String childId,
-    String activityId,
+    Map<String, dynamic> body,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'childId': childId,
-      r'activityId': activityId,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options = _setStreamType<HttpResponse<ActivityCompletionResponse>>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -1036,17 +1034,18 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<HttpResponse<ActivityStatsResponse>> getActivityStats(
-    String childId,
+    Map<String, dynamic> body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options = _setStreamType<HttpResponse<ActivityStatsResponse>>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
+      Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'activities/stats/${childId}',
+            'activities/stats',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -1066,18 +1065,19 @@ class _ApiClient implements ApiClient {
 
   @override
   Future<HttpResponse<RecommendedActivitiesResponse>> getRecommendedActivities(
-    String childId,
+    Map<String, dynamic> body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options =
         _setStreamType<HttpResponse<RecommendedActivitiesResponse>>(
-          Options(method: 'GET', headers: _headers, extra: _extra)
+          Options(method: 'POST', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
-                'activities/recommended/${childId}',
+                'activities/recommended',
                 queryParameters: queryParameters,
                 data: _data,
               )

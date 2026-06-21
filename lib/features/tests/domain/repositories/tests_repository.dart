@@ -10,8 +10,8 @@ abstract class TestsRepository {
     String testType,
     int age,
     String sex,
-    String jaundice,
-    String familyAsd,
+    String? jaundice,
+    String? familyAsd,
     List<Map<String, dynamic>> answers,
   );
 

@@ -119,7 +119,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addChild({
+  Future<Either<Failure, int>> addChild({
     required String name,
     required String birthDate,
     required String gender,
@@ -127,14 +127,14 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? diagnosedCondition,
   }) async {
     try {
-      await remoteDataSource.addChild(
+      final childId = await remoteDataSource.addChild(
         name: name,
         birthDate: birthDate,
         gender: gender,
         knowsCondition: knowsCondition,
         diagnosedCondition: diagnosedCondition,
       );
-      return const Right(null);
+      return Right(childId);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, statusCode: e.statusCode));
     } on NetworkException catch (e) {

@@ -1,14 +1,34 @@
 {
-  "type": "service_account",
-  "_comment": "PLACEHOLDER - REPLACE WITH YOUR ACTUAL google-services.json",
-  "note": "This file is required for Google Sign-In to work on Android. Follow these steps to generate it:",
-  "steps": [
-    "1. Go to https://console.firebase.google.com/",
-    "2. Create a new Firebase project or select existing one",
-    "3. Add Android app to the project",
-    "4. Download the google-services.json file",
-    "5. Place it in android/app/ directory",
-    "6. Make sure to register your app's SHA-1 and SHA-256 fingerprints in Firebase Console"
+  "project_info": {
+    "project_number": "9454344477",
+    "project_id": "child-monitor-app",
+    "storage_bucket": "child-monitor-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9454344477:android:0000000000000000",
+        "android_client_info": {
+          "package_name": "com.example.child_monitor_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9454344477-d5g5b56k45hvrbe5go8kksksecmbfv68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "PLACEHOLDER_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
   ],
-  "get_sha_fingerprints": "Run: keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android"
+  "configuration_version": "1"
 }
