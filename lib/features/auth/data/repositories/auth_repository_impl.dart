@@ -32,8 +32,11 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // Save token and email
+      debugPrint('✅ [Signup] Response token received: "${response.token.isEmpty ? 'EMPTY!' : response.token}"');
       await tokenStorage.saveToken(response.token);
+      debugPrint('✅ [Signup] Token saved successfully');
       await tokenStorage.saveEmail(response.email);
+      debugPrint('✅ [Signup] Email saved successfully');
 
       return Right(
         AuthEntity(

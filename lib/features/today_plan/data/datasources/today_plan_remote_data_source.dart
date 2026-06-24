@@ -75,6 +75,11 @@ class TodayPlanRemoteDataSourceImpl implements TodayPlanRemoteDataSource {
             message: msg ?? 'Unauthorized',
           );
         }
+        if (e.response?.statusCode == 403) {
+          return ForbiddenException(
+            message: msg ?? 'Access Forbidden - you do not have permission to access this resource',
+          );
+        }
         return ServerException(
           message: msg ?? 'Server error',
           statusCode: e.response?.statusCode,

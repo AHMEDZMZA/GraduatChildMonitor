@@ -57,6 +57,10 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
 
     if (e.response?.statusCode == 401) {
       throw UnauthorizedException(message: msg ?? 'Unauthorized access');
+    } else if (e.response?.statusCode == 403) {
+      throw ForbiddenException(
+        message: msg ?? 'Access Forbidden - you do not have permission to access this resource',
+      );
     } else if (e.response?.statusCode == 404) {
       throw ServerException(message: msg ?? 'Resource not found', statusCode: 404);
     } else if (e.response?.statusCode == 500) {

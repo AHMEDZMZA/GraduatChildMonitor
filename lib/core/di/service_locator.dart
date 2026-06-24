@@ -113,7 +113,11 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
       baseUrl: ApiConfig.baseUrl,
       connectTimeout: ApiConfig.connectTimeout,
       receiveTimeout: ApiConfig.receiveTimeout,
-      headers: {'Content-Type': 'application/json'},
+      contentType: 'application/json',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
     ),
   );
 
@@ -121,18 +125,44 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final token = await getIt<TokenStorage>().getToken();
-        if (token != null && token.isNotEmpty) {
-          options.headers['Authorization'] = 'Bearer $token';
+        try {
+          final tokenStorage = getIt<TokenStorage>();
+          final token = await tokenStorage.getToken();
+          if (token != null && token.isNotEmpty) {
+            // Add Authorization header
+            options.headers['Authorization'] = 'Bearer $token';
+            // Ensure header is applied
+            debugPrint(
+              '🔑 [Auth] Adding token to ${options.method} ${options.path}',
+            );
+            debugPrint(
+              '🔑 [Auth] Full headers after adding token: ${options.headers.toString()}',
+            );
+          } else {
+            debugPrint(
+              '⚠️ [Auth] NO TOKEN for ${options.method} ${options.path} - token is ${token == null ? 'NULL' : 'EMPTY'}',
+            );
+          }
+        } catch (e, stackTrace) {
           debugPrint(
-            '🔑 [Auth] Token sent in header for ${options.path} (${token.length} chars)',
-          );
-        } else {
-          debugPrint(
-            '⚠️ [Auth] NO TOKEN for ${options.path} — request will be unauthenticated',
+            '❌ [Auth] Error reading token: $e\n$stackTrace',
           );
         }
         return handler.next(options);
+      },
+      onResponse: (response, handler) async {
+        if (response.statusCode == 403) {
+          debugPrint(
+            '🚫 [API] 403 Forbidden on ${response.requestOptions.path}',
+          );
+          debugPrint(
+            '🚫 [API] Response headers: ${response.headers.toString()}',
+          );
+          debugPrint(
+            '🚫 [API] Response body: ${response.data}',
+          );
+        }
+        return handler.next(response);
       },
       onError: (error, handler) async {
         debugPrint(
@@ -169,6 +199,9 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
           // Forbidden — user doesn't have permission to access this resource
           debugPrint(
             '🚫 [Permission] 403 Forbidden on ${error.requestOptions.path}',
+          );
+          debugPrint(
+            '🚫 [Permission] Request headers: ${error.requestOptions.headers.toString()}',
           );
           final errorData = error.response?.data;
           String errorMessage = 'ليس لديك صلاحية للوصول إلى هذا المورد';
