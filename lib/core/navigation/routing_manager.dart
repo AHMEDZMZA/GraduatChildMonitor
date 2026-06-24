@@ -73,6 +73,8 @@ import '../../features/articles/domain/entities/article_entity.dart';
 import '../../features/today_plan/data/activity_model.dart';
 
 class RoutingManager {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       // Core

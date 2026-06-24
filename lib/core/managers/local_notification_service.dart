@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:child_monitor_app/core/managers/daily_quote_manager.dart';
+import 'package:child_monitor_app/core/managers/dynamic_notification_manager.dart';
+import 'package:child_monitor_app/core/navigation/routing_manager.dart';
 
 class LocalNotificationService {
   static final LocalNotificationService _instance =
@@ -43,7 +45,15 @@ class LocalNotificationService {
       iOS: iosInitSettings,
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(settings: initSettings);
+    await _flutterLocalNotificationsPlugin.initialize(
+      settings: initSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        final payload = response.payload;
+        if (payload != null && payload.isNotEmpty) {
+          RoutingManager.navigatorKey.currentState?.pushNamed(payload);
+        }
+      },
+    );
     _isInitialized = true;
   }
 
@@ -95,6 +105,81 @@ class LocalNotificationService {
       );
     } catch (e) {
       debugPrint('Notification scheduling error: $e');
+    }
+  }
+
+  /// Schedule 14 dynamic notifications (7 days, 9AM and 9PM)
+  Future<void> scheduleDynamic12HourNotifications() async {
+    await initializeNotifications();
+
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+          'dynamic_channel',
+          'Dynamic Notifications',
+          channelDescription: 'Send dynamic 12-hour updates',
+          importance: Importance.high,
+          priority: Priority.high,
+          showWhen: true,
+        );
+
+    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
+
+    final now = DateTime.now();
+
+    // Cancel previously scheduled dynamic notifications before scheduling new ones
+    // We assume dynamic notifications use IDs from 1000 to 1020
+    for (int i = 1000; i <= 1020; i++) {
+      await cancelNotification(i);
+    }
+
+    // Schedule for 7 days
+    for (int i = 0; i < 7; i++) {
+      // 9 AM Notification
+      var morningDate = DateTime(now.year, now.month, now.day, 9, 0).add(Duration(days: i));
+      if (morningDate.isAfter(now)) {
+        final morningContent = DynamicNotificationManager.getRandomMorningNotification();
+        try {
+          await _flutterLocalNotificationsPlugin.zonedSchedule(
+            id: i * 2 + 1000,
+            title: morningContent.title,
+            body: morningContent.body,
+            scheduledDate: tz.TZDateTime.from(morningDate, tz.local),
+            notificationDetails: notificationDetails,
+            androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+            payload: morningContent.payloadRoute,
+          );
+        } catch (e) {
+          debugPrint('Morning schedule error: $e');
+        }
+      }
+
+      // 9 PM Notification
+      var eveningDate = DateTime(now.year, now.month, now.day, 21, 0).add(Duration(days: i));
+      if (eveningDate.isAfter(now)) {
+        final eveningContent = DynamicNotificationManager.getRandomEveningNotification();
+        try {
+          await _flutterLocalNotificationsPlugin.zonedSchedule(
+            id: i * 2 + 1001,
+            title: eveningContent.title,
+            body: eveningContent.body,
+            scheduledDate: tz.TZDateTime.from(eveningDate, tz.local),
+            notificationDetails: notificationDetails,
+            androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+            payload: eveningContent.payloadRoute,
+          );
+        } catch (e) {
+          debugPrint('Evening schedule error: $e');
+        }
+      }
     }
   }
 

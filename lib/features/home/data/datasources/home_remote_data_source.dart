@@ -33,8 +33,11 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         return NetworkException(message: 'Connection timeout');
       case DioExceptionType.badResponse:
         if (e.response?.statusCode == 401) {
-          return UnauthorizedException(
-            message: msg ?? 'Unauthorized',
+          return UnauthorizedException(message: msg ?? 'Unauthorized');
+        }
+        if (e.response?.statusCode == 403) {
+          return ForbiddenException(
+            message: msg ?? 'ليس لديك صلاحية للوصول إلى هذه البيانات',
           );
         }
         return ServerException(

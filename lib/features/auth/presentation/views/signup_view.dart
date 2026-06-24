@@ -46,7 +46,7 @@ class _SignupViewState extends State<SignupView> {
             ),
           );
           // Navigate to login after successful signup
-          Navigator.pushReplacementNamed(context, AppRoutes.addChildProfile);
+          Navigator.pushReplacementNamed(context, AppRoutes.login);
         } else if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

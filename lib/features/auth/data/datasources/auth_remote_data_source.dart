@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:child_monitor_app/core/network/api_client.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
 import 'package:dio/dio.dart';
@@ -68,6 +69,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final response = await apiClient.login(
         LoginRequest(email: email, password: password),
       );
+      // DEBUG: Log the raw response to trace token parsing
+      debugPrint('📨 [Login RAW] Status: ${response.response.statusCode}');
+      debugPrint('📨 [Login RAW] Body: ${response.response.data}');
+      debugPrint('📨 [Login PARSED] token="${response.data.token}", email="${response.data.email}"');
       return response.data;
     } on DioException catch (e) {
       throw _handleDioException(e);

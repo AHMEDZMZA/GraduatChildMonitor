@@ -18,9 +18,15 @@ class TokenStorage {
   }
 
   Future<String?> getToken() async {
-    if (_cachedToken != null) return _cachedToken;
-    _cachedToken = await _secureStorage.read(key: _tokenKey);
-    return _cachedToken;
+    try {
+      if (_cachedToken != null) return _cachedToken;
+      _cachedToken = await _secureStorage.read(key: _tokenKey);
+      return _cachedToken;
+    } catch (e) {
+      // Handle corrupted keystore exceptions
+      await clearAuth();
+      return null;
+    }
   }
 
   Future<void> saveEmail(String email) async {
@@ -29,9 +35,13 @@ class TokenStorage {
   }
 
   Future<String?> getEmail() async {
-    if (_cachedEmail != null) return _cachedEmail;
-    _cachedEmail = await _secureStorage.read(key: _emailKey);
-    return _cachedEmail;
+    try {
+      if (_cachedEmail != null) return _cachedEmail;
+      _cachedEmail = await _secureStorage.read(key: _emailKey);
+      return _cachedEmail;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> clearAuth() async {

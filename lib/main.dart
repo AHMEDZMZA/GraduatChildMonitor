@@ -34,7 +34,7 @@ void main() async {
   // H-3: Single notification service — no more double-init.
   final notificationService = LocalNotificationService();
   await notificationService.initializeNotifications();
-  await notificationService.scheduleDailyQuoteNotification(hour: 14, minute: 0);
+  await notificationService.scheduleDynamic12HourNotifications();
 
   runApp(const MyApp());
 }
@@ -68,6 +68,12 @@ class MyApp extends StatelessWidget {
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthUnauthenticated) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Session expired or unauthorized. Please login again.'),
+                backgroundColor: Colors.red,
+              ),
+            );
             Navigator.of(context).pushNamedAndRemoveUntil(
               AppRoutes.login,
               (route) => false,
@@ -77,6 +83,7 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (context, themeMode) {
             return MaterialApp(
+              navigatorKey: RoutingManager.navigatorKey,
               theme: AppTheme.lightTheme(),
               darkTheme: AppTheme.darkTheme(),
               themeMode: themeMode,

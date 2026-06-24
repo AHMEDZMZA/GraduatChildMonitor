@@ -43,3 +43,12 @@ class ValidationException implements Exception {
   @override
   String toString() => message;
 }
+
+class ForbiddenException implements Exception {
+  final String message;
+
+  ForbiddenException({required this.message});
+
+  @override
+  String toString() => message;
+}

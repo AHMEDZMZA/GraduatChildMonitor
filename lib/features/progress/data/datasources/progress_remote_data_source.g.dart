@@ -76,16 +76,17 @@ class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
   }
 
   @override
-  Future<ActivityStatsModel> getActivityStats(String childId) async {
+  Future<ActivityStatsModel> getActivityStats(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options = _setStreamType<ActivityStatsModel>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
+      Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'activities/stats/${childId}',
+            'activities/stats',
             queryParameters: queryParameters,
             data: _data,
           )

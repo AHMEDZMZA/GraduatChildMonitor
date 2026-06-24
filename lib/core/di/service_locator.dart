@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -98,7 +99,9 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   // H-2: Register SharedPreferences so feature code can resolve it via DI.
   getIt.registerSingleton<SharedPreferences>(prefs);
 
-  const flutterSecureStorage = FlutterSecureStorage();
+  const flutterSecureStorage = FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+  );
   getIt.registerSingleton<FlutterSecureStorage>(flutterSecureStorage);
 
   final tokenStorage = TokenStorage(secureStorage: flutterSecureStorage);
@@ -121,10 +124,20 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
         final token = await getIt<TokenStorage>().getToken();
         if (token != null && token.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $token';
+          debugPrint(
+            '🔑 [Auth] Token sent in header for ${options.path} (${token.length} chars)',
+          );
+        } else {
+          debugPrint(
+            '⚠️ [Auth] NO TOKEN for ${options.path} — request will be unauthenticated',
+          );
         }
         return handler.next(options);
       },
       onError: (error, handler) async {
+        debugPrint(
+          '❌ [API] ${error.response?.statusCode} on ${error.requestOptions.path}',
+        );
         if (error.response?.statusCode == 401) {
           final path = error.requestOptions.path;
           final data = error.response?.data;
@@ -143,12 +156,32 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
 
           if (!isAiError) {
             // Token expired — clear stored auth data and notify the app.
+            debugPrint(
+              '🚪 [Auth] 401 received — clearing token and redirecting to login.',
+            );
             await getIt<TokenStorage>().clearAuth();
             // Notify the singleton AuthCubit so the UI can redirect to login.
             if (getIt.isRegistered<AuthCubit>()) {
               getIt<AuthCubit>().handleUnauthenticated();
             }
           }
+        } else if (error.response?.statusCode == 403) {
+          // Forbidden — user doesn't have permission to access this resource
+          debugPrint(
+            '🚫 [Permission] 403 Forbidden on ${error.requestOptions.path}',
+          );
+          final errorData = error.response?.data;
+          String errorMessage = 'ليس لديك صلاحية للوصول إلى هذا المورد';
+
+          if (errorData != null) {
+            if (errorData is Map && errorData.containsKey('message')) {
+              errorMessage = errorData['message'] ?? errorMessage;
+            } else if (errorData is String) {
+              errorMessage = errorData;
+            }
+          }
+
+          debugPrint('📛 Permission error: $errorMessage');
         }
         return handler.next(error);
       },
@@ -158,7 +191,7 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
   getIt.registerSingleton<Dio>(dio);
 
   // ==================== API Client ====================
-  final apiClient = ApiClient(dio);
+  final apiClient = ApiClient(dio, baseUrl: ApiConfig.baseUrl);
   getIt.registerSingleton<ApiClient>(apiClient);
 
   // ==================== Social Auth ====================
@@ -533,7 +566,9 @@ void _setupProgressFeature() {
 
   // Repositories
   getIt.registerLazySingleton<ProgressRepository>(
-    () => ProgressRepositoryImpl(remoteDataSource: getIt<ProgressRemoteDataSource>()),
+    () => ProgressRepositoryImpl(
+      remoteDataSource: getIt<ProgressRemoteDataSource>(),
+    ),
   );
 
   // Use Cases

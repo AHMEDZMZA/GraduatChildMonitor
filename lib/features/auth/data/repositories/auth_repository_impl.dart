@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
@@ -64,6 +65,8 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       // Save token and email
+      debugPrint('🔐 [Login] Token from response: "${response.token.isEmpty ? 'EMPTY!' : '${response.token.substring(0, (response.token.length > 20 ? 20 : response.token.length))}...'}"');
+      debugPrint('🔐 [Login] Email from response: "${response.email}"');
       await tokenStorage.saveToken(response.token);
       await tokenStorage.saveEmail(response.email);
 
