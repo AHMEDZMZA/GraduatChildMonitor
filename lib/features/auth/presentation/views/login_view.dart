@@ -9,6 +9,7 @@ import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
 import 'widget/social_auth_section.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -67,7 +68,7 @@ class _LoginViewState extends State<LoginView> {
             elevation: 0,
           ),
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0.r),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Form(
@@ -75,32 +76,32 @@ class _LoginViewState extends State<LoginView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: CustomText(
                         text: 'Sign In',
                         style: AppTextStyles.nunito32w900Black,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // M-5: Social auth section extracted into reusable widget.
                     const SocialAuthSection(dividerLabel: 'or sign in with'),
-                    const CustomText(
+                    CustomText(
                       text: 'Email Address',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     CustomTextFormField(
                       isPassword: false,
                       hintText: 'example@gmail.com',
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    const SizedBox(height: 18),
-                    const CustomText(
+                    SizedBox(height: 18.h),
+                    CustomText(
                       text: 'Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     CustomTextFormField(
                       keyboardType: TextInputType.visiblePassword,
                       obscuringCharacter: '*',
@@ -108,7 +109,7 @@ class _LoginViewState extends State<LoginView> {
                       hintText: '*******',
                       controller: passwordController,
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
@@ -118,13 +119,13 @@ class _LoginViewState extends State<LoginView> {
                       },
                       child: Container(
                         alignment: Alignment.centerRight,
-                        child: const CustomText(
+                        child: CustomText(
                           text: 'Forgot Password?',
                           style: AppTextStyles.nunito15w400blue,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 28),
+                    SizedBox(height: 28.h),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(
@@ -142,20 +143,20 @@ class _LoginViewState extends State<LoginView> {
                         );
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CustomText(
+                        CustomText(
                           text: 'Don\'t have an Account? ',
                           color: ColorManager.nearBlack13,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, AppRoutes.signup);
                           },
-                          child: const CustomText(
+                          child: CustomText(
                             text: 'Sign up',
                             style: AppTextStyles.nunito15w400blue,
                           ),

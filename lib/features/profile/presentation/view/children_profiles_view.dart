@@ -12,6 +12,7 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/child_profile_item.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChildrenProfilesView extends StatefulWidget {
   const ChildrenProfilesView({super.key});
@@ -51,10 +52,10 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
       child: Scaffold(
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
+            padding: EdgeInsets.symmetric(horizontal: 22.w),
             child: Column(
               children: [
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 Row(
                   children: [
@@ -70,7 +71,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 50),
+                    SizedBox(width: 50.w),
                     CustomText(
                       text: 'Children Profiles',
                       style: AppTextStyles.nunito30w900Black.copyWith(
@@ -79,7 +80,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 34),
+                SizedBox(height: 34.h),
 
                 Expanded(
                   child: BlocBuilder<ProfileCubit, ProfileState>(
@@ -102,12 +103,12 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                                 size: 48,
                                 color: ColorManager.errorRed,
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12.h),
                               Text(
                                 state.message,
                                 style: AppTextStyles.nunito14w400Grey,
                               ),
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
                               TextButton(
                                 onPressed: () => context
                                     .read<ProfileCubit>()
@@ -121,7 +122,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
 
                       if (state is ChildrenLoaded) {
                         if (state.children.isEmpty) {
-                          return const Center(
+                          return Center(
                             child: Text(
                               'No children profiles yet.',
                               style: AppTextStyles.nunito14w400Grey,
@@ -131,7 +132,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         return ListView.separated(
                           itemCount: state.children.length,
                           separatorBuilder: (_, __) =>
-                              const SizedBox(height: 14),
+                              SizedBox(height: 14.h),
                           itemBuilder: (context, index) {
                             final child = state.children[index];
                             return ChildProfileItem(
@@ -201,7 +202,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                   },
                 ),
 
-                const SizedBox(height: 100),
+                SizedBox(height: 100.h),
               ],
             ),
           ),

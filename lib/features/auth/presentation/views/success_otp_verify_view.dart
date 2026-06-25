@@ -4,6 +4,7 @@ import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SuccessOtpVerifyView extends StatelessWidget {
   const SuccessOtpVerifyView({super.key});
@@ -23,21 +24,21 @@ class SuccessOtpVerifyView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
         child: Column(
           children: [
-            const SizedBox(height: 140),
+            SizedBox(height: 140.h),
             Image.asset(AppAssets.correctIcon, width: 98, height: 98),
-            const SizedBox(height: 25),
-            const CustomText(
+            SizedBox(height: 25.h),
+            CustomText(
               text: 'Verification Successful',
               style: AppTextStyles.nunito32w900Black,
             ),
-            const CustomText(
+            CustomText(
               text: 'Your account has been verified. Let’s continue.',
               style: AppTextStyles.nunito14w400Grey,
             ),
-            const SizedBox(height: 60),
+            SizedBox(height: 60.h),
             CustomButton(
               text: 'Change Password',
               onTap: () {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../data/activity_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActivityListItem extends StatelessWidget {
   final ActivityModel item;
@@ -15,14 +16,12 @@ class ActivityListItem extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        margin: const EdgeInsets.only(bottom: 15),
-        padding: const EdgeInsets.all(15),
+        margin: EdgeInsets.only(bottom: 15.h),
+        padding: EdgeInsets.all(15.r),
         width: double.infinity,
-        height: 160,
-        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
             color: item.highlighted
                 ? ColorManager.primaryBlue
@@ -38,40 +37,43 @@ class ActivityListItem extends StatelessWidget {
           ],
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               child: Image.asset(
                 item.image,
-                width: 103,
-                height: 103,
+                width: 103.w,
+                height: 103.w,
                 fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(width: 10),
-
                   Text(
                     item.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.nunito16w900Black.copyWith(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
                     item.shortDescription,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       height: 1.35,
                     ),
                   ),
                   if (item.completed) ...[
-                    const SizedBox(height: 32),
+                    SizedBox(height: 12.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -80,13 +82,13 @@ class ActivityListItem extends StatelessWidget {
                           color: Colors.green,
                           size: 15,
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           'Completed',
                           style: AppTextStyles.nunito12w600overlayGray66
                               .copyWith(
                                 color: ColorManager.brightTeal,
-                                fontSize: 11,
+                                fontSize: 11.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                         ),
@@ -96,14 +98,11 @@ class ActivityListItem extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(width: 8),
-            Padding(
-              padding: const EdgeInsets.only(top: 50),
-              child: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Theme.of(context).iconTheme.color,
-              ),
+            SizedBox(width: 8.w),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Theme.of(context).iconTheme.color,
             ),
           ],
         ),

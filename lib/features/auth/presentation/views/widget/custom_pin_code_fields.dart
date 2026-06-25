@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomPinCodeFields extends StatelessWidget {
   final TextEditingController controller;
@@ -21,7 +22,7 @@ class CustomPinCodeFields extends StatelessWidget {
       animationType: AnimationType.scale,
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(5.r),
         fieldHeight: 44,
         fieldWidth: 48,
         activeColor: ColorManager.deepAqua,
@@ -35,9 +36,9 @@ class CustomPinCodeFields extends StatelessWidget {
       backgroundColor: Colors.transparent,
       enableActiveFill: true,
       hintCharacter: '-',
-      hintStyle: const TextStyle(
+      hintStyle: TextStyle(
         color: ColorManager.mediumGray,
-        fontSize: 20,
+        fontSize: 20.sp,
         fontWeight: FontWeight.bold,
       ),
       onChanged: (value) {},

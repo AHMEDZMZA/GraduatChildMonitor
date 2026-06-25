@@ -7,6 +7,7 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../widgets/profile_top_header.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PasswordManagerView extends StatefulWidget {
   const PasswordManagerView({super.key});
@@ -63,21 +64,21 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
             child: Form(
               key: _formKey,
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 20.h,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ProfileTopHeader(title: 'Password Manager'),
-                    const SizedBox(height: 34),
+                    SizedBox(height: 34.h),
 
-                    const Text(
+                    Text(
                       'Current Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: true,
@@ -86,7 +87,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                       keyboardType: TextInputType.visiblePassword,
                     ),
 
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
 
                     Align(
                       alignment: Alignment.centerRight,
@@ -94,19 +95,19 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                         'Forgot Password?',
                         style: AppTextStyles.nunito14w400Grey.copyWith(
                           color: ColorManager.primaryBlue,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
-                    const Text(
+                    Text(
                       'New Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
 
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: true,
@@ -115,13 +116,13 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                       keyboardType: TextInputType.visiblePassword,
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
-                    const Text(
+                    Text(
                       'Confirm New Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: true,
@@ -130,7 +131,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                       keyboardType: TextInputType.visiblePassword,
                     ),
 
-                    const SizedBox(height: 60),
+                    SizedBox(height: 60.h),
 
                     BlocBuilder<ProfileCubit, ProfileState>(
                       builder: (context, state) {

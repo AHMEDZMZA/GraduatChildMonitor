@@ -10,6 +10,7 @@ import '../../../profile/domain/entities/profile_entity.dart';
 import '../../../../core/network/api_client.dart';
 import '../cubit/monthly_assessment_cubit.dart';
 import '../cubit/monthly_assessment_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressTestView extends StatefulWidget {
   final ChildProfileEntity child;
@@ -71,7 +72,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
             return Scaffold(
               body: Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -80,13 +81,13 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                         size: 48,
                         color: Colors.red,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       Text(
                         state.message,
                         style: AppTextStyles.nunito14w400Grey,
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                       CustomButton(
                         text: 'Retry',
                         onTap: () {
@@ -131,7 +132,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -157,21 +158,21 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
 
                     Text(
                       assessmentTitle,
                       style: AppTextStyles.nunito30w900Black,
                     ),
 
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5.h),
 
                     Text(instructions, style: AppTextStyles.nunito14w400Grey),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
 
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 10,
@@ -182,18 +183,18 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                       ),
                     ),
 
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     Text(
                       'Question: ${currentQuestionIndex + 1}/${serverQuestions.length}',
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: ColorManager.primaryBlue,
                       ),
                     ),
 
-                    const SizedBox(height: 25),
+                    SizedBox(height: 25.h),
 
                     Expanded(
                       child: PageView.builder(
@@ -213,16 +214,16 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                               children: [
                                 Text(
                                   question.text,
-                                  style: const TextStyle(
-                                    fontSize: 20,
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     height: 1.4,
                                   ),
                                 ),
-                                const SizedBox(height: 30),
+                                SizedBox(height: 30.h),
                                 ...question.options.map((option) {
                                   return Padding(
-                                    padding: const EdgeInsets.only(bottom: 15),
+                                    padding: EdgeInsets.only(bottom: 15.h),
                                     child: AnswerOption(
                                       label: option.text,
                                       selected: answers[index] == option.value,
@@ -241,7 +242,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
 
                     isSubmitting
                         ? const Center(
@@ -298,7 +299,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                             ],
                           ),
 
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               ),

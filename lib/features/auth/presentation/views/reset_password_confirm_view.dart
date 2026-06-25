@@ -7,6 +7,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordConfirmView extends StatefulWidget {
   final String email;
@@ -67,46 +68,46 @@ class _ResetPasswordConfirmViewState extends State<ResetPasswordConfirmView> {
           body: SingleChildScrollView(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+                  EdgeInsets.symmetric(horizontal: 25.w, vertical: 50.h),
               child: Form(
                 key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 100),
-                    const CustomText(
+                    SizedBox(height: 100.h),
+                    CustomText(
                       text: 'Reset Password',
                       style: AppTextStyles.nunito32w900Black,
                     ),
-                    const SizedBox(height: 8),
-                    const CustomText(
+                    SizedBox(height: 8.h),
+                    CustomText(
                       text:
                           'Make sure your new password is strong and easy to remember.',
                       style: AppTextStyles.nunito14w400Grey,
                     ),
-                    const SizedBox(height: 30),
-                    const CustomText(
+                    SizedBox(height: 30.h),
+                    CustomText(
                         text: 'New Password',
                         style: AppTextStyles.nunito16w900Black),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     CustomTextFormField(
                       isPassword: true,
                       hintText: '********',
                       obscuringCharacter: '*',
                       controller: passwordController,
                     ),
-                    const SizedBox(height: 15),
-                    const CustomText(
+                    SizedBox(height: 15.h),
+                    CustomText(
                         text: 'Confirm New Password',
                         style: AppTextStyles.nunito16w900Black),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     CustomTextFormField(
                       isPassword: true,
                       hintText: '********',
                       obscuringCharacter: '*',
                       controller: confirmPasswordController,
                     ),
-                    const SizedBox(height: 90),
+                    SizedBox(height: 90.h),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(

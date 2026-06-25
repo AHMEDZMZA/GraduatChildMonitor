@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.text, required this.onTap});
@@ -17,15 +18,15 @@ class CustomButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           color: ColorManager.primaryBlue,
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(25.r),
         ),
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: ColorManager.white,
               fontFamily: 'Nunito',
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -54,14 +55,14 @@ class CustomButtonSmallTest extends StatelessWidget {
         height: 46,
         decoration: BoxDecoration(
           color: ColorManager.primaryBlue,
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(15.r),
         ),
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(
+            style: TextStyle(
               color: ColorManager.white,
-              fontSize: 20,
+              fontSize: 20.sp,
               fontFamily: 'Nunito',
               fontWeight: FontWeight.w700,
             ),

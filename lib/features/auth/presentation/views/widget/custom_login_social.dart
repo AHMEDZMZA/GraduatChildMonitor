@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomLoginSocial extends StatelessWidget {
   const CustomLoginSocial({
@@ -22,20 +23,20 @@ class CustomLoginSocial extends StatelessWidget {
         decoration: ShapeDecoration(
           color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7.88),
+            borderRadius: BorderRadius.circular(7.88.r),
           ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(name, width: 24, height: 24),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Text(
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontFamily: 'Nunito',
                 fontWeight: FontWeight.w500,
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBottomSheet extends StatelessWidget {
   final String title;
@@ -18,10 +19,10 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 22, 20, 24),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.fromLTRB(20.w, 22.h, 20.w, 24.h),
+      decoration: BoxDecoration(
         color: ColorManager.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,24 +30,24 @@ class AppBottomSheet extends StatelessWidget {
           /// Title
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
+            style: TextStyle(
+              fontSize: 18.sp,
               fontWeight: FontWeight.w700,
               color: ColorManager.nearBlack,
             ),
           ),
 
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
           const Divider(color: ColorManager.grayB0, thickness: 1),
 
           /// Description
           Text(
             description,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, color: ColorManager.grayB0),
+            style: TextStyle(fontSize: 13.sp, color: ColorManager.grayB0),
           ),
 
-          const SizedBox(height: 22),
+          SizedBox(height: 22.h),
 
           /// Buttons
           Row(
@@ -56,7 +57,7 @@ class AppBottomSheet extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     color: ColorManager.primaryBlue10,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
@@ -71,7 +72,7 @@ class AppBottomSheet extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
 
               /// Confirm
               Expanded(
@@ -79,7 +80,7 @@ class AppBottomSheet extends StatelessWidget {
                   height: 46,
                   decoration: BoxDecoration(
                     color: ColorManager.primaryBlue,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.r),
                   ),
                   child: TextButton(
                     onPressed: onConfirm,

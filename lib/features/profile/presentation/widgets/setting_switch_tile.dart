@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingSwitchTile extends StatelessWidget {
   final String title;
@@ -17,14 +18,14 @@ class SettingSwitchTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         children: [
           Expanded(
             child: Text(
               title,
               style: AppTextStyles.nunito16w900Black.copyWith(
-                fontSize: 15,
+                fontSize: 15.sp,
               ),
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
@@ -76,9 +77,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       validator: _validator,
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 14,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 14.h,
         ),
         prefixIcon: widget.prefixIcon,
         suffixIcon:

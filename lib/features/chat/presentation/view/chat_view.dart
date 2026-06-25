@@ -8,6 +8,7 @@ import '../cubit/chat_cubit.dart';
 import '../cubit/chat_state.dart';
 import '../widgets/chat_bubble.dart';
 import '../widgets/chat_input.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -94,46 +95,46 @@ class _ChatViewState extends State<ChatView> {
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: Column(
                 children: [
-                  const SizedBox(height: 16),
-                  const CustomText(
+                  SizedBox(height: 16.h),
+                  CustomText(
                     text: 'Ask for help',
                     style: AppTextStyles.nunito32w900Black,
                   ),
-                  const SizedBox(height: 22),
+                  SizedBox(height: 22.h),
                   Expanded(
                     child: _messages.isEmpty
-                        ? const Center(
+                        ? Center(
                             child: Text(
                               'Start a conversation!\nAsk anything about your child.',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: ColorManager.mediumGray,
-                                fontSize: 15,
+                                fontSize: 15.sp,
                               ),
                             ),
                           )
                         : ListView.separated(
                             controller: _scrollController,
-                            padding: const EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.only(bottom: 12.h),
                             itemCount: _messages.length + (_isSending ? 1 : 0),
                             separatorBuilder: (_, __) =>
-                                const SizedBox(height: 10),
+                                SizedBox(height: 10.h),
                             itemBuilder: (context, index) {
                               if (index == _messages.length && _isSending) {
                                 // Typing indicator
                                 return Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 14,
-                                      vertical: 12,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 14.w,
+                                      vertical: 12.h,
                                     ),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).cardColor,
-                                      borderRadius: BorderRadius.circular(14),
+                                      borderRadius: BorderRadius.circular(14.r),
                                     ),
                                     child: const SizedBox(
                                       width: 40,
@@ -147,9 +148,9 @@ class _ChatViewState extends State<ChatView> {
                             },
                           ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: EdgeInsets.only(bottom: 12.h),
                     child: ChatInput(
                       controller: controller,
                       onSend: sendMessage,
@@ -202,7 +203,7 @@ class _TypingIndicatorState extends State<_TypingIndicator>
         children: List.generate(
           3,
           (i) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
+            padding: EdgeInsets.symmetric(horizontal: 2.w),
             child: CircleAvatar(
               radius: 4,
               backgroundColor: ColorManager.primaryBlue,

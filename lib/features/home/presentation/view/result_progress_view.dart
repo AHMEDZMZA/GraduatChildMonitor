@@ -8,6 +8,7 @@ import '../../../profile/domain/entities/profile_entity.dart';
 import '../../../../core/network/api_client.dart';
 import '../widgets/result_info_card.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResultProgressView extends StatelessWidget {
   final SubmitMonthlyAssessmentResponse response;
@@ -25,7 +26,7 @@ class ResultProgressView extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 20.h),
           child: Column(
             children: [
               const Spacer(flex: 2),
@@ -37,18 +38,18 @@ class ResultProgressView extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
-              const CustomText(
+              CustomText(
                 text: 'Your answers have been\nanalyzed successfully.',
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomText(
                   text: 'Based on your answers, we noticed...',
                   style: AppTextStyles.nunito14w400Grey,
@@ -56,7 +57,7 @@ class ResultProgressView extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 34),
+              SizedBox(height: 34.h),
 
               ResultInfoCard(
                 title: response.trendLabel.isNotEmpty
@@ -80,7 +81,7 @@ class ResultProgressView extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
             ],
           ),
         ),

@@ -12,6 +12,7 @@ import '../widgets/home_header.dart';
 import '../../../profile/domain/entities/profile_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di/service_locator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -67,9 +68,9 @@ class _HomeViewState extends State<HomeView> {
                       size: 48,
                       color: Colors.red,
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
                     Text(state.message, style: AppTextStyles.nunito14w400Grey),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     TextButton(
                       onPressed: () {
                         final prefs = getIt<SharedPreferences>();
@@ -84,18 +85,18 @@ class _HomeViewState extends State<HomeView> {
             }
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: ListView(
                 children: [
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   _HomeHeaderSection(),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   const HomeBanner(),
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24.h),
                   _CardsSection(selectedIndex: selectedIndex, onCardTap: (index) {
                     setState(() => selectedIndex = index);
                   }),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                 ],
               ),
             );
@@ -172,7 +173,7 @@ class _CardsSection extends StatelessWidget {
                 Navigator.pushNamed(context, AppRoutes.todayPlan);
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             HomeCard(
               title: 'Parent Articles',
               subtitle: "Easy-to-read articles to help you understand your child's condition and support them effectively",
@@ -183,7 +184,7 @@ class _CardsSection extends StatelessWidget {
                 Navigator.pushNamed(context, AppRoutes.articles);
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             HomeCard(
               title: 'Track Your Child’s Progress',
               subtitle: "Monitor your child's improvement each month based on your observations",

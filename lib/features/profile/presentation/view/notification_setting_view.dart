@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/profile_top_header.dart';
 import '../widgets/setting_switch_tile.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationSettingView extends StatefulWidget {
   const NotificationSettingView({super.key});
@@ -20,13 +21,13 @@ class _NotificationSettingViewState extends State<NotificationSettingView> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22),
+          padding: EdgeInsets.symmetric(horizontal: 22.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               const ProfileTopHeader(title: 'Notification Setting'),
-              const SizedBox(height: 34),
+              SizedBox(height: 34.h),
 
               SettingSwitchTile(
                 title: 'General Notification',

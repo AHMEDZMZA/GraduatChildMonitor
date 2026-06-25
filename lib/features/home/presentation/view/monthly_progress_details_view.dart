@@ -3,6 +3,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MonthlyProgressDetailsView extends StatelessWidget {
   final MonthlyAssessmentHistoryItem item;
@@ -28,7 +29,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+          padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,29 +49,29 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
 
-              const CustomText(
+              CustomText(
                 text: 'Monthly Assessment Result',
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
 
-              const CustomText(
+              CustomText(
                 text: 'Here is your child\'s monthly assessment.',
                 style: AppTextStyles.nunito14w400Grey,
                 textAlign: TextAlign.center,
               ),
 
-              const SizedBox(height: 150),
+              SizedBox(height: 150.h),
 
               Center(
                 child: Container(
                   width: 260,
-                  padding: const EdgeInsets.all(38),
+                  padding: EdgeInsets.all(38.r),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18.r),
                     border: Border.all(color: ColorManager.primaryBlue),
                     boxShadow: [
                       BoxShadow(
@@ -89,7 +90,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +104,8 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                             ),
                             Text(
                               _getShortMonth(item.monthYear),
-                              style: const TextStyle(
-                                fontSize: 10,
+                              style: TextStyle(
+                                fontSize: 10.sp,
                                 color: ColorManager.grayB0,
                               ),
                             ),
@@ -112,7 +113,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14.h),
 
                       CustomText(
                         text: item.resultLabel,
@@ -120,7 +121,7 @@ class MonthlyProgressDetailsView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
 
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
 
                       CustomText(
                         text: item.recommendations,

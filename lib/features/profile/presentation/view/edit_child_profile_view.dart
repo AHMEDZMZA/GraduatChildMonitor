@@ -14,6 +14,7 @@ import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../widgets/profile_avatar_section.dart';
 import '../widgets/profile_gender_selector.dart';
 import '../widgets/profile_top_header.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditChildProfileView extends StatefulWidget {
   final String? childId;
@@ -122,9 +123,9 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
               key: _formKey,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 20.h,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,7 +136,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                           : 'Add Child Profile',
                     ),
 
-                    const SizedBox(height: 34),
+                    SizedBox(height: 34.h),
 
                     Center(
                       child: GestureDetector(
@@ -147,13 +148,13 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       ),
                     ),
 
-                    const SizedBox(height: 26),
+                    SizedBox(height: 26.h),
 
-                    const Text(
+                    Text(
                       'Child Name',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: false,
@@ -162,13 +163,13 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       keyboardType: TextInputType.name,
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
-                    const Text(
+                    Text(
                       'Birth Date / Age',
                       style: AppTextStyles.nunito16w900Black,
                     ), // Label updated to indicate birth date is required
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: false,
@@ -177,13 +178,13 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       keyboardType: TextInputType.datetime,
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
-                    const Text(
+                    Text(
                       'Gender',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     ProfileGenderSelector(
                       selectedGender: gender,
@@ -194,7 +195,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       },
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
                     Row(
                       children: [
@@ -206,7 +207,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                             });
                           },
                         ),
-                        const Text(
+                        Text(
                           'Knows Condition',
                           style: AppTextStyles.nunito16w900Black,
                         ),
@@ -214,12 +215,12 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                     ),
 
                     if (knowsCondition) ...[
-                      const SizedBox(height: 10),
-                      const Text(
+                      SizedBox(height: 10.h),
+                      Text(
                         'Diagnosed Condition',
                         style: AppTextStyles.nunito16w900Black,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       CustomTextFormField(
                         isPassword: false,
                         hintText: 'Enter diagnosed condition',
@@ -227,7 +228,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       ),
                     ],
 
-                    const SizedBox(height: 28),
+                    SizedBox(height: 28.h),
 
                     BlocBuilder<ProfileCubit, ProfileState>(
                       builder: (context, state) {
@@ -268,7 +269,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                     ),
 
                     if (isEdit) ...[
-                      const SizedBox(height: 14),
+                      SizedBox(height: 14.h),
 
                       CustomButton(
                         text: 'Delete Profile',

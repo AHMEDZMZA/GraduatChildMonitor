@@ -5,6 +5,7 @@ import '../../../../core/constants/app_strings.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/widgets/glow_blur_circle.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
@@ -79,7 +80,7 @@ class _OnboardingContentState extends State<_OnboardingContent> {
         ),
         Column(
           children: [
-            const SizedBox(height: 100),
+            SizedBox(height: 100.h),
             Expanded(
               child: PageView.builder(
                 controller: _controller,
@@ -91,17 +92,17 @@ class _OnboardingContentState extends State<_OnboardingContent> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 30.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                     onPressed: () => _goToLogin(context),
-                    child: const Text(
+                    child: Text(
                       AppStrings.skip,
                       style: TextStyle(
                         color: ColorManager.mediumGray,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),
@@ -110,14 +111,14 @@ class _OnboardingContentState extends State<_OnboardingContent> {
                       pages.length,
                       (i) => AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        margin: EdgeInsets.symmetric(horizontal: 4.w),
                         width: 8,
                         height: 8,
                         decoration: BoxDecoration(
                           color: _index == i
                               ? ColorManager.primaryBlue
                               : ColorManager.lightGray,
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4.r),
                         ),
                       ),
                     ),
@@ -133,11 +134,11 @@ class _OnboardingContentState extends State<_OnboardingContent> {
                         _goToLogin(context);
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       AppStrings.next,
                       style: TextStyle(
                         color: ColorManager.primaryBlue,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                     ),
                   ),
@@ -187,7 +188,7 @@ class _OnboardingStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.all(24.0.r),
       child: Column(
         children: [
           ClipOval(
@@ -197,9 +198,9 @@ class _OnboardingStep extends StatelessWidget {
               child: Image.asset(onboardingSvgPath, fit: BoxFit.contain),
             ),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
           Text(title, style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Text(
             subtitle,
             textAlign: TextAlign.center,

@@ -16,7 +16,7 @@
 //         return AlertDialog(
 //           backgroundColor: Colors.white,
 //           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(16),
+//             borderRadius: BorderRadius.circular(16.r),
 //           ),
 //           content: SingleChildScrollView(
 //             child: Column(
@@ -27,10 +27,10 @@
 //                     color: color.withValues(alpha: 0.1),
 //                     shape: BoxShape.circle,
 //                   ),
-//                   padding: const EdgeInsets.all(12),
+//                   padding: EdgeInsets.all(12.r),
 //                   child: Icon(icon, color: color, size: 48),
 //                 ),
-//                 const SizedBox(height: 16),
+//                 SizedBox(height: 16.h),
 //                 Text(
 //                   _getErrorTitle(failure),
 //                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -39,7 +39,7 @@
 //                   ),
 //                   textAlign: TextAlign.center,
 //                 ),
-//                 const SizedBox(height: 8),
+//                 SizedBox(height: 8.h),
 //                 Text(
 //                   failure.message,
 //                   style: Theme.of(
@@ -55,7 +55,7 @@
 //               style: ElevatedButton.styleFrom(
 //                 backgroundColor: color,
 //                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(8),
+//                   borderRadius: BorderRadius.circular(8.r),
 //                 ),
 //               ),
 //               onPressed: () => Navigator.of(context).pop(),

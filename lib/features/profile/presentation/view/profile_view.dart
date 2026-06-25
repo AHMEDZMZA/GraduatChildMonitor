@@ -12,6 +12,7 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/profile_avatar_section.dart';
 import '../widgets/profile_option_item.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -89,11 +90,11 @@ class _ProfileViewState extends State<ProfileView> {
         // backgroundColor: ColorManager.white,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 22),
+            padding: EdgeInsets.symmetric(horizontal: 22.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 Center(
                   child: CustomText(
@@ -103,7 +104,7 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 28),
+                SizedBox(height: 28.h),
 
                 Center(
                   child: ProfileAvatarSection(
@@ -112,7 +113,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                 ),
 
-                const SizedBox(height: 34),
+                SizedBox(height: 34.h),
 
                 ProfileOptionItem(
                   icon: Icons.person_outline,
@@ -122,7 +123,7 @@ class _ProfileViewState extends State<ProfileView> {
                   },
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
 
                 ProfileOptionItem(
                   icon: Icons.person_outline,
@@ -132,7 +133,7 @@ class _ProfileViewState extends State<ProfileView> {
                   },
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
 
                 ProfileOptionItem(
                   icon: Icons.settings_outlined,
@@ -142,7 +143,7 @@ class _ProfileViewState extends State<ProfileView> {
                   },
                 ),
 
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
 
                 ProfileOptionItem(
                   icon: Icons.logout_outlined,

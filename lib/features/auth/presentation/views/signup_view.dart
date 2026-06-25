@@ -9,6 +9,7 @@ import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
 import 'widget/social_auth_section.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -71,7 +72,7 @@ class _SignupViewState extends State<SignupView> {
             ),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0.r),
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Form(
@@ -79,55 +80,55 @@ class _SignupViewState extends State<SignupView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Center(
+                    Center(
                       child: CustomText(
                         text: 'Sign Up',
                         style: AppTextStyles.nunito32w900Black,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     // M-5: Social auth section extracted into reusable widget.
                     const SocialAuthSection(dividerLabel: 'or sign up with'),
-                    const CustomText(
+                    CustomText(
                       text: 'Monitor Name',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     CustomTextFormField(
                       isPassword: false,
                       hintText: 'Monitor Name',
                       controller: monitorNameController,
                     ),
-                    const SizedBox(height: 18),
-                    const CustomText(
+                    SizedBox(height: 18.h),
+                    CustomText(
                       text: 'Email Address',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     CustomTextFormField(
                       isPassword: false,
                       hintText: 'example@gmail.com',
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    const SizedBox(height: 18),
-                    const CustomText(
+                    SizedBox(height: 18.h),
+                    CustomText(
                       text: 'Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     CustomTextFormField(
                       obscuringCharacter: '*',
                       isPassword: true,
                       hintText: '*******',
                       controller: passwordController,
                     ),
-                    const SizedBox(height: 18),
-                    const CustomText(
+                    SizedBox(height: 18.h),
+                    CustomText(
                       text: 'Confirm Password',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 7),
+                    SizedBox(height: 7.h),
                     CustomTextFormField(
                       obscuringCharacter: '*',
                       isPassword: true,
@@ -140,7 +141,7 @@ class _SignupViewState extends State<SignupView> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(
@@ -164,25 +165,25 @@ class _SignupViewState extends State<SignupView> {
                         );
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const CustomText(
+                        CustomText(
                           text: 'Already have an Account? ',
                           color: ColorManager.nearBlack13,
-                          fontSize: 14,
+                          fontSize: 14.sp,
                         ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
-                          child: const CustomText(
+                          child: CustomText(
                             text: 'Sign in',
                             style: AppTextStyles.nunito15w400blue,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 50),
+                    SizedBox(height: 50.h),
                   ],
                 ),
               ),

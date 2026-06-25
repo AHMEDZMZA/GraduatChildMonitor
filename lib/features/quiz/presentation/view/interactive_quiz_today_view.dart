@@ -8,6 +8,7 @@ import '../widgets/info_card_quiz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InteractiveQuizTodayView extends StatelessWidget {
   final String? childId;
@@ -36,7 +37,7 @@ class InteractiveQuizTodayView extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -56,26 +57,26 @@ class InteractiveQuizTodayView extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
 
               CustomText(
                 text: 'Interactive Quiz',
-                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28),
+                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
-              const CustomText(
+              CustomText(
                 text:
                     'A short quiz to help your child learn through fun and simple questions.',
                 style: AppTextStyles.nunito14w400Grey,
               ),
 
-              const SizedBox(height: 42),
+              SizedBox(height: 42.h),
 
               const Center(child: InfoCardQuiz()),
 
-              const SizedBox(height: 80),
+              SizedBox(height: 80.h),
 
               CustomButton(
                 text: 'Start Quiz',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileGenderSelector extends StatelessWidget {
   final String? selectedGender;
@@ -18,7 +19,7 @@ class ProfileGenderSelector extends StatelessWidget {
       onTap: () => onChanged(value),
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8.h),
         child: Row(
           children: [
             Container(
@@ -46,7 +47,7 @@ class ProfileGenderSelector extends StatelessWidget {
                     )
                   : null,
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
             Text(value, style: AppTextStyles.nunito14w400Black),
           ],
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/managers/theme_helper.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// Reusable article card that works with [ArticleEntity] from the API.
 class ApiArticleCard extends StatelessWidget {
@@ -36,13 +37,13 @@ class ApiArticleCard extends StatelessWidget {
           Container(
             height: 270,
             width: double.infinity,
-            margin: const EdgeInsets.only(bottom: 16),
+            margin: EdgeInsets.only(bottom: 16.h),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               color: shimmerColor,
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               child: article.image != null
                   ? CachedNetworkImage(
                       imageUrl: article.image!,
@@ -58,10 +59,10 @@ class ApiArticleCard extends StatelessWidget {
           Container(
             height: 270,
             width: double.infinity,
-            margin: const EdgeInsets.only(bottom: 16),
-            padding: const EdgeInsets.fromLTRB(16, 16, 14, 14),
+            margin: EdgeInsets.only(bottom: 16.h),
+            padding: EdgeInsets.fromLTRB(16.w, 16.h, 14.w, 14.h),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -80,7 +81,7 @@ class ApiArticleCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: AppTextStyles.nunito20w900Black.copyWith(
                     color: ColorManager.white,
-                    fontSize: 32,
+                    fontSize: 32.sp,
                   ),
                 ),
                 const Spacer(),
@@ -93,12 +94,12 @@ class ApiArticleCard extends StatelessWidget {
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.nunito14w400White.copyWith(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 110),
+                      margin: EdgeInsets.only(bottom: 110.h),
                       height: 28,
                       width: 28,
                       decoration: BoxDecoration(

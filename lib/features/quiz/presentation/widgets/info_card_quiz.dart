@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InfoCardQuiz extends StatelessWidget {
   const InfoCardQuiz({super.key});
@@ -14,7 +15,7 @@ class InfoCardQuiz extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
         boxShadow: [
           BoxShadow(
@@ -29,9 +30,9 @@ class InfoCardQuiz extends StatelessWidget {
         children: [
           CustomText(
             text: 'Focus Quiz',
-            style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28),
+            style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: 40.h),
            CustomText(
              text:
                  'This quiz includes 3 simple\n'

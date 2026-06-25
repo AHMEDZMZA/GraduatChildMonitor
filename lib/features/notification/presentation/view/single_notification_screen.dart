@@ -5,6 +5,7 @@ import '../../../../core/widgets/app_bottom_sheet.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 
 import '../../data/model/notification_item_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SingleNotificationScreen extends StatelessWidget {
   final NotificationItemModel? item;
@@ -17,12 +18,12 @@ class SingleNotificationScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
             Stack(
               alignment: Alignment.center,
               children: [
-                const CustomText(
+                CustomText(
                   text: 'Notification',
                   style: AppTextStyles.nunito32w900Black,
                 ),
@@ -30,7 +31,7 @@ class SingleNotificationScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 18),
+                    padding: EdgeInsets.only(right: 18.w),
                     child: InkWell(
                       onTap: () {
                         showModalBottomSheet(
@@ -63,7 +64,7 @@ class SingleNotificationScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
+                    padding: EdgeInsets.only(left: 12.w),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: const CircleAvatar(
@@ -81,19 +82,19 @@ class SingleNotificationScreen extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: 38),
+            SizedBox(height: 38.h),
 
             Expanded(
               child: Center(
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.86,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 28,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 24.w,
+                    vertical: 28.h,
                   ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(28.r),
                     border: Border.all(
                       color: ColorManager.primaryBlue,
                       width: 1.4,
@@ -115,7 +116,7 @@ class SingleNotificationScreen extends StatelessWidget {
                         style: AppTextStyles.nunito20w900Black,
                       ),
 
-                      SizedBox(height: 22),
+                      SizedBox(height: 22.h),
 
                       Text(
                         'Well done! Keep going!"\n'

@@ -5,6 +5,7 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../cubit/progress_cubit.dart';
 import '../cubit/progress_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatisticsView extends StatefulWidget {
   final String childId;
@@ -27,7 +28,7 @@ class _StatisticsViewState extends State<StatisticsView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,15 +47,15 @@ class _StatisticsViewState extends State<StatisticsView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              const Center(
+              SizedBox(height: 24.h),
+              Center(
                 child: CustomText(
                   text: 'Progress Statistics',
                   style: AppTextStyles.nunito30w900Black,
                   textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               Expanded(
                 child: BlocBuilder<ProgressCubit, ProgressState>(
                   builder: (context, state) {
@@ -70,7 +71,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                           children: [
                             _buildSectionTitle('Improvement Trend'),
                             _buildTrendCard(progress.trend.status),
-                            const SizedBox(height: 24),
+                            SizedBox(height: 24.h),
                             _buildSectionTitle('Activity Statistics'),
                             _buildStatsCard(
                               completed:
@@ -79,7 +80,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                               percentage:
                                   progress.activityStats.completionPercentage,
                             ),
-                            const SizedBox(height: 24),
+                            SizedBox(height: 24.h),
                             _buildSectionTitle('Progress Summary'),
                             _buildSummaryCard(
                               progress.summary.summaryText,
@@ -102,7 +103,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12.h),
       child: CustomText(text: title, style: AppTextStyles.nunito20w900Black),
     );
   }
@@ -126,12 +127,12 @@ class _StatisticsViewState extends State<StatisticsView> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: _cardDecoration(),
       child: Row(
         children: [
           Icon(statusIcon, color: statusColor, size: 40),
-          const SizedBox(width: 16),
+          SizedBox(width: 16.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -141,7 +142,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                   color: statusColor,
                 ),
               ),
-              const CustomText(
+              CustomText(
                 text: 'Based on monthly assessments',
                 style: AppTextStyles.nunito12w600overlayGray66,
               ),
@@ -158,14 +159,14 @@ class _StatisticsViewState extends State<StatisticsView> {
     required double percentage,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: _cardDecoration(),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const CustomText(
+              CustomText(
                 text: 'Activity Completion',
                 style: AppTextStyles.nunito16w900Black,
               ),
@@ -175,15 +176,15 @@ class _StatisticsViewState extends State<StatisticsView> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           LinearProgressIndicator(
             value: percentage / 100,
             backgroundColor: ColorManager.lightGray,
             color: ColorManager.primaryBlue,
             minHeight: 12,
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(6.r),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Align(
             alignment: Alignment.centerRight,
             child: CustomText(
@@ -198,7 +199,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   Widget _buildSummaryCard(String text, double improvement) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: _cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,14 +207,14 @@ class _StatisticsViewState extends State<StatisticsView> {
           Row(
             children: [
               const Icon(Icons.star, color: ColorManager.gold),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               CustomText(
                 text: 'Overall Improvement: ${improvement.toStringAsFixed(1)}%',
                 style: AppTextStyles.nunito16w900Black,
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           CustomText(text: text, style: AppTextStyles.nunito14w400Grey),
         ],
       ),
@@ -223,7 +224,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
       color: Theme.of(context).cardColor,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(18.r),
       border: Border.all(
         color: ColorManager.primaryBlue.withValues(alpha: 0.3),
       ),

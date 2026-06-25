@@ -9,6 +9,7 @@ import '../../domain/entities/child_entity.dart';
 import '../../domain/entities/question_entity.dart';
 import '../bloc/test_cubit.dart';
 import '../widgets/build_answer_option.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestQuestionsUnknownView extends StatefulWidget {
   final ChildEntity child;
@@ -162,7 +163,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                 '${currentTestIndex}_${currentQuestion.qId}';
 
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -196,17 +197,17 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                   Text(currentTest['title'] as String,
                       style: AppTextStyles.nunito30w900Black),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.h),
                   Text(
                     allInstructions[currentTestType] ?? '',
                     style: AppTextStyles.nunito14w400Grey,
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: 30.h),
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                     child: LinearProgressIndicator(
                       value: progress,
                       minHeight: 10,
@@ -216,16 +217,16 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
                   Text(
                     'Test ${currentTestIndex + 1}/${tests.length} - Question: ${currentQuestionIndex + 1}/${questions.length}',
-                    style: const TextStyle(
-                      fontSize: 16,
+                    style: TextStyle(
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
                       color: ColorManager.primaryBlue,
                     ),
                   ),
-                  const SizedBox(height: 25),
+                  SizedBox(height: 25.h),
                   Expanded(
                     child: PageView.builder(
                       controller: pageController,
@@ -247,14 +248,14 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                           children: [
                             Text(
                               question.question,
-                              style: const TextStyle(
-                                fontSize: 20,
+                              style: TextStyle(
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                                 height: 1.4,
                               ),
                             ),
-                            const SizedBox(height: 30),
+                            SizedBox(height: 30.h),
                             // FIX: answer values 'yes/no/sometimes' to match API
                             AnswerOption(
                               label: 'Yes',
@@ -263,7 +264,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                                 setState(() => answers[key] = 'yes');
                               },
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 15.h),
                             AnswerOption(
                               label: 'No',
                               selected: answers[key] == 'no',
@@ -271,7 +272,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                                 setState(() => answers[key] = 'no');
                               },
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 15.h),
                             AnswerOption(
                               label: 'Sometimes',
                               selected: answers[key] == 'sometimes',
@@ -284,7 +285,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                   Row(
                     children: [
                       if (currentQuestionIndex > 0 || currentTestIndex > 0)
@@ -355,7 +356,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20.h),
                 ],
               ),
             );

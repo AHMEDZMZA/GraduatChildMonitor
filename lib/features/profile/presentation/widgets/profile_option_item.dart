@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileOptionItem extends StatelessWidget {
   final IconData icon;
@@ -19,18 +20,18 @@ class ProfileOptionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(14.r),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 14),
+        padding: EdgeInsets.symmetric(vertical: 14.h),
         child: Row(
           children: [
             Icon(icon, color: ColorManager.primaryBlue, size: 24),
-            const SizedBox(width: 18),
+            SizedBox(width: 18.w),
             Expanded(
               child: CustomText(
                 text: title,
                 style: AppTextStyles.nunito20w900Black.copyWith(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
             ),

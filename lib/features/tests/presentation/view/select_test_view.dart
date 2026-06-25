@@ -6,6 +6,7 @@ import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../domain/entities/child_entity.dart';
 import '../widgets/select_option_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTestView extends StatefulWidget {
   final ChildEntity child;
@@ -30,7 +31,7 @@ class _SelectTestViewState extends State<SelectTestView> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,17 +47,17 @@ class _SelectTestViewState extends State<SelectTestView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-              const Text(
+              SizedBox(height: 50.h),
+              Text(
                 AppStrings.selectTestTitle,
                 style: AppTextStyles.nunito32w900Black,
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10.h),
+              Text(
                 AppStrings.selectTestDescription,
                 style: AppTextStyles.nunito14w400Grey,
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
               Center(
                 child: SelectOptionCard(
                   index: 1,
@@ -66,7 +67,7 @@ class _SelectTestViewState extends State<SelectTestView> {
                   onTap: () => onOptionSelected(1),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Center(
                 child: SelectOptionCard(
                   index: 2,
@@ -76,7 +77,7 @@ class _SelectTestViewState extends State<SelectTestView> {
                   onTap: () => onOptionSelected(2),
                 ),
               ),
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
               CustomButton(
                 text: AppStrings.nextButton,
                 onTap: () {

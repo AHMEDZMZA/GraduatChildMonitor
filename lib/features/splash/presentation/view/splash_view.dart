@@ -7,6 +7,7 @@ import '../../../../core/widgets/glow_blur_circle.dart';
 import '../../../../core/navigation/app_routes.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/network/token_storage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -90,7 +91,7 @@ class _SplashViewState extends State<SplashView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(AppAssets.logo),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
               ],
             ),
           ),

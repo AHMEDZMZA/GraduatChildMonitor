@@ -7,6 +7,7 @@ import '../../data/activity_model.dart';
 import '../../../../core/navigation/app_routes.dart';
 import '../cubit/activity_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActivityDetailsView extends StatefulWidget {
   final ActivityModel activity;
@@ -67,7 +68,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
+          padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,9 +88,9 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: 50.h),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18.r),
                   child: Image.asset(
                     widget.activity.image,
                     width: 261,
@@ -97,27 +98,27 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   widget.activity.title,
                   style: AppTextStyles.nunito30w900Black,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   'Activity Info',
                   style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 _InfoRow(icon: Icons.circle, text: widget.activity.duration),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 _InfoRow(icon: Icons.circle, text: widget.activity.difficulty),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 _InfoRow(icon: Icons.circle, text: widget.activity.suitableAge),
                 if (isCompleted) ...[
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -126,19 +127,19 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                         color: ColorManager.brightTeal,
                         size: 16,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4.w),
                       Text(
                         'Completed',
                         style: AppTextStyles.nunito12w600overlayGray66.copyWith(
                           color: ColorManager.brightTeal,
                           fontWeight: FontWeight.w700,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ],
                   ),
                 ],
-                const SizedBox(height: 90),
+                SizedBox(height: 90.h),
 
                 CustomButton(
                   text: isCompleted ? 'Done' : 'Start Activity',
@@ -150,7 +151,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                     }
                   },
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
               ],
             ),
           ),
@@ -172,12 +173,12 @@ class _InfoRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon, size: 6, color: Theme.of(context).iconTheme.color),
-        const SizedBox(width: 6),
+        SizedBox(width: 6.w),
         Text(
           text,
           style: AppTextStyles.nunito12w600overlayGray66.copyWith(
             color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 16,
+            fontSize: 16.sp,
           ),
         ),
       ],

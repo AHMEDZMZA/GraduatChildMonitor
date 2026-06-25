@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../data/today_plan_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TodayPlanCard extends StatelessWidget {
   final TodayPlanModel item;
@@ -15,11 +16,11 @@ class TodayPlanCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 18),
-        padding: const EdgeInsets.all(12),
+        margin: EdgeInsets.only(bottom: 18.h),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
           border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
           boxShadow: [
             BoxShadow(
@@ -33,7 +34,7 @@ class TodayPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               child: Image.asset(
                 item.image,
                 width: 86,
@@ -42,7 +43,7 @@ class TodayPlanCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
 
             Expanded(
               child: Column(
@@ -51,43 +52,43 @@ class TodayPlanCard extends StatelessWidget {
                   Text(
                     item.title,
                     style: AppTextStyles.nunito16w900Green.copyWith(
-                      fontSize: 15,
+                      fontSize: 15.sp,
                     ),
                   ),
 
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
 
                   Text(
                     item.description,
                     style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                      fontSize: 11,
+                      fontSize: 11.sp,
                       height: 1.45,
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
                   ...item.points.map(
                     (point) => Padding(
-                      padding: const EdgeInsets.only(bottom: 3),
+                      padding: EdgeInsets.only(bottom: 3.h),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(top: 5),
+                            padding: EdgeInsets.only(top: 5.h),
                             child: Icon(
                               Icons.circle,
                               size: 4,
                               color: Theme.of(context).iconTheme.color,
                             ),
                           ),
-                          const SizedBox(width: 6),
+                          SizedBox(width: 6.w),
                           Expanded(
                             child: Text(
                               point,
                               style: AppTextStyles.nunito12w600overlayGray66
                                   .copyWith(
-                                    fontSize: 11,
+                                    fontSize: 11.sp,
                                     color: Theme.of(context).textTheme.bodyLarge?.color,
                                     height: 1.35,
                                   ),
@@ -97,7 +98,7 @@ class TodayPlanCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Center(
                     child: CustomPaint(
                       size: const Size(double.infinity, 1),
@@ -108,10 +109,10 @@ class TodayPlanCard extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
 
             Padding(
-              padding: const EdgeInsets.only(top: 50),
+              padding: EdgeInsets.only(top: 50.h),
               child: Container(
                 height: 22,
                 width: 22,

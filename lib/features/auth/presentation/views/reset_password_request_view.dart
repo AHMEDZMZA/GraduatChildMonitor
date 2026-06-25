@@ -8,6 +8,7 @@ import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordRequestView extends StatefulWidget {
   const ResetPasswordRequestView({super.key});
@@ -61,36 +62,36 @@ class _ResetPasswordRequestViewState extends State<ResetPasswordRequestView> {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 50.h),
               child: Form(
                 key: formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 100),
-                    const CustomText(
+                    SizedBox(height: 100.h),
+                    CustomText(
                       text: 'Forget Password',
                       style: AppTextStyles.nunito32w900Black,
                     ),
-                    const SizedBox(height: 8),
-                    const CustomText(
+                    SizedBox(height: 8.h),
+                    CustomText(
                       text:
                           'Enter the email address registered with your account. We will send you a code to reset your password.',
                       style: AppTextStyles.nunito14w400Grey,
                     ),
-                    const SizedBox(height: 30),
-                    const CustomText(
+                    SizedBox(height: 30.h),
+                    CustomText(
                       text: 'Email Address',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     CustomTextFormField(
                       isPassword: false,
                       hintText: 'example@gmail.com',
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
-                    const SizedBox(height: 15),
+                    SizedBox(height: 15.h),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileAvatarSection extends StatelessWidget {
   final String imagePath;
@@ -40,7 +41,7 @@ class ProfileAvatarSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         CustomText(text: userName, style: AppTextStyles.nunito20w900Black),
       ],
     );

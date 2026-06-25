@@ -4,6 +4,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // L-3: Renamed from reset_passowrd_finished_view.dart (typo fixed).
 // Class name also corrected: ResetPassowrdFinishedView → ResetPasswordFinishedView.
@@ -26,21 +27,21 @@ class ResetPasswordFinishedView extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 20.h),
         child: Column(
           children: [
-            const SizedBox(height: 140),
+            SizedBox(height: 140.h),
             Image.asset(AppAssets.correctIcon, width: 98, height: 98),
-            const SizedBox(height: 25),
-            const CustomText(
+            SizedBox(height: 25.h),
+            CustomText(
               text: 'Password Updated!',
               style: AppTextStyles.nunito32w900Black,
             ),
-            const CustomText(
+            CustomText(
               text: 'You can now sign in with your new password.',
               style: AppTextStyles.nunito14w400Grey,
             ),
-            const SizedBox(height: 60),
+            SizedBox(height: 60.h),
             CustomButton(
               text: 'Continue to Login',
               onTap: () {

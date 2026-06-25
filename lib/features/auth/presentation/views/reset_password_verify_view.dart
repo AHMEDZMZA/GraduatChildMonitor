@@ -7,6 +7,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import 'widget/custom_button.dart';
 import 'widget/custom_pin_code_fields.dart';
 import 'widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordVerifyView extends StatefulWidget {
   final String email;
@@ -61,34 +62,34 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
           body: SingleChildScrollView(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                  EdgeInsets.symmetric(horizontal: 25.w, vertical: 30.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomText(
+                  CustomText(
                     text: 'Verify Your Account',
                     style: AppTextStyles.nunito32w900Black,
                   ),
-                  const SizedBox(height: 8),
-                  const CustomText(
+                  SizedBox(height: 8.h),
+                  CustomText(
                     text:
                         'We\'ve sent a code to your email, please enter the code below.',
                     style: AppTextStyles.nunito14w400Grey,
                   ),
-                  const SizedBox(height: 40),
-                  const Text('Enter Code',
+                  SizedBox(height: 40.h),
+                  Text('Enter Code',
                       style: AppTextStyles.nunito16w700Black),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 15.h),
                   CustomPinCodeFields(controller: otpController),
                   if (errorMessage != null) ...[
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
                       errorMessage!,
                       style:
-                          const TextStyle(color: Colors.red, fontSize: 14),
+                          TextStyle(color: Colors.red, fontSize: 14.sp),
                     ),
                   ],
-                  const SizedBox(height: 40),
+                  SizedBox(height: 40.h),
                   BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
                       return CustomButton(

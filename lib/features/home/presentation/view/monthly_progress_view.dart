@@ -9,6 +9,7 @@ import '../../../profile/domain/entities/profile_entity.dart';
 import '../cubit/monthly_assessment_cubit.dart';
 import '../cubit/monthly_assessment_state.dart';
 import '../widgets/progress_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MonthlyProgressView extends StatefulWidget {
   final ChildProfileEntity child;
@@ -29,7 +30,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -51,9 +52,9 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
-                const Center(
+                Center(
                   child: CustomText(
                     text: 'Your Child’s Monthly Assessments',
                     style: AppTextStyles.nunito30w900Black,
@@ -61,9 +62,9 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
 
-                const Center(
+                Center(
                   child: CustomText(
                     text: 'Review your child’s monthly progress here.',
                     style: AppTextStyles.nunito14w400Grey,
@@ -71,7 +72,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                   ),
                 ),
 
-                const SizedBox(height: 28),
+                SizedBox(height: 28.h),
 
                 Expanded(
                   child: BlocBuilder<MonthlyAssessmentCubit, MonthlyAssessmentState>(
@@ -94,12 +95,12 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12.h),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: ColorManager.primaryBlue,
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(12.r),
                                   ),
                                 ),
                                 onPressed: () {
@@ -165,11 +166,11 @@ class _EmptyState extends StatelessWidget {
       width: 240,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: ColorManager.primaryBlue),
       ),
       alignment: Alignment.center,
-      child: const CustomText(
+      child: CustomText(
         text: 'No monthly assessment yet',
         style: AppTextStyles.nunito16w900Green,
       ),

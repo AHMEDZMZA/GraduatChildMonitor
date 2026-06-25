@@ -5,6 +5,7 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../data/activity_model.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActivityStepsView extends StatefulWidget {
   final ActivityModel activity;
@@ -31,7 +32,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
+          padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
           child: Column(
             children: [
               Align(
@@ -58,9 +59,9 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 child: LinearProgressIndicator(
                   value: progress,
                   minHeight: 8,
@@ -70,7 +71,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               SizedBox(
                 height: 500,
                 child: PageView.builder(
@@ -91,13 +92,13 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                           child: Text(
                             'Step ${currentStep + 1} of $total',
                             style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                              fontSize: 20,
+                              fontSize: 20.sp,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           child: Image.asset(
                             step.image,
                             width: 261,
@@ -105,40 +106,40 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         Text(
                           step.title,
                           style: AppTextStyles.nunito30w900Black,
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 18),
+                        SizedBox(height: 18.h),
                         Container(
                           width: 210,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 16,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 16.h,
                           ),
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
                           child: Text(
                             step.description,
                             textAlign: TextAlign.center,
                             style: AppTextStyles.nunito12w600overlayGray66.copyWith(
                               color: Theme.of(context).textTheme.bodyLarge?.color,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               height: 1.45,
                             ),
                           ),
                         ),
-                        const SizedBox(height: 14),
+                        SizedBox(height: 14.h),
                         Text(
                           step.note,
                           textAlign: TextAlign.center,
                           style: AppTextStyles.nunito12w600overlayGray66.copyWith(
                             color: ColorManager.primaryBlue,
-                            fontSize: 16,
+                            fontSize: 16.sp,
                             height: 1.4,
                           ),
                         ),
@@ -147,7 +148,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   },
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   if (currentStep > 0)
@@ -218,7 +219,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   // ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
             ],
           ),
         ),

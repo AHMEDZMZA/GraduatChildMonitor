@@ -18,6 +18,7 @@ import 'package:child_monitor_app/features/notification/presentation/cubit/notif
 // NotificationHelper has been removed from startup init.
 import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/managers/theme_cubit.dart';
 import 'core/managers/app_theme.dart';
@@ -76,13 +77,20 @@ class MyApp extends StatelessWidget {
         },
         child: BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (context, themeMode) {
-            return MaterialApp(
-              theme: AppTheme.lightTheme(),
-              darkTheme: AppTheme.darkTheme(),
-              themeMode: themeMode,
-              debugShowCheckedModeBanner: false,
-              initialRoute: AppRoutes.splash,
-              onGenerateRoute: RoutingManager.generateRoute,
+            return ScreenUtilInit(
+              designSize: const Size(375, 812),
+              minTextAdapt: true,
+              splitScreenMode: true,
+              builder: (context, child) {
+                return MaterialApp(
+                  theme: AppTheme.lightTheme(),
+                  darkTheme: AppTheme.darkTheme(),
+                  themeMode: themeMode,
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: AppRoutes.splash,
+                  onGenerateRoute: RoutingManager.generateRoute,
+                );
+              },
             );
           },
         ),

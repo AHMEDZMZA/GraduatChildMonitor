@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectOptionCard extends StatelessWidget {
   final int index;
@@ -27,14 +28,14 @@ class SelectOptionCard extends StatelessWidget {
       child: Container(
         width: 306,
         height: 155,
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10.r),
         decoration: BoxDecoration(
           color: isSelected ? ColorManager.babyBlue : Colors.white,
           border: Border.all(
             color: ColorManager.primaryBlue,
             width: 2,
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +45,7 @@ class SelectOptionCard extends StatelessWidget {
               style: AppTextStyles.nunito15w900primaryBlue,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Text(
               subtitle,
               style: AppTextStyles.nunito12w600overlayGray66,

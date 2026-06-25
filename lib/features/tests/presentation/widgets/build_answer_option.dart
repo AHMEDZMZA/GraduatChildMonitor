@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnswerOption extends StatelessWidget {
   final String label;
@@ -19,11 +20,11 @@ class AnswerOption extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-        margin: const EdgeInsets.only(bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 12.w),
+        margin: EdgeInsets.only(bottom: 10.h),
         decoration: BoxDecoration(
           color: selected ? ColorManager.primaryBlue : ColorManager.white,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(10.r),
           border: Border.all(
             color: selected ? ColorManager.primaryBlue : ColorManager.lightGray,
             width: 1.5,
@@ -58,11 +59,11 @@ class AnswerOption extends StatelessWidget {
                     )
                   : null,
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10.w),
             Text(
               label,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 color: selected ? ColorManager.white : ColorManager.darkText,
               ),
             ),

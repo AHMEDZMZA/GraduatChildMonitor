@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController controller;
@@ -20,7 +21,7 @@ class ChatInput extends StatelessWidget {
             height: 52,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(60),
+              borderRadius: BorderRadius.circular(60.r),
               border: Border.all(
                 color: ColorManager.lightGray50,
               ),
@@ -38,26 +39,26 @@ class ChatInput extends StatelessWidget {
               onSubmitted: (_) => onSend(),
               cursorColor: ColorManager.primaryBlue,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 14.sp,
                 color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Ask me anything...',
                 hintStyle: TextStyle(
                   color: ColorManager.grayB0,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 16,
+                  horizontal: 18.w,
+                  vertical: 16.h,
                 ),
               ),
             ),
           ),
         ),
 
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
 
         GestureDetector(
           onTap: onSend,

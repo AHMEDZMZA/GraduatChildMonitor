@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeCard extends StatelessWidget {
   final String title;
@@ -24,10 +25,10 @@ class HomeCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(14, 14, 14, 12),
+        padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 12.h),
         decoration: BoxDecoration(
           //  color: isSelected ? ColorManager.veryLightBlue : ColorManager.black,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(
             color: isSelected ? ColorManager.primaryBlue : Colors.black,
             width: 1.4,
@@ -46,7 +47,7 @@ class HomeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                   child: Image.asset(
                     image,
                     width: 91,
@@ -54,25 +55,25 @@ class HomeCard extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                          fontSize: 14,
+                        style: TextStyle(
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w800,
                           color: ColorManager.primaryBlue,
                           height: 1.25,
                         ),
                       ),
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6.h),
                       Text(
                         subtitle,
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: TextStyle(
+                          fontSize: 12.sp,
                           color: ColorManager.grayB0,
                           height: 1.35,
                         ),
@@ -82,7 +83,7 @@ class HomeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 SizedBox(
                   height: 91,
                   child: Center(
@@ -106,7 +107,7 @@ class HomeCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             CustomPaint(
               size: const Size(double.infinity, 1),
               painter: _DashedLinePainter(),

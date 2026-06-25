@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticleDetailsView extends StatefulWidget {
   final ArticleEntity article;
@@ -50,9 +51,9 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
               content: const Text('This article added to favourites.'),
               behavior: SnackBarBehavior.floating,
               //backgroundColor: ColorManager.overlayBlack20,
-              margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
+              margin: EdgeInsets.symmetric(horizontal: 46.w, vertical: 90.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               duration: const Duration(seconds: 2),
             ),
@@ -65,9 +66,9 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
               content: const Text('This article removed from favourites.'),
               behavior: SnackBarBehavior.floating,
               // backgroundColor: ColorManager.overlayBlack20,
-              margin: const EdgeInsets.symmetric(horizontal: 46, vertical: 90),
+              margin: EdgeInsets.symmetric(horizontal: 46.w, vertical: 90.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               duration: const Duration(seconds: 2),
             ),
@@ -94,16 +95,16 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                       width: double.infinity,
                       height: 430,
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.r),
+                          bottomRight: Radius.circular(30.r),
                         ),
                         color: ColorManager.mediumGray,
                       ),
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.r),
+                          bottomRight: Radius.circular(30.r),
                         ),
                         child: widget.article.image != null
                             ? CachedNetworkImage(
@@ -120,11 +121,11 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                     Container(
                       width: double.infinity,
                       height: 430,
-                      padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                      padding: EdgeInsets.fromLTRB(16.w, 18.h, 16.w, 24.h),
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30.r),
+                          bottomRight: Radius.circular(30.r),
                         ),
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -152,12 +153,12 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                             ),
                           ),
                           const Spacer(),
-                          const SizedBox(height: 86),
+                          SizedBox(height: 86.h),
                           Text(
                             widget.article.title,
                             style: AppTextStyles.nunito30w900Black.copyWith(
                               color: ColorManager.white,
-                              fontSize: 24,
+                              fontSize: 24.sp,
                               height: 1.35,
                             ),
                           ),
@@ -197,12 +198,12 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   offset: const Offset(0, -2),
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(12, 28, 12, 18),
+                    padding: EdgeInsets.fromLTRB(12.w, 28.h, 12.w, 18.h),
                     child: Text(
                       widget.article.description ?? widget.article.content,
                       style: AppTextStyles.nunito14w400Grey.copyWith(
                         color: ColorManager.primaryBlue,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         height: 1.9,
                       ),
                     ),

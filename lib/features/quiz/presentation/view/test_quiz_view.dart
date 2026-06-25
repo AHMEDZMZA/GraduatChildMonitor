@@ -10,6 +10,7 @@ import 'package:child_monitor_app/features/quiz/presentation/cubit/quiz_state.da
 import 'package:child_monitor_app/core/di/service_locator.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestQuizView extends StatelessWidget {
   final String? childId;
@@ -84,9 +85,9 @@ class _TestQuizContentState extends State<TestQuizContent> {
               final progress = (currentQuestionIndex + 1) / questions.length;
 
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 20.h,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,23 +113,23 @@ class _TestQuizContentState extends State<TestQuizContent> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     Text(
                       state.data.title.isNotEmpty
                           ? state.data.title
                           : 'Interactive Quiz',
                       style: AppTextStyles.nunito30w900Black,
                     ),
-                    const SizedBox(height: 5),
+                    SizedBox(height: 5.h),
                     Text(
                       state.data.description.isNotEmpty
                           ? state.data.description
                           : 'Choose the answer that best describes your child',
                       style: AppTextStyles.nunito14w400Grey,
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(10.r),
                       child: LinearProgressIndicator(
                         value: progress,
                         minHeight: 10,
@@ -138,16 +139,16 @@ class _TestQuizContentState extends State<TestQuizContent> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     Text(
                       'Question: ${currentQuestionIndex + 1}/${questions.length}',
-                      style: const TextStyle(
-                        fontSize: 16,
+                      style: TextStyle(
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: ColorManager.primaryBlue,
                       ),
                     ),
-                    const SizedBox(height: 25),
+                    SizedBox(height: 25.h),
                     SizedBox(
                       height: 305,
                       child: PageView.builder(
@@ -166,14 +167,14 @@ class _TestQuizContentState extends State<TestQuizContent> {
                             children: [
                               Text(
                                 q.question,
-                                style: const TextStyle(
-                                  fontSize: 20,
+                                style: TextStyle(
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black,
                                   height: 1.4,
                                 ),
                               ),
-                              const SizedBox(height: 30),
+                              SizedBox(height: 30.h),
                               AnswerOption(
                                 label: 'Yes',
                                 selected: answers[q.id] == 'Yes',
@@ -183,7 +184,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                                   });
                                 },
                               ),
-                              const SizedBox(height: 15),
+                              SizedBox(height: 15.h),
                               AnswerOption(
                                 label: 'No',
                                 selected: answers[q.id] == 'No',
@@ -198,7 +199,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                         },
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                     Row(
                       children: [
                         if (currentQuestionIndex > 0)
@@ -251,7 +252,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               );

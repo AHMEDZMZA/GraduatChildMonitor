@@ -9,6 +9,7 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../widgets/profile_avatar_section.dart';
 import '../widgets/profile_top_header.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EditProfileView extends StatefulWidget {
   const EditProfileView({super.key});
@@ -67,15 +68,15 @@ class _EditProfileViewState extends State<EditProfileView> {
               key: _formKey,
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 20,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 20.h,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ProfileTopHeader(title: 'Profile'),
-                    const SizedBox(height: 34),
+                    SizedBox(height: 34.h),
 
                     Center(
                       child: GestureDetector(
@@ -87,13 +88,13 @@ class _EditProfileViewState extends State<EditProfileView> {
                       ),
                     ),
 
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
 
-                    const Text(
+                    Text(
                       'Full Name',
                       style: AppTextStyles.nunito16w900Black,
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: false,
@@ -102,10 +103,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                       keyboardType: TextInputType.name,
                     ),
 
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18.h),
 
-                    const Text('Email', style: AppTextStyles.nunito16w900Black),
-                    const SizedBox(height: 10),
+                    Text('Email', style: AppTextStyles.nunito16w900Black),
+                    SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: false,
@@ -114,7 +115,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                       keyboardType: TextInputType.emailAddress,
                     ),
 
-                    const SizedBox(height: 80),
+                    SizedBox(height: 80.h),
 
                     BlocBuilder<ProfileCubit, ProfileState>(
                       builder: (context, state) {

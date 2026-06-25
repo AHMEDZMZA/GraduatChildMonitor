@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../domain/entities/notification_entity.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationListViewItem extends StatelessWidget {
   final NotificationEntity item;
@@ -18,11 +19,11 @@ class NotificationListViewItem extends StatelessWidget {
       return GestureDetector(
         onTap: onTap,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(24),
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(24.r),
           decoration: BoxDecoration(
             color: ColorManager.brightYellow, // Light yellow background
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
               color: ColorManager.goldFFBB, // Gold border
               width: 2,
@@ -45,12 +46,12 @@ class NotificationListViewItem extends StatelessWidget {
                     color: ColorManager.goldFFBB,
                     size: 24,
                   ),
-                  const SizedBox(width: 12),
-                  const Expanded(
+                  SizedBox(width: 12.w),
+                  Expanded(
                     child: Text(
                       'Daily Quote',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w700,
                         color: ColorManager.nearBlack,
                       ),
@@ -63,22 +64,22 @@ class NotificationListViewItem extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Text(
                 '"${item.quote}"',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                   color: ColorManager.nearBlack,
                   fontStyle: FontStyle.italic,
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               Text(
                 item.date,
-                style: const TextStyle(
-                  fontSize: 12,
+                style: TextStyle(
+                  fontSize: 12.sp,
                   color: ColorManager.grayB0,
                 ),
               ),
@@ -92,13 +93,13 @@ class NotificationListViewItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 23),
+        margin: EdgeInsets.only(bottom: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 23.h),
         decoration: BoxDecoration(
           color: isHighlighted
               ? ColorManager.veryLightBlue
               : ColorManager.babyBlue,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
             color: isHighlighted
                 ? ColorManager.primaryBlue
@@ -121,24 +122,24 @@ class NotificationListViewItem extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    style: const TextStyle(
-                      fontSize: 20,
+                    style: TextStyle(
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                       color: ColorManager.nearBlack,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   Text(
                     item.date,
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: 14.sp,
                       color: ColorManager.grayB0,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             const Icon(
               Icons.arrow_forward_ios,
               size: 14,

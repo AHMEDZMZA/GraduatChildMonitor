@@ -7,6 +7,7 @@ import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../bloc/test_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddChildProfileView extends StatefulWidget {
   const AddChildProfileView({super.key});
@@ -79,9 +80,9 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 20.h,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,29 +99,29 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 60),
-                      const Text(
+                      SizedBox(height: 60.h),
+                      Text(
                         AppStrings.addChildTitle,
                         style: AppTextStyles.nunito32w900Black,
                       ),
-                      const SizedBox(height: 60),
-                      const Text(
+                      SizedBox(height: 60.h),
+                      Text(
                         AppStrings.childNameLabel,
                         style: AppTextStyles.nunito16w900Black,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       CustomTextFormField(
                         isPassword: false,
                         hintText: AppStrings.childNameHint,
                         controller: nameController,
                         keyboardType: TextInputType.name,
                       ),
-                      const SizedBox(height: 20),
-                      const Text(
+                      SizedBox(height: 20.h),
+                      Text(
                         'Birth Date',
                         style: AppTextStyles.nunito16w900Black,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       // FIX: wrap in TextFormField with validator so the form
                       // cannot be submitted with an empty birth date
                       TextFormField(
@@ -154,16 +155,16 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                             color: ColorManager.primaryBlue,
                           ),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      const Text(
+                      SizedBox(height: 20.h),
+                      Text(
                         AppStrings.genderLabel,
                         style: AppTextStyles.nunito16w900Black,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
                       RadioGroup<String>(
                         groupValue: gender,
                         onChanged: (value) {
@@ -177,9 +178,9 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                                   value: AppStrings.male,
                                   activeColor: ColorManager.primaryBlue,
                                 ),
-                                const Text(
+                                Text(
                                   AppStrings.maleDisplay,
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 16.sp),
                                 ),
                               ],
                             ),
@@ -189,16 +190,16 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                                   value: AppStrings.female,
                                   activeColor: ColorManager.primaryBlue,
                                 ),
-                                const Text(
+                                Text(
                                   AppStrings.femaleDisplay,
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 16.sp),
                                 ),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 60),
+                      SizedBox(height: 60.h),
                       CustomButton(
                         text: AppStrings.nextButton,
                         onTap: () {

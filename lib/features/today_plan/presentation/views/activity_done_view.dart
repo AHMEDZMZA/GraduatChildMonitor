@@ -4,6 +4,7 @@ import '../../../../core/managers/app_text_styles.dart';
 
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActivityDoneView extends StatelessWidget {
   final String title;
@@ -22,49 +23,49 @@ class ActivityDoneView extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
+          padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
               Image.asset(AppAssets.correctIcon, width: 98, height: 98),
 
-              const SizedBox(height: 18),
-              const Text(
+              SizedBox(height: 18.h),
+              Text(
                 'Activity Completed!',
                 style: AppTextStyles.nunito32w900Black,
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               Text(
                 'Great job! You and your child completed this activity\n successfully.',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               Text(
                 title,
                 style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                  fontSize: 20,
+                  fontSize: 20.sp,
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               Text(
                 'Duration: 10 minutes\nGoal: Help your child express emotions and\n feel emotionally supported.',
                 textAlign: TextAlign.center,
                 style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   height: 1.4,
                 ),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               CustomButton(
                 text: 'Start Next Activity',
                 onTap: () {
                   Navigator.pop(context, true);
                 },
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               CustomButton(
                 text: 'Back to Home',
                 onTap: () {
@@ -75,7 +76,7 @@ class ActivityDoneView extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
             ],
           ),
         ),

@@ -5,6 +5,7 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../domain/entities/child_entity.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UnknownConditionView extends StatefulWidget {
   final ChildEntity child;
@@ -31,7 +32,7 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,17 +48,17 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50),
-              const Text(
+              SizedBox(height: 50.h),
+              Text(
                 AppStrings.unknownConditionTitle,
                 style: AppTextStyles.nunito30w900Black,
               ),
-              const SizedBox(height: 10),
-              const Text(
+              SizedBox(height: 10.h),
+              Text(
                 AppStrings.unknownConditionDescription,
                 style: AppTextStyles.nunito14w400Grey,
               ),
-              const SizedBox(height: 40),
+              SizedBox(height: 40.h),
               Expanded(
                 child: ListView.builder(
                   itemCount: conditions.length,
@@ -76,10 +77,10 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                         });
                       },
                       child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 16,
-                          horizontal: 12,
+                        margin: EdgeInsets.symmetric(vertical: 10.h),
+                        padding: EdgeInsets.symmetric(
+                          vertical: 16.h,
+                          horizontal: 12.w,
                         ),
                         decoration: BoxDecoration(
                           color: isSelected
@@ -90,7 +91,7 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                                 ? ColorManager.primaryBlue
                                 : Colors.grey.shade300,
                           ),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10.r),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.3),
@@ -109,11 +110,11 @@ class _UnknownConditionViewState extends State<UnknownConditionView> {
                                   ? Colors.black
                                   : Colors.grey.shade500,
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10.w),
                             Text(
                               condition,
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: isSelected
                                     ? ColorManager.primaryBlue
                                     : Colors.black87,

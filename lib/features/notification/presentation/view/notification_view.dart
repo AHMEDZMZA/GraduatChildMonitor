@@ -8,6 +8,7 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../cubit/notification_cubit.dart';
 import '../state/notification_state.dart';
 import '../widgets/notification_list_view_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
@@ -30,18 +31,18 @@ class _NotificationViewState extends State<NotificationView> {
       body: SafeArea(
         child: Column(
           children: [
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             Stack(
               alignment: Alignment.center,
               children: [
-                const CustomText(
+                CustomText(
                   text: 'Notification',
                   style: AppTextStyles.nunito32w900Black,
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.only(right: 20.w),
                     child: InkWell(
                       onTap: () {
                         showModalBottomSheet(
@@ -72,7 +73,7 @@ class _NotificationViewState extends State<NotificationView> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Expanded(
               child: BlocBuilder<NotificationCubit, NotificationState>(
                 builder: (context, state) {
@@ -83,7 +84,7 @@ class _NotificationViewState extends State<NotificationView> {
                       return const Center(child: Text("No notifications yet"));
                     }
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
                       child: ListView.builder(
                         itemCount: state.notifications.length,
                         itemBuilder: (context, index) {
@@ -93,13 +94,13 @@ class _NotificationViewState extends State<NotificationView> {
                             direction: DismissDirection.endToStart,
                             background: Container(
                               alignment: Alignment.centerRight,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
                               ),
-                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              margin: EdgeInsets.symmetric(vertical: 4.h),
                               decoration: BoxDecoration(
                                 color: ColorManager.errorRed,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: const Icon(
                                 Icons.delete,

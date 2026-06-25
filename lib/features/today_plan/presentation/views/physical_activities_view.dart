@@ -9,6 +9,7 @@ import '../../data/activity_model.dart';
 import '../cubit/activity_cubit.dart';
 import '../state/activity_state.dart';
 import 'activity_list_item.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PhysicalActivitiesView extends StatefulWidget {
   const PhysicalActivitiesView({super.key});
@@ -89,7 +90,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 0),
+          padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -105,17 +106,17 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              const Text(
+              SizedBox(height: 16.h),
+              Text(
                 'Physical Activities',
                 style: AppTextStyles.nunito30w900Black,
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 'Daily physical exercises designed to boost energy, focus, and coordination.',
-                style: AppTextStyles.nunito14w400Grey.copyWith(fontSize: 11),
+                style: AppTextStyles.nunito14w400Grey.copyWith(fontSize: 11.sp),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Expanded(
                 child: BlocBuilder<ActivityCubit, ActivityState>(
                   buildWhen: (previous, current) =>
@@ -181,7 +182,7 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           child: LinearProgressIndicator(
                             value: progressValue,
                             minHeight: 8,
@@ -191,14 +192,14 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         Text(
                           'Activities Completed: $completedCount/${activities.length}',
                           style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                            fontSize: 16,
+                            fontSize: 16.sp,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         Expanded(
                           child: ListView.builder(
                             itemCount: activities.length,

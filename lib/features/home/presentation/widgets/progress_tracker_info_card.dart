@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressTrackerInfoCard extends StatelessWidget {
   const ProgressTrackerInfoCard({super.key});
@@ -14,7 +15,7 @@ class ProgressTrackerInfoCard extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: ColorManager.primaryBlue, width: 1.2),
         boxShadow: [
           BoxShadow(
@@ -24,7 +25,7 @@ class ProgressTrackerInfoCard extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
+      child: Center(
         child: CustomText(
           text:
               'This assessment is short\n'

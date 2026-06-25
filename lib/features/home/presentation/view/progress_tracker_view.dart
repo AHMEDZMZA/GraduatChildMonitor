@@ -6,6 +6,7 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../../profile/domain/entities/profile_entity.dart';
 import '../widgets/progress_tracker_info_card.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressTrackerView extends StatelessWidget {
   final ChildProfileEntity child;
@@ -18,7 +19,7 @@ class ProgressTrackerView extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,26 +39,26 @@ class ProgressTrackerView extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 60),
+              SizedBox(height: 60.h),
 
               CustomText(
                 text: 'Your Child’s Monthly Assessment Time',
-                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28),
+                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
               ),
 
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
-              const CustomText(
+              CustomText(
                 text:
                     'It’s time for the monthly follow-up to track your child’s progress over the past period.',
                 style: AppTextStyles.nunito14w400Grey,
               ),
 
-              const SizedBox(height: 42),
+              SizedBox(height: 42.h),
 
               const Center(child: ProgressTrackerInfoCard()),
 
-              const SizedBox(height: 80),
+              SizedBox(height: 80.h),
 
               CustomButton(text: 'Start Test', onTap: () {
                 Navigator.pushNamed(

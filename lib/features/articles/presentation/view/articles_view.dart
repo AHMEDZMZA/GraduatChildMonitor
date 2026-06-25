@@ -7,6 +7,7 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../../../../core/navigation/app_routes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ArticlesView extends StatefulWidget {
   const ArticlesView({super.key});
@@ -28,7 +29,7 @@ class _ArticlesViewState extends State<ArticlesView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 16.h),
           child: Column(
             children: [
               Row(
@@ -46,9 +47,9 @@ class _ArticlesViewState extends State<ArticlesView> {
                     ),
                   ),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
 
-                  const Expanded(
+                  Expanded(
                     child: Center(
                       child: CustomText(
                         text: 'Articles',
@@ -74,7 +75,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                 ],
               ),
 
-              const SizedBox(height: 18),
+              SizedBox(height: 18.h),
 
               Expanded(
                 child: BlocBuilder<ArticlesCubit, ArticlesState>(
@@ -103,13 +104,13 @@ class _ArticlesViewState extends State<ArticlesView> {
                               size: 48,
                               color: ColorManager.errorRed,
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             Text(
                               state.message,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.nunito14w400Grey,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16.h),
                             TextButton(
                               onPressed: () => context
                                   .read<ArticlesCubit>()
@@ -123,7 +124,7 @@ class _ArticlesViewState extends State<ArticlesView> {
 
                     if (state is AllArticlesLoaded) {
                       if (state.articles.isEmpty) {
-                        return const Center(
+                        return Center(
                           child: Text(
                             'No articles available.',
                             style: AppTextStyles.nunito14w400Grey,

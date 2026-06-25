@@ -5,6 +5,7 @@ import '../../../../../core/managers/app_text_styles.dart';
 import '../../../../../core/managers/color_manager.dart';
 import '../../cubit/auth_cubit.dart';
 import 'custom_login_social.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// M-5: Extracted shared widget used by both [LoginView] and [SignupView].
 ///
@@ -25,13 +26,13 @@ class SocialAuthSection extends StatelessWidget {
           text: 'Sign in with Google',
           onTap: () => context.read<AuthCubit>().signInWithGoogle(),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         CustomLoginSocial(
           name: AppAssets.facebookLogo,
           text: 'Sign in with Facebook',
           onTap: () => context.read<AuthCubit>().signInWithFacebook(),
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         SizedBox(
           width: double.infinity,
           height: 36,
@@ -44,8 +45,8 @@ class SocialAuthSection extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                margin: EdgeInsets.symmetric(horizontal: 8.w),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: Text(
                   dividerLabel,
                   textAlign: TextAlign.center,
@@ -61,7 +62,7 @@ class SocialAuthSection extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 11),
+        SizedBox(height: 11.h),
       ],
     );
   }

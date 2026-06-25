@@ -12,6 +12,7 @@ import '../cubit/activity_cubit.dart';
 import '../state/activity_state.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_cubit.dart';
 import 'package:child_monitor_app/features/home/presentation/cubit/home_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TodayView extends StatefulWidget {
   const TodayView({super.key});
@@ -41,7 +42,8 @@ class _TodayViewState extends State<TodayView> {
     final homeState = context.read<HomeCubit>().state;
     String? selectedChildId;
     if (homeState is HomeSuccess) {
-      selectedChildId = homeState.homeData.selectedChildId ??
+      selectedChildId =
+          homeState.homeData.selectedChildId ??
           (homeState.homeData.children.isNotEmpty
               ? homeState.homeData.children.first.id
               : null);
@@ -90,7 +92,7 @@ class _TodayViewState extends State<TodayView> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,30 +113,31 @@ class _TodayViewState extends State<TodayView> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
 
-                const CustomText(
+                CustomText(
                   text: 'Today’s Plan',
                   style: AppTextStyles.nunito30w900Black,
                 ),
 
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
 
-                const CustomText(
+                CustomText(
                   text: 'Therapeutic Activities for Your Child',
                   style: AppTextStyles.nunito14w400Grey,
                 ),
 
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
 
                 const HomeBanner(),
 
-                const SizedBox(height: 22),
+                SizedBox(height: 22.h),
 
                 BlocBuilder<ActivityCubit, ActivityState>(
                   buildWhen: (previous, current) =>
                       current is AllActivitiesLoaded ||
-                      (current is ActivityLoading && previous is! AllActivitiesLoaded),
+                      (current is ActivityLoading &&
+                          previous is! AllActivitiesLoaded),
                   builder: (context, state) {
                     if (state is ActivityLoading) {
                       return const Center(
@@ -143,16 +146,6 @@ class _TodayViewState extends State<TodayView> {
                         ),
                       );
                     } else if (state is AllActivitiesLoaded) {
-                      final activities = state.activities;
-
-                      // تصنيف الأنشطة حسب النوع
-                      final physicalActivities = activities
-                          .where((a) => a.activityType == 'PHYSICAL')
-                          .toList();
-                      final parentChildActivities = activities
-                          .where((a) => a.activityType == 'PARENT_CHILD')
-                          .toList();
-
                       // بناء بيانات الخطط من API مع إظهار كافة الفئات دائماً
                       final apiPlans = [
                         TodayPlanModel(
@@ -160,32 +153,24 @@ class _TodayViewState extends State<TodayView> {
                           description:
                               'Simple movement-based activities that help your child stay active and focused.',
                           image: AppAssets.todayPlan1,
-                          points: physicalActivities.isNotEmpty
-                              ? physicalActivities
-                                    .map((a) => a.benefits ?? 'Activity')
-                                    .toList()
-                              : const [
-                                  'Boosts concentration',
-                                  'Reduces hyperactivity',
-                                  'Safe and fun',
-                                  'Examples: Running - Jumping - Kids Yoga',
-                                ],
+                          points: const [
+                            'Boosts concentration',
+                            'Reduces hyperactivity',
+                            'Safe and fun',
+                            'Examples: Running - Jumping - Kids Yoga',
+                          ],
                         ),
                         TodayPlanModel(
                           title: 'Parent-Child Activities',
                           description:
                               'Interactive activities designed to strengthen your bond and support your child\'s development.',
                           image: AppAssets.todayPlan2,
-                          points: parentChildActivities.isNotEmpty
-                              ? parentChildActivities
-                                    .map((a) => a.benefits ?? 'Activity')
-                                    .toList()
-                              : const [
-                                  'Improves interaction',
-                                  'Builds trust',
-                                  'Quantity time together',
-                                  'Examples: Shared play - Guided conversation - Cooperative tasks',
-                                ],
+                          points: const [
+                            'Improves interaction',
+                            'Builds trust',
+                            'Quantity time together',
+                            'Examples: Shared play - Guided conversation - Cooperative tasks',
+                          ],
                         ),
                         const TodayPlanModel(
                           title: 'Interactive Quizzes',

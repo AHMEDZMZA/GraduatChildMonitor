@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/network/api_client.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressItem extends StatelessWidget {
   final MonthlyAssessmentHistoryItem item;
@@ -63,11 +64,11 @@ class ProgressItem extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.only(bottom: 14),
-        padding: const EdgeInsets.all(12),
+        margin: EdgeInsets.only(bottom: 14.h),
+        padding: EdgeInsets.all(12.r),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
           border: Border.all(
             color: highlighted ? ColorManager.primaryBlue : Colors.transparent,
             width: 1.3,
@@ -89,7 +90,7 @@ class ProgressItem extends StatelessWidget {
                 color: highlighted
                     ? ColorManager.primaryBlue
                     : Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +107,7 @@ class ProgressItem extends StatelessWidget {
                   Text(
                     _getShortMonth(item.monthYear),
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 10.sp,
                       color: highlighted ? ColorManager.white : ColorManager.grayB0,
                     ),
                   ),
@@ -114,7 +115,7 @@ class ProgressItem extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
 
             Expanded(
               child: Column(
@@ -124,15 +125,15 @@ class ProgressItem extends StatelessWidget {
                     item.resultLabel,
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: 6.h),
                   Text(
                     _formatDate(item.assessmentDate),
-                    style: const TextStyle(
-                      fontSize: 11,
+                    style: TextStyle(
+                      fontSize: 11.sp,
                       color: ColorManager.grayB0,
                     ),
                   ),
@@ -140,7 +141,7 @@ class ProgressItem extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
 
             Icon(
               Icons.arrow_forward_ios,
