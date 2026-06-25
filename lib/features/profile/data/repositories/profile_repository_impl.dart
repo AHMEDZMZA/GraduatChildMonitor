@@ -20,6 +20,8 @@ class ProfileRepositoryImpl implements ProfileRepository {
           monitorName: response.monitorName,
           email: response.email,
           userId: response.userId,
+          profileImage: response.profileImage,
+          loadedTimestamp: DateTime.now().millisecondsSinceEpoch,
         ),
       );
     } on ServerException catch (e) {

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:child_monitor_app/core/network/api_client.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 
 abstract class ProfileRemoteDataSource {
   Future<UserProfileResponse> getUserProfile();
@@ -88,7 +89,26 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   @override
   Future<void> uploadProfileImage(File image) async {
     try {
-      await apiClient.uploadProfileImage(image);
+      final fileName = image.path.split('/').last.split('\\').last;
+      final extension = fileName.split('.').last.toLowerCase();
+      String mimeType = 'image/jpeg';
+      if (extension == 'png') {
+        mimeType = 'image/png';
+      } else if (extension == 'gif') {
+        mimeType = 'image/gif';
+      } else if (extension == 'webp') {
+        mimeType = 'image/webp';
+      } else if (extension == 'jpg' || extension == 'jpeg') {
+        mimeType = 'image/jpeg';
+      }
+
+      final multipartFile = await MultipartFile.fromFile(
+        image.path,
+        filename: fileName,
+        contentType: MediaType.parse(mimeType),
+      );
+
+      await apiClient.uploadProfileImage(multipartFile);
     } on DioException catch (e) {
       throw _handleDioException(e);
     } catch (e) {

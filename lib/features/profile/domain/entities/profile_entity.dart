@@ -4,15 +4,25 @@ class UserProfileEntity extends Equatable {
   final String monitorName;
   final String email;
   final int userId;
+  final String? profileImage;
+  final int? loadedTimestamp;
 
   const UserProfileEntity({
     required this.monitorName,
     required this.email,
     required this.userId,
+    this.profileImage,
+    this.loadedTimestamp,
   });
 
   @override
-  List<Object?> get props => [monitorName, email, userId];
+  List<Object?> get props => [
+        monitorName,
+        email,
+        userId,
+        profileImage,
+        loadedTimestamp,
+      ];
 }
 
 class ChildProfileEntity extends Equatable {

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import 'package:child_monitor_app/features/profile/domain/usecases/profile_usecases.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
+import 'package:child_monitor_app/features/profile/domain/entities/profile_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di/service_locator.dart';
 
@@ -17,6 +18,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   final GetSettingsUseCase getSettingsUseCase;
   final ChangePasswordUseCase changePasswordUseCase;
   final UploadProfileImageUseCase uploadProfileImageUseCase;
+
+  UserProfileEntity? _currentUserProfile;
+  UserProfileEntity? get currentUserProfile => _currentUserProfile;
 
   ProfileCubit({
     required this.getUserProfileUseCase,
@@ -37,16 +41,29 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await getUserProfileUseCase.call();
     result.fold(
       (failure) => emit(ProfileError(failure.message)),
-      (profile) => emit(UserProfileLoaded(profile)),
+      (profile) {
+        _currentUserProfile = profile;
+        emit(UserProfileLoaded(profile));
+      },
     );
   }
 
   Future<void> updateUserProfile(String monitorName, String email) async {
     emit(const ProfileLoading());
     final result = await updateUserProfileUseCase.call(monitorName, email);
-    result.fold(
-      (failure) => emit(ProfileError(failure.message)),
-      (_) => emit(const ProfileUpdated()),
+    await result.fold(
+      (failure) async => emit(ProfileError(failure.message)),
+      (_) async {
+        final profileResult = await getUserProfileUseCase.call();
+        profileResult.fold(
+          (failure) => emit(ProfileError(failure.message)),
+          (profile) {
+            _currentUserProfile = profile;
+            emit(UserProfileLoaded(profile));
+            emit(const ProfileUpdated());
+          },
+        );
+      },
     );
   }
 

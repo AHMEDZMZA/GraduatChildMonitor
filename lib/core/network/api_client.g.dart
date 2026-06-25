@@ -675,20 +675,13 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<HttpResponse<MessageResponse>> uploadProfileImage(File image) async {
+  Future<HttpResponse<MessageResponse>> uploadProfileImage(
+      MultipartFile image) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = FormData();
-    _data.files.add(
-      MapEntry(
-        'image',
-        MultipartFile.fromFileSync(
-          image.path,
-          filename: image.path.split(Platform.pathSeparator).last,
-        ),
-      ),
-    );
+    _data.files.add(MapEntry('image', image));
     final _options = _setStreamType<HttpResponse<MessageResponse>>(
       Options(
             method: 'POST',

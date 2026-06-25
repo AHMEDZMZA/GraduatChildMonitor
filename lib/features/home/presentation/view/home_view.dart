@@ -10,6 +10,8 @@ import '../widgets/home_banner.dart';
 import '../widgets/home_card.dart';
 import '../widgets/home_header.dart';
 import '../../../profile/domain/entities/profile_entity.dart';
+import '../../../profile/presentation/cubit/profile_cubit.dart';
+import '../../../profile/presentation/state/profile_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di/service_locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     final prefs = getIt<SharedPreferences>();
     final savedChildId = prefs.getString('childId');
     context.read<HomeCubit>().getHomeData(childId: savedChildId);
+    context.read<ProfileCubit>().getUserProfile();
   }
 
   @override
@@ -37,70 +40,79 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
-        child: BlocConsumer<HomeCubit, HomeState>(
-          listener: (context, state) {
-            if (state is HomeSuccess) {
-              final childId = state.homeData.selectedChildId ??
-                  (state.homeData.children.isNotEmpty
-                      ? state.homeData.children.first.id
-                      : null);
-              if (childId != null) {
-                getIt<SharedPreferences>().setString('childId', childId);
-              }
+        child: BlocListener<ProfileCubit, ProfileState>(
+          listener: (context, profileState) {
+            if (profileState is ProfileUpdated || profileState is ProfileImageUploaded) {
+              final prefs = getIt<SharedPreferences>();
+              final savedChildId = prefs.getString('childId');
+              context.read<HomeCubit>().getHomeData(childId: savedChildId);
             }
           },
-          builder: (context, state) {
-            if (state is HomeLoading) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: ColorManager.primaryBlue,
-                ),
-              );
-            }
+          child: BlocConsumer<HomeCubit, HomeState>(
+            listener: (context, state) {
+              if (state is HomeSuccess) {
+                final childId = state.homeData.selectedChildId ??
+                    (state.homeData.children.isNotEmpty
+                        ? state.homeData.children.first.id
+                        : null);
+                if (childId != null) {
+                  getIt<SharedPreferences>().setString('childId', childId);
+                }
+              }
+            },
+            builder: (context, state) {
+              if (state is HomeLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorManager.primaryBlue,
+                  ),
+                );
+              }
 
-            if (state is HomeError) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              if (state is HomeError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 48,
+                        color: Colors.red,
+                      ),
+                      SizedBox(height: 12.h),
+                      Text(state.message, style: AppTextStyles.nunito14w400Grey),
+                      SizedBox(height: 16.h),
+                      TextButton(
+                        onPressed: () {
+                          final prefs = getIt<SharedPreferences>();
+                          final savedChildId = prefs.getString('childId');
+                          context.read<HomeCubit>().getHomeData(childId: savedChildId);
+                        },
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: ListView(
                   children: [
-                    const Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: Colors.red,
-                    ),
-                    SizedBox(height: 12.h),
-                    Text(state.message, style: AppTextStyles.nunito14w400Grey),
-                    SizedBox(height: 16.h),
-                    TextButton(
-                      onPressed: () {
-                        final prefs = getIt<SharedPreferences>();
-                        final savedChildId = prefs.getString('childId');
-                        context.read<HomeCubit>().getHomeData(childId: savedChildId);
-                      },
-                      child: const Text('Retry'),
-                    ),
+                    SizedBox(height: 10.h),
+                    _HomeHeaderSection(),
+                    SizedBox(height: 20.h),
+                    const HomeBanner(),
+                    SizedBox(height: 24.h),
+                    _CardsSection(selectedIndex: selectedIndex, onCardTap: (index) {
+                      setState(() => selectedIndex = index);
+                    }),
+                    SizedBox(height: 20.h),
                   ],
                 ),
               );
-            }
-
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: ListView(
-                children: [
-                  SizedBox(height: 10.h),
-                  _HomeHeaderSection(),
-                  SizedBox(height: 20.h),
-                  const HomeBanner(),
-                  SizedBox(height: 24.h),
-                  _CardsSection(selectedIndex: selectedIndex, onCardTap: (index) {
-                    setState(() => selectedIndex = index);
-                  }),
-                  SizedBox(height: 20.h),
-                ],
-              ),
-            );
-          },
+            },
+          ),
         ),
       ),
     );
@@ -118,17 +130,27 @@ class _HomeHeaderSection extends StatelessWidget {
             (state.homeData.children.isNotEmpty
                 ? state.homeData.children.first.id
                 : null);
-        return HomeHeader(
-          userName: state.homeData.userName,
-          childId: childId,
-          onStatisticsTap: () {
-            if (childId != null) {
-              Navigator.pushNamed(
-                context,
-                AppRoutes.statistics,
-                arguments: childId,
-              );
-            }
+        return BlocBuilder<ProfileCubit, ProfileState>(
+          builder: (context, profileState) {
+            final profile = context.read<ProfileCubit>().currentUserProfile;
+            String userName = profile?.monitorName ?? state.homeData.userName;
+            String? profileImageUrl = profile?.profileImage;
+            int? loadedTimestamp = profile?.loadedTimestamp;
+            return HomeHeader(
+              userName: userName,
+              childId: childId,
+              profileImageUrl: profileImageUrl,
+              loadedTimestamp: loadedTimestamp,
+              onStatisticsTap: () {
+                if (childId != null) {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.statistics,
+                    arguments: childId,
+                  );
+                }
+              },
+            );
           },
         );
       },

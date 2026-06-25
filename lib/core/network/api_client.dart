@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -129,7 +128,7 @@ abstract class ApiClient {
   @POST('children/profile/image')
   @MultiPart()
   Future<HttpResponse<MessageResponse>> uploadProfileImage(
-    @Part(name: "image") File image,
+    @Part(name: "image") MultipartFile image,
   );
 
   @GET('children/my-children')
@@ -615,11 +614,13 @@ class UserProfileResponse {
   final String monitorName;
   final String email;
   final int userId;
+  final String? profileImage;
 
   UserProfileResponse({
     required this.monitorName,
     required this.email,
     required this.userId,
+    this.profileImage,
   });
 
   factory UserProfileResponse.fromJson(Map<String, dynamic> json) {
@@ -627,6 +628,10 @@ class UserProfileResponse {
       monitorName: json['monitor_name'] ?? '',
       email: json['email'] ?? '',
       userId: json['user_id'] ?? 0,
+      profileImage: json['profile_image'] as String? ??
+          json['profileImage'] as String? ??
+          json['image'] as String? ??
+          json['avatar'] as String?,
     );
   }
 }

@@ -23,6 +23,8 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   String _userName = 'User Name';
+  String? _profileImageUrl;
+  int? _loadedTimestamp;
 
   @override
   void initState() {
@@ -37,7 +39,11 @@ class _ProfileViewState extends State<ProfileView> {
         BlocListener<ProfileCubit, ProfileState>(
           listener: (context, state) {
             if (state is UserProfileLoaded) {
-              setState(() => _userName = state.profile.monitorName);
+              setState(() {
+                _userName = state.profile.monitorName;
+                _profileImageUrl = state.profile.profileImage;
+                _loadedTimestamp = state.profile.loadedTimestamp;
+              });
             } else if (state is AccountDeleted) {
               // Account deleted - go back to login
               ScaffoldMessenger.of(context).showSnackBar(
@@ -110,6 +116,8 @@ class _ProfileViewState extends State<ProfileView> {
                   child: ProfileAvatarSection(
                     imagePath: AppAssets.profileProfile,
                     userName: _userName,
+                    profileImageUrl: _profileImageUrl,
+                    loadedTimestamp: _loadedTimestamp,
                   ),
                 ),
 

@@ -26,10 +26,17 @@ class _EditProfileViewState extends State<EditProfileView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   File? _selectedImage;
+  String? _profileImageUrl;
+  int? _loadedTimestamp;
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
+    final pickedFile = await _picker.pickImage(
+      source: source,
+      maxWidth: 800,
+      maxHeight: 800,
+      imageQuality: 70,
+    );
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
@@ -90,6 +97,10 @@ class _EditProfileViewState extends State<EditProfileView> {
         if (state is UserProfileLoaded) {
           fullNameController.text = state.profile.monitorName;
           emailController.text = state.profile.email;
+          setState(() {
+            _profileImageUrl = state.profile.profileImage;
+            _loadedTimestamp = state.profile.loadedTimestamp;
+          });
         } else if (state is ProfileUpdated) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -97,6 +108,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               backgroundColor: ColorManager.brightTeal,
             ),
           );
+          Navigator.pop(context);
         } else if (state is ProfileImageUploaded) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -139,6 +151,8 @@ class _EditProfileViewState extends State<EditProfileView> {
                           imagePath: AppAssets.profileProfile,
                           userName: '',
                           imageFile: _selectedImage,
+                          profileImageUrl: _profileImageUrl,
+                          loadedTimestamp: _loadedTimestamp,
                         ),
                       ),
                     ),
