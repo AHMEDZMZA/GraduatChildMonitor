@@ -12,7 +12,7 @@ part of 'progress_remote_data_source.dart';
 
 class _ProgressRemoteDataSource implements ProgressRemoteDataSource {
   _ProgressRemoteDataSource(this._dio, {this.baseUrl, this.errorLogger}) {
-    baseUrl ??= 'http://192.168.1.14:8086/api/';
+    baseUrl ??= 'http://192.168.1.5:8086/api/';
   }
 
   final Dio _dio;

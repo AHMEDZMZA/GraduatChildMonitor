@@ -134,11 +134,12 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                         },
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
+                          final now = DateTime.now();
                           final DateTime? picked = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime.now(),
+                            initialDate: now.subtract(const Duration(days: 365 * 3)), // default to 3 years old
+                            firstDate: now.subtract(const Duration(days: 365 * 16)), // max 16 years old
+                            lastDate: now.subtract(const Duration(days: 365 * 1)),   // min 1 year old
                             initialEntryMode: DatePickerEntryMode.calendarOnly,
                           );
                           if (picked != null) {

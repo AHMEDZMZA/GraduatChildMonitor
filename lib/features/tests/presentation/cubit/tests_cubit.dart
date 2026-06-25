@@ -20,7 +20,7 @@ class TestsCubit extends Cubit<TestsState> {
 
     result.fold(
       (failure) {
-        emit(TestsError(failure.toString()));
+        emit(TestsError(failure.message));
       },
       (test) {
         emit(TestQuestionsLoaded(test));
@@ -51,7 +51,7 @@ class TestsCubit extends Cubit<TestsState> {
 
     result.fold(
       (failure) {
-        emit(TestsError(failure.toString()));
+        emit(TestsError(failure.message));
       },
       (testResult) {
         emit(TestSubmissionSuccess(testResult));
@@ -66,7 +66,7 @@ class TestsCubit extends Cubit<TestsState> {
 
     result.fold(
       (failure) {
-        emit(TestsError(failure.toString()));
+        emit(TestsError(failure.message));
       },
       (history) {
         emit(TestHistoryLoaded(history));

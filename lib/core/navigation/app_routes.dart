@@ -54,6 +54,7 @@ class AppRoutes {
   static const String testQuestionsUnknown = '/testQuestionsUnknown';
   static const String selectTest = '/selectTest';
   static const String knownCondition = '/knownCondition';
+  static const String unknownCondition = '/unknownCondition';
   static const String testComplete = '/testComplete';
   static const String addChildProfile = '/addChildData';
 }

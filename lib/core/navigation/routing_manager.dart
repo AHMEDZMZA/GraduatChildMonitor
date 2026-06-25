@@ -59,6 +59,7 @@ import '../../core/network/api_client.dart';
 import '../../features/tests/presentation/view/add_child_data_view.dart';
 import '../../features/tests/presentation/view/select_test_view.dart';
 import '../../features/tests/presentation/view/known_condition_view.dart';
+import '../../features/tests/presentation/view/unknown_condition_view.dart';
 import '../../features/tests/presentation/view/test_questions_known_view.dart';
 import '../../features/tests/presentation/view/test_questions_unknown_view.dart';
 import '../../features/tests/presentation/view/test_complete_view.dart';
@@ -291,6 +292,14 @@ class RoutingManager {
           return MaterialPageRoute(
             builder: (_) =>
                 KnownConditionView(child: settings.arguments as ChildEntity),
+          );
+        }
+        return _errorRoute(settings);
+      case AppRoutes.unknownCondition:
+        if (settings.arguments is ChildEntity) {
+          return MaterialPageRoute(
+            builder: (_) =>
+                UnknownConditionView(child: settings.arguments as ChildEntity),
           );
         }
         return _errorRoute(settings);

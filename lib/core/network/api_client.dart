@@ -12,7 +12,7 @@ class ApiConfig {
   ///    production HTTPS URL before any release build.
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://192.168.1.14:8086/api/',
+    defaultValue: 'http://192.168.1.5:8086/api/',
   );
 
   static const Duration connectTimeout = Duration(seconds: 30);
@@ -497,10 +497,15 @@ class Plan {
   });
 
   factory Plan.fromJson(Map<String, dynamic> json) {
+    String statusVal = json['status'] ?? '';
+    if (statusVal.isEmpty && json['isCompleted'] != null) {
+      statusVal = json['isCompleted'] == true ? 'COMPLETED' : 'IN_PROGRESS';
+    }
+
     return Plan(
       id: json['id']?.toString() ?? '',
-      date: json['date'] ?? '',
-      status: json['status'] ?? '',
+      date: json['date'] ?? json['planDate'] ?? '',
+      status: statusVal,
       activities:
           (json['activities'] as List?)
               ?.map((e) => Activity.fromJson(e as Map<String, dynamic>))
@@ -880,7 +885,9 @@ class ActivityDetailResponse {
       type: activityJson['type'] ?? activityJson['activityType'] ?? '',
       image: activityJson['image'],
       duration: activityJson['duration'] ?? activityJson['durationMinutes'],
-      instructions: activityJson['instructions'] ?? (steps.isNotEmpty ? steps.join("\n") : null),
+      instructions:
+          activityJson['instructions'] ??
+          (steps.isNotEmpty ? steps.join("\n") : null),
       materials: (activityJson['materials'] is List
           ? (activityJson['materials'] as List).cast<String>()
           : null),
@@ -921,9 +928,15 @@ class ActivityStatsResponse {
   factory ActivityStatsResponse.fromJson(Map<String, dynamic> json) {
     final statsJson = json['stats'] ?? json;
     return ActivityStatsResponse(
-      completedCount: statsJson['completed_count'] ?? statsJson['completedCount'] ?? 0,
-      totalActivities: statsJson['total_activities'] ?? statsJson['totalActivities'] ?? 0,
-      completionPercentage: (statsJson['completion_percentage'] ?? statsJson['completionPercentage'] ?? 0).toDouble(),
+      completedCount:
+          statsJson['completed_count'] ?? statsJson['completedCount'] ?? 0,
+      totalActivities:
+          statsJson['total_activities'] ?? statsJson['totalActivities'] ?? 0,
+      completionPercentage:
+          (statsJson['completion_percentage'] ??
+                  statsJson['completionPercentage'] ??
+                  0)
+              .toDouble(),
       progress:
           (statsJson['progress'] as List?)
               ?.map((e) => ProgressItem.fromJson(e as Map<String, dynamic>))
@@ -946,7 +959,8 @@ class ProgressItem {
 
   factory ProgressItem.fromJson(Map<String, dynamic> json) {
     final dateVal = json['date'] ?? json['completedDate'] ?? '';
-    final completedVal = json['completed'] ?? (json['isCompleted'] == true ? 1 : 0);
+    final completedVal =
+        json['completed'] ?? (json['isCompleted'] == true ? 1 : 0);
     final totalVal = json['total'] ?? 1;
     return ProgressItem(
       date: dateVal,
@@ -964,7 +978,8 @@ class RecommendedActivitiesResponse {
   factory RecommendedActivitiesResponse.fromJson(Map<String, dynamic> json) {
     return RecommendedActivitiesResponse(
       recommendedActivities:
-          (json['recommended_activities'] as List? ?? json['recommendedActivities'] as List?)
+          (json['recommended_activities'] as List? ??
+                  json['recommendedActivities'] as List?)
               ?.map((e) => ActivityItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -1417,8 +1432,9 @@ class TestResultResponse {
       testId: json['test_id'] ?? 0,
       testType: json['test_type'] ?? '',
       result: json['result'] ?? '',
-      riskScore:
-          json['risk_score'] != null ? (json['risk_score'] as num).toDouble() : null,
+      riskScore: json['risk_score'] != null
+          ? (json['risk_score'] as num).toDouble()
+          : null,
       childId: json['child_id'] ?? 0,
       childName: json['child_name'] ?? '',
     );

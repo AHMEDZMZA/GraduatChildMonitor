@@ -25,7 +25,7 @@ class TestCubit extends Cubit<TestState> {
     emit(QuestionsLoading());
     final result = await getTestQuestionsUseCase(testType);
     result.fold(
-      (failure) => emit(QuestionsFailure(message: failure.toString())),
+      (failure) => emit(QuestionsFailure(message: failure.message)),
       (test) {
         final viewQuestions = test.questions
             .map(
@@ -81,7 +81,7 @@ class TestCubit extends Cubit<TestState> {
     );
 
     result.fold(
-      (failure) => emit(SubmitTestFailure(message: failure.toString())),
+      (failure) => emit(SubmitTestFailure(message: failure.message)),
       (res) => emit(
         SubmitTestSuccess(
           result: TestResultEntity(
@@ -131,7 +131,7 @@ class TestCubit extends Cubit<TestState> {
     );
 
     result.fold(
-      (failure) => emit(MultipleTestsFailure(message: failure.toString())),
+      (failure) => emit(MultipleTestsFailure(message: failure.message)),
       (res) => emit(
         MultipleTestsSuccess(
           results: [
@@ -165,7 +165,7 @@ class TestCubit extends Cubit<TestState> {
     );
 
     result.fold(
-      (failure) => emit(AddChildFailure(message: failure.toString())),
+      (failure) => emit(AddChildFailure(message: failure.message)),
       (childId) {
         getIt<SharedPreferences>().setString('childId', childId.toString());
         emit(

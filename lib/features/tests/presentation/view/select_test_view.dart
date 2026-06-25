@@ -4,7 +4,6 @@ import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/navigation/app_routes.dart';
 import '../../../auth/presentation/views/widget/custom_button.dart';
-import '../../../bottom_nav/presentation/views/app_bottom_nav_view.dart';
 import '../../domain/entities/child_entity.dart';
 import '../widgets/select_option_card.dart';
 
@@ -88,16 +87,10 @@ class _SelectTestViewState extends State<SelectTestView> {
                       arguments: widget.child,
                     );
                   } else if (selectedOption == 1) {
-                    // Navigator.pushNamed(
-                    //   context,
-                    //   AppRoutes.unknownCondition,
-                    //   arguments: widget.child,
-                    // );
-                    Navigator.pushReplacement(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => const AppBottomNavBarView(),
-                      ),
+                      AppRoutes.unknownCondition,
+                      arguments: widget.child,
                     );
                   }
                 },
