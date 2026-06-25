@@ -33,6 +33,10 @@ class AccountDeleted extends ProfileState {
   const AccountDeleted();
 }
 
+class ProfileImageUploaded extends ProfileState {
+  const ProfileImageUploaded();
+}
+
 class ChildrenLoaded extends ProfileState {
   final List<ChildProfileEntity> children;
 

@@ -2,6 +2,8 @@ import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cu
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -22,6 +24,51 @@ class _EditProfileViewState extends State<EditProfileView> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+      if (mounted) {
+        context.read<ProfileCubit>().uploadProfileImage(_selectedImage!);
+      }
+    }
+  }
+
+  void _showImagePickerOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Gallery'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.gallery);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Camera'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  _pickImage(ImageSource.camera);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -47,6 +94,13 @@ class _EditProfileViewState extends State<EditProfileView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Profile updated successfully!'),
+              backgroundColor: ColorManager.brightTeal,
+            ),
+          );
+        } else if (state is ProfileImageUploaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Profile image uploaded successfully!'),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -80,10 +134,11 @@ class _EditProfileViewState extends State<EditProfileView> {
 
                     Center(
                       child: GestureDetector(
-                        onTap: () {},
-                        child: const ProfileAvatarSection(
+                        onTap: _showImagePickerOptions,
+                        child: ProfileAvatarSection(
                           imagePath: AppAssets.profileProfile,
                           userName: '',
+                          imageFile: _selectedImage,
                         ),
                       ),
                     ),

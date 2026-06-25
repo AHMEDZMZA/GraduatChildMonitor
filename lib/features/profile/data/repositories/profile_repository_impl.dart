@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
@@ -53,6 +54,22 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<Failure, void>> deleteAccount() async {
     try {
       await remoteDataSource.deleteAccount();
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message, statusCode: e.statusCode));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on UnauthorizedException catch (e) {
+      return Left(UnauthorizedFailure(e.message));
+    } catch (e) {
+      return Left(UnknownFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> uploadProfileImage(File image) async {
+    try {
+      await remoteDataSource.uploadProfileImage(image);
       return const Right(null);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message, statusCode: e.statusCode));

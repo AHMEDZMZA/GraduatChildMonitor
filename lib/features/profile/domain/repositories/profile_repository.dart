@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/features/profile/domain/entities/profile_entity.dart';
@@ -8,6 +9,8 @@ abstract class ProfileRepository {
   Future<Either<Failure, void>> updateUserProfile(String monitorName, String email);
 
   Future<Either<Failure, void>> deleteAccount();
+
+  Future<Either<Failure, void>> uploadProfileImage(File image);
 
   Future<Either<Failure, List<ChildProfileEntity>>> getMyChildren();
 

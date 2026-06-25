@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "category": "ADHD",
+    "title": "Understanding ADHD: Your Comprehensive Parenting Guide",
+    "summary": "Learn what Attention Deficit Hyperactivity Disorder (ADHD) is and its core facts.\nWe dispel common misconceptions and provide clear insights to support your child.",
+    "content": "Attention Deficit Hyperactivity Disorder (ADHD) is a neurodevelopmental condition affecting a child's ability to focus, control impulses, and regulate activity. It is not a result of poor parenting or lack of discipline, but a difference in how the brain functions. Core symptoms include difficulty concentrating, hyperactivity, and impulsivity. It is crucial to understand that ADHD varies from child to child, and symptoms can appear in varying degrees. Knowing the facts helps you as a parent provide appropriate support and avoid feelings of guilt.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Understanding", "Definition", "Symptoms"],
+    "references": ["WHO", "NIMH"]
+  },
+  {
+    "id": 2,
+    "category": "ADHD",
+    "title": "Practical Strategies to Support Your Child with ADHD at Home",
+    "summary": "Discover practical tips and daily tactics you can apply at home to help your child with ADHD.\nFoster a structured and supportive environment for their growth.",
+    "content": "Establishing a consistent and organized daily routine can make a massive difference in the life of a child with ADHD. Use visual schedules for daily tasks and activities. Break large tasks into smaller, more manageable steps to prevent feelings of overwhelm. Dedicate a quiet, organized space for studying and homework, away from distractions. Encourage regular physical activity, as it helps release excess energy and improves focus. Be patient and consistent in applying these strategies, as consistency is the key to success.",
+    "read_time": "4 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Tips", "Strategies", "Home"],
+    "references": ["CDC", "CHADD"]
+  },
+  {
+    "id": 3,
+    "category": "ADHD",
+    "title": "Building Confidence and Resilience: Emotional Support for Your Child with ADHD",
+    "summary": "Learn how to provide necessary emotional support to your child with ADHD to boost their self-confidence and resilience.\nHelp them overcome challenges and build a positive self-image.",
+    "content": "Children with ADHD may face emotional challenges such as low self-esteem, frustration, and difficulties in social relationships. It is essential that you are your child's primary supporter. Focus on their strengths and achievements, no matter how small, and constantly provide praise and encouragement. Teach your child problem-solving skills and how to express their feelings in a healthy way. Encourage them to pursue hobbies they enjoy to foster a sense of accomplishment and competence. Remember that your unconditional love and support are the most important tools to help your child thrive and succeed.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Support", "Emotional", "Resilience"],
+    "references": ["AAP", "NICHD"]
+  },
+  {
+    "id": 4,
+    "category": "Autism",
+    "title": "Understanding Autism: First Steps for Parents",
+    "summary": "A simplified guide to help parents understand autism from the start.\nProvides essential information to face the initial diagnosis with confident steps.",
+    "content": "Autism is a neurodevelopmental disorder that affects how a person perceives the world and interacts with others. It is important to remember that every child with autism is unique, and their characteristics and needs vary. Early diagnosis opens doors to interventions and support that can make a huge difference in your child's life. Accepting the diagnosis is the first step toward a journey of support and growth.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Tips", "Educational"],
+    "references": ["WHO", "CDC"]
+  },
+  {
+    "id": 5,
+    "category": "Autism",
+    "title": "Supporting Your Child with Autism: Practical Strategies",
+    "summary": "Explore effective strategies to enhance communication and develop skills in your child.\nPractical tips for daily positive interaction.",
+    "content": "One of the most important aspects of supporting your child is building a predictable and stable daily routine, which provides them with a sense of security and reduces anxiety. Use visual communication tools, such as picture schedules, to help them understand upcoming activities. Encourage purposeful play that supports social interactions and fine motor skills. Remember that patience and celebrating small successes are the keys to progress.",
+    "read_time": "4 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Guidelines", "Parenting"],
+    "references": ["AAP", "Autism Speaks"]
+  },
+  {
+    "id": 6,
+    "category": "Autism",
+    "title": "The Support Network: For Parents and Children with Autism",
+    "summary": "Learn the importance of building a strong support network for you and your child.\nDiscover community resources and how to care for yourself.",
+    "content": "You don't have to navigate this journey alone. Seeking out parent support groups can provide you with a safe space to share experiences and feelings with others who understand your challenges. Do not hesitate to ask for help from specialists, such as speech and language pathologists, and behavioral therapists. And remember, taking care of yourself is not a luxury but a necessity so you can care for your child better. A short time for yourself can renew your energy and give you the strength to keep giving.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Support", "Community", "Self-care"],
+    "references": ["NICHD", "WHO"]
+  },
+  {
+    "id": 7,
+    "category": "Dyslexia",
+    "title": "Understanding Dyslexia: What Is It and How Do We Recognize It?",
+    "summary": "A simplified definition of dyslexia and the importance of recognizing its early signs to help your child in their educational journey.",
+    "content": "Dyslexia is a specific learning difficulty of neurological origin that primarily affects reading, writing, and spelling skills, even though the child has normal intelligence. Dyslexia is not considered a disease, but rather a difference in how the brain processes linguistic information. Early signs may include difficulty learning rhymes, delayed speech, or trouble distinguishing sounds in words. It is very important to notice these signs and seek advice early to provide necessary support for your child. Remember that early intervention makes a massive difference.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Tips", "Educational", "Early Signs"],
+    "references": ["IDA", "NHS"]
+  },
+  {
+    "id": 8,
+    "category": "Dyslexia",
+    "title": "Effective Strategies to Support Your Child with Dyslexia at Home",
+    "summary": "Practical tips and methods parents can apply to support their dyslexic child's learning in the home environment and build their self-confidence.",
+    "content": "Parents can play a crucial role in supporting their dyslexic children at home. Start by creating a positive and encouraging environment where your child feels safe to express their challenges. Use multi-sensory strategies when learning, such as using sand or clay to write letters, or listening to audiobooks. Break large tasks into smaller, more manageable steps, and provide extra time to complete them. Encourage shared reading, where you and your child take turns reading. Celebrate successes, no matter how small, and focus on your child's other strengths and talents to boost their self-confidence.",
+    "read_time": "4 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Guidelines", "Home Support", "Strategies"],
+    "references": ["BDA", "Understood.org"]
+  },
+  {
+    "id": 9,
+    "category": "Dyslexia",
+    "title": "Partnering with the School and Specialists to Support Your Child with Dyslexia",
+    "summary": "How to effectively collaborate with teachers and specialists to ensure your child receives the appropriate academic and psychological support in their educational journey.",
+    "content": "A strong partnership between home and school is crucial for the success of your child with dyslexia. Communicate regularly with your child's teachers to discuss their progress and any challenges they face. Ask about programs or accommodations the school provides to support students with learning difficulties. You may need to request a comprehensive evaluation for your child by an educational psychologist or a speech-language pathologist to help pinpoint their exact needs. Be advocates for your child, and ensure they receive all the support and resources they need to succeed, whether that is extra time on exams or the use of assistive technology tools.",
+    "read_time": "3 minutes",
+    "author": "Dr. AI Assistant",
+    "tags": ["Support", "School Collaboration", "Resources"],
+    "references": ["LD.org", "ASHA"]
+  }
+]

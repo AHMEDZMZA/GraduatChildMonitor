@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:io';
 import 'package:child_monitor_app/features/profile/domain/usecases/profile_usecases.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final DeleteChildUseCase deleteChildUseCase;
   final GetSettingsUseCase getSettingsUseCase;
   final ChangePasswordUseCase changePasswordUseCase;
+  final UploadProfileImageUseCase uploadProfileImageUseCase;
 
   ProfileCubit({
     required this.getUserProfileUseCase,
@@ -27,6 +29,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     required this.deleteChildUseCase,
     required this.getSettingsUseCase,
     required this.changePasswordUseCase,
+    required this.uploadProfileImageUseCase,
   }) : super(const ProfileInitial());
 
   Future<void> getUserProfile() async {
@@ -53,6 +56,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     result.fold(
       (failure) => emit(ProfileError(failure.message)),
       (_) => emit(const AccountDeleted()),
+    );
+  }
+
+  Future<void> uploadProfileImage(File image) async {
+    emit(const ProfileLoading());
+    final result = await uploadProfileImageUseCase.call(image);
+    result.fold(
+      (failure) => emit(ProfileError(failure.message)),
+      (_) {
+        emit(const ProfileImageUploaded());
+        // Reload user profile after image upload to get the updated image url if it was returned in profile.
+        // Currently, Profile doesn't seem to return imageUrl, but we trigger it just in case.
+        getUserProfile();
+      },
     );
   }
 

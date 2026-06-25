@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -124,6 +125,12 @@ abstract class ApiClient {
 
   @DELETE('children/delete-account')
   Future<HttpResponse<MessageResponse>> deleteAccount();
+
+  @POST('children/profile/image')
+  @MultiPart()
+  Future<HttpResponse<MessageResponse>> uploadProfileImage(
+    @Part(name: "image") File image,
+  );
 
   @GET('children/my-children')
   Future<HttpResponse<List<Child>>> getMyChildren();

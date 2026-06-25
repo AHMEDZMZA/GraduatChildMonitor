@@ -1,0 +1,528 @@
+{
+  "info": {
+    "name": "Child Monitor Full API",
+    "description": "Complete collection with endpoints and request bodies.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "signup"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorName\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Forgot Password Request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/reset-password/request",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "reset-password", "request"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/reset-password/verify",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "reset-password", "verify"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"otp\": \"123456\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Confirm Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/auth/reset-password/confirm",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth", "reset-password", "confirm"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"newpass123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Profile",
+      "item": [
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "profile"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/update-profile",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "update-profile"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorName\": \"Updated Name\",\n  \"email\": \"updated@example.com\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/password/change",
+              "host": ["{{base_url}}"],
+              "path": ["api", "password", "change"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"oldpass\",\n  \"newPassword\": \"newpass123\",\n  \"confirmNewPassword\": \"newpass123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Upload Profile Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/profile/image",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "profile", "image"]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Child Management",
+      "item": [
+        {
+          "name": "Add Child",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/add",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "add"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Child Name\",\n  \"birthDate\": \"2015-05-20\",\n  \"gender\": \"MALE\",\n  \"relation\": \"FATHER\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get My Children",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/my-children",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "my-children"]
+            }
+          }
+        },
+        {
+          "name": "Get Child By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Child",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "1"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Child Name\",\n  \"birthDate\": \"2015-05-20\",\n  \"gender\": \"MALE\",\n  \"relation\": \"FATHER\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Delete Child",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/children/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "children", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Screening Tests",
+      "item": [
+        {
+          "name": "Get Autism Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/autism",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tests", "questions", "autism"]
+            }
+          }
+        },
+        {
+          "name": "Get ADHD Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/adhd",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tests", "questions", "adhd"]
+            }
+          }
+        },
+        {
+          "name": "Get Dyslexia Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/dyslexia",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tests", "questions", "dyslexia"]
+            }
+          }
+        },
+        {
+          "name": "Submit Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tests", "submit"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": 1,\n  \"disorderType\": \"Autism\",\n  \"answers\": {\n    \"1\": 3,\n    \"2\": 2,\n    \"3\": 1\n  }\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get Test Result",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/results/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "tests", "results", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Home Page Data",
+      "item": [
+        {
+          "name": "Get Home Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/data",
+              "host": ["{{base_url}}"],
+              "path": ["api", "home", "data"]
+            }
+          }
+        },
+        {
+          "name": "Get Today Plan",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/today-plan",
+              "host": ["{{base_url}}"],
+              "path": ["api", "home", "today-plan"]
+            }
+          }
+        },
+        {
+          "name": "Complete Plan Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/plan/complete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "home", "plan", "complete"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskId\": 1,\n  \"childId\": 1,\n  \"type\": \"ACTIVITY\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Submit Monthly Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "home", "monthly-assessment", "submit"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": 1,\n  \"disorder\": \"Autism\",\n  \"answers\": [ { \"questionId\": 1, \"answer\": \"Yes\" } ]\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activities & Quizzes",
+      "item": [
+        {
+          "name": "Get Child Activities",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/activities/child",
+              "host": ["{{base_url}}"],
+              "path": ["api", "activities", "child"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Complete Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/activities/complete",
+              "host": ["{{base_url}}"],
+              "path": ["api", "activities", "complete"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": 1,\n  \"activityId\": 1\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Submit Quiz",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/quiz/submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "quiz", "submit"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": 1,\n  \"quizId\": 1,\n  \"answers\": [ { \"questionId\": 1, \"selectedOptionId\": 2 } ]\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "item": [
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chatbot/send",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chatbot", "send"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"كيف أتعامل مع طفلي؟\",\n  \"conversationId\": \"opt-uuid\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Get History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/chatbot/history",
+              "host": ["{{base_url}}"],
+              "path": ["api", "chatbot", "history"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

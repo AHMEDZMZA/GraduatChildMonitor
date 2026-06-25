@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:child_monitor_app/core/network/api_client.dart';
 import 'package:child_monitor_app/core/network/exceptions.dart';
 import 'package:dio/dio.dart';
@@ -8,6 +9,8 @@ abstract class ProfileRemoteDataSource {
   Future<void> updateUserProfile(String monitorName, String email);
 
   Future<void> deleteAccount();
+
+  Future<void> uploadProfileImage(File image);
 
   Future<List<Child>> getMyChildren();
 
@@ -79,6 +82,17 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       throw _handleDioException(e);
     } catch (e) {
       throw ServerException(message: 'Delete account failed: ${e.toString()}');
+    }
+  }
+
+  @override
+  Future<void> uploadProfileImage(File image) async {
+    try {
+      await apiClient.uploadProfileImage(image);
+    } on DioException catch (e) {
+      throw _handleDioException(e);
+    } catch (e) {
+      throw ServerException(message: 'Upload profile image failed: ${e.toString()}');
     }
   }
 

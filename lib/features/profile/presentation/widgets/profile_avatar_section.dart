@@ -4,14 +4,18 @@ import '../../../../core/managers/color_manager.dart';
 import '../../../auth/presentation/views/widget/custom_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'dart:io';
+
 class ProfileAvatarSection extends StatelessWidget {
   final String imagePath;
   final String userName;
+  final File? imageFile;
 
   const ProfileAvatarSection({
     super.key,
     required this.imagePath,
     required this.userName,
+    this.imageFile,
   });
 
   @override
@@ -20,7 +24,12 @@ class ProfileAvatarSection extends StatelessWidget {
       children: [
         Stack(
           children: [
-            CircleAvatar(radius: 44, backgroundImage: AssetImage(imagePath)),
+            CircleAvatar(
+              radius: 44,
+              backgroundImage: imageFile != null
+                  ? FileImage(imageFile!) as ImageProvider
+                  : AssetImage(imagePath),
+            ),
             Positioned(
               bottom: 0,
               right: 0,

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:child_monitor_app/core/network/failures.dart';
 import 'package:child_monitor_app/features/profile/domain/entities/profile_entity.dart';
@@ -30,6 +31,16 @@ class DeleteAccountUseCase {
 
   Future<Either<Failure, void>> call() {
     return repository.deleteAccount();
+  }
+}
+
+class UploadProfileImageUseCase {
+  final ProfileRepository repository;
+
+  UploadProfileImageUseCase({required this.repository});
+
+  Future<Either<Failure, void>> call(File image) {
+    return repository.uploadProfileImage(image);
   }
 }
 

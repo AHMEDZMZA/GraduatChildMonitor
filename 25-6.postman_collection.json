@@ -1,0 +1,2080 @@
+{
+  "info": {
+    "_postman_id": "8e882ddf-cbb4-42e8-b625-766800af8db9",
+    "name": "25-6",
+    "description": "Complete API Collection for Child Monitor Application - Behavioral Disorders Support System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30788800"
+  },
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "1. Signup - Register New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorName\": \"Mohamed salah\",\n  \"email\": \"ms7600113@gmail.com\",\n  \"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Login - Get JWT Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(responseCode.code === 200) {",
+                  "    var jsonData = JSON.parse(responseBody);",
+                  "    postman.setEnvironmentVariable(\"authToken\", jsonData.token);",
+                  "    console.log(\"Token saved:\", jsonData.token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@example.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Forgot Password - Request OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/reset-password/request",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset-password",
+                "request"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Verify OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@example.com\",\n  \"otp\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/reset-password/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset-password",
+                "verify"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Confirm Password Reset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"newpassword123\",\n  \"confirmPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/reset-password/confirm",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "reset-password",
+                "confirm"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "6. Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Google OAuth2 Login",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/oauth2/google",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "oauth2",
+                "google"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Facebook OAuth2 Login",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/oauth2/facebook",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "oauth2",
+                "facebook"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "👶 Child Management",
+      "item": [
+        {
+          "name": "7. Add Child",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmed\",\n  \"birthDate\": \"2018-05-15\",\n  \"gender\": \"MALE\",\n  \"knowsCondition\": true,\n  \"diagnosedCondition\": \"ADHD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children/add",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "8. Get My Children",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/my-children",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "my-children"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "9. Get Child by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "10. Update Child",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ahmed Updated\",\n  \"birthDate\": \"2018-05-15\",\n  \"gender\": \"MALE\",\n  \"knowsCondition\": true,\n  \"diagnosedCondition\": \"ADHD\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "11. Delete Child",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "12. Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "13. Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"monitorName\": \"Updated Parent Name\",\n  \"email\": \"newemail@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/children/update-profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "update-profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "14. Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/children/delete-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "delete-account"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Profile Image Copy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "value": null
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/children/profile/image",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "children",
+                "profile",
+                "image"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📅 Monthly Assessments",
+      "item": [
+        {
+          "name": "15. Submit Monthly Assessment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}},\n  \"answers\": {\n    \"q1_focus\": 1,\n    \"q2_social\": 2,\n    \"q3_communication\": 1,\n    \"q4_behavior\": 2,\n    \"q5_learning\": 1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/monthly-assessment/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "16. Get Child Assessments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/monthly-assessment/child/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "child",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "17. Get Assessment Trend",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/monthly-assessment/trend/{{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "trend",
+                "{{childId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "18. Get Single Assessment",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/monthly-assessment/{{assessmentId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "{{assessmentId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📝 Articles",
+      "item": [
+        {
+          "name": "19. Get All Articles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "20. Get Article by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/{{articleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "{{articleId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "21. Get Articles by Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/category/parenting",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "category",
+                "parenting"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "22. Add to Favorites",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"articleId\": {{articleId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/favorite/add",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "favorite",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "23. Remove from Favorites",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"articleId\": {{articleId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/favorite/remove",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "favorite",
+                "remove"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "24. Get Favorites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/favorites",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "favorites"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "25. Check if Favorite",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/articles/favorite/check?articleId={{articleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "articles",
+                "favorite",
+                "check"
+              ],
+              "query": [
+                {
+                  "key": "articleId",
+                  "value": "{{articleId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🏃 Activities",
+      "item": [
+        {
+          "name": "26. Get All Activities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "27. Get Activities by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/type/PHYSICAL",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "type",
+                "PHYSICAL"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "28. Get Activities for Child",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/for-child",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "for-child"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "29. Get Activity by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/{{activityId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "{{activityId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "30. Complete Activity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}},\n  \"activityId\": {{activityId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/complete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "complete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "32. Get Recommended Activities",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/recommended",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "activities",
+                "recommended"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "💬 Chatbot",
+      "item": [
+        {
+          "name": "33. Send Message to Chatbot",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if(responseCode.code === 200) {",
+                  "    var jsonData = JSON.parse(responseBody);",
+                  "    if(jsonData.conversation_id) {",
+                  "        postman.setEnvironmentVariable(\"conversationId\", jsonData.conversation_id);",
+                  "    }",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Hello, I need help with my child's focus issues\",\n  \"conversation_id\": \"{{conversationId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chatbot/send",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chatbot",
+                "send"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "34. Get Conversation History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/chatbot/history?conversationId={{conversationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chatbot",
+                "history"
+              ],
+              "query": [
+                {
+                  "key": "conversationId",
+                  "value": "{{conversationId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Conversation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/chatbot/conversation/{{conversationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chatbot",
+                "conversation",
+                "{{conversationId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🎮 Interactive Quiz",
+      "item": [
+        {
+          "name": "35. Get Quiz Questions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/quiz/questions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "questions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "36. Submit Quiz Answers",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}},\n  \"answers\": {\n    \"q1_focus\": true,\n    \"q2_follow_instructions\": false,\n    \"q3_complete_tasks\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/quiz/submit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "37. Get Quiz History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/quiz/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "history"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🏠 Home Page",
+      "item": [
+        {
+          "name": "38. Get Home Page Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/home/data?childId={{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "data"
+              ],
+              "query": [
+                {
+                  "key": "childId",
+                  "value": "{{childId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "39. Get Today's Plan",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/home/today-plan?childId={{childId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "today-plan"
+              ],
+              "query": [
+                {
+                  "key": "childId",
+                  "value": "{{childId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "40. Mark Plan as Completed",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}},\n  \"date\": \"2024-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/home/plan/complete",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "plan",
+                "complete"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "41. Get Plan History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/home/plan-history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "plan-history"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "42. Get Child Progress",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{childId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/home/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "progress"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔑 Password Manager",
+      "item": [
+        {
+          "name": "43. Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"123456\",\n  \"newPassword\": \"newpassword123\",\n  \"confirmNewPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/password/change",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "password",
+                "change"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "44. Forgot Password Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/password/forgot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "password",
+                "forgot"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "45. Reset Password with Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"{{supabase_service_role_api_key_12yl}}...\",\n  \"newPassword\": \"newpassword123\",\n  \"confirmPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/password/reset",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "password",
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Settings",
+      "item": [
+        {
+          "name": "46. Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "settings"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "47. Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/settings/account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "settings",
+                "account"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📋 1. الاختبارات التشخيصية الأولية (Diagnostic Tests)",
+      "item": [
+        {
+          "name": "1.1 جلب أسئلة اختبار Autism",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/autism",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tests",
+                "questions",
+                "autism"
+              ]
+            },
+            "description": "يعرض 10 أسئلة لتقييم اضطراب التوحد عند الأطفال"
+          },
+          "response": []
+        },
+        {
+          "name": "1.2 جلب أسئلة اختبار ADHD",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/adhd",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tests",
+                "questions",
+                "adhd"
+              ]
+            },
+            "description": "يعرض 13 سؤالاً لتقييم اضطراب فرط الحركة وتشتت الانتباه"
+          },
+          "response": []
+        },
+        {
+          "name": "1.3 جلب أسئلة اختبار Dyslexia",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/questions/dyslexia",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tests",
+                "questions",
+                "dyslexia"
+              ]
+            },
+            "description": "يعرض 10 أسئلة لتقييم عسر القراءة"
+          },
+          "response": []
+        },
+        {
+          "name": "1.4 إرسال اختبار Autism (10 أسئلة)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{child_id}},\n  \"testType\": \"autism\",\n  \"age\": 6,\n  \"sex\": \"m\",\n  \"jaundice\": \"no\",\n  \"familyAsd\": \"no\",\n  \"answers\": [\n    {\"q_id\": 1, \"answer\": \"yes\"},\n    {\"q_id\": 2, \"answer\": \"no\"},\n    {\"q_id\": 3, \"answer\": \"yes\"},\n    {\"q_id\": 4, \"answer\": \"no\"},\n    {\"q_id\": 5, \"answer\": \"yes\"},\n    {\"q_id\": 6, \"answer\": \"sometimes\"},\n    {\"q_id\": 7, \"answer\": \"no\"},\n    {\"q_id\": 8, \"answer\": \"yes\"},\n    {\"q_id\": 9, \"answer\": \"yes\"},\n    {\"q_id\": 10, \"answer\": \"no\"}\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tests/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tests",
+                "submit"
+              ]
+            },
+            "description": "إرسال إجابات اختبار التوحد (10 أسئلة) للتحليل بواسطة AI"
+          },
+          "response": []
+        },
+        {
+          "name": "1.7 جلب نتيجة اختبار محدد",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/tests/results/{{test_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tests",
+                "results",
+                "{{test_id}}"
+              ]
+            },
+            "description": "جلب نتيجة اختبار سابق باستخدام معرف الاختبار"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📊 2. التقييم الشهري (Monthly Assessment)",
+      "item": [
+        {
+          "name": "2.1 جلب أسئلة التقييم الشهري لـ ADHD",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/questions/ADHD",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "monthly-assessment",
+                "questions",
+                "ADHD"
+              ]
+            },
+            "description": "جلب أسئلة التقييم الشهري لاضطراب ADHD"
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 جلب أسئلة التقييم الشهري لـ Autism",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/questions/Autism",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "monthly-assessment",
+                "questions",
+                "Autism"
+              ]
+            },
+            "description": "جلب أسئلة التقييم الشهري للتوحد"
+          },
+          "response": []
+        },
+        {
+          "name": "2.3 جلب أسئلة التقييم الشهري لـ Dyslexia",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/questions/Dyslexia",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "monthly-assessment",
+                "questions",
+                "Dyslexia"
+              ]
+            },
+            "description": "جلب أسئلة التقييم الشهري لعسر القراءة"
+          },
+          "response": []
+        },
+        {
+          "name": "2.4 إرسال التقييم الشهري (متكامل مع AI)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{child_id}},\n  \"disorder\": \"ADHD\",\n  \"answers\": [\n    {\"q_id\": \"m_adhd_1\", \"value\": 0},\n    {\"q_id\": \"m_adhd_2\", \"value\": 1},\n    {\"q_id\": \"m_adhd_3\", \"value\": 0},\n    {\"q_id\": \"m_adhd_4\", \"value\": 1},\n    {\"q_id\": \"m_adhd_5\", \"value\": 0}\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "monthly-assessment",
+                "submit"
+              ]
+            },
+            "description": "إرسال التقييم الشهري للطفل (يتم تحليله بواسطة AI وحساب التقدم)"
+          },
+          "response": []
+        },
+        {
+          "name": "2.5 جلب تاريخ التقييمات الشهرية لطفل",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/monthly-assessment/history/{{child_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "monthly-assessment",
+                "history",
+                "{{child_id}}"
+              ]
+            },
+            "description": "جلب جميع التقييمات الشهرية السابقة لطفل معين مع بيانات الرسم البياني"
+          },
+          "response": []
+        },
+        {
+          "name": "2.6 جلب تقييم شهري محدد",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/monthly-assessment/{{assessment_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "{{assessment_id}}"
+              ]
+            },
+            "description": "جلب تفاصيل تقييم شهري محدد باستخدام معرف التقييم"
+          },
+          "response": []
+        },
+        {
+          "name": "2.7 جلب جميع تقييمات طفل",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/monthly-assessment/child/{{child_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "child",
+                "{{child_id}}"
+              ]
+            },
+            "description": "جلب جميع التقييمات الشهرية لطفل محدد"
+          },
+          "response": []
+        },
+        {
+          "name": "2.8 جلب اتجاه التقييم (Trend)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/monthly-assessment/trend/{{child_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "monthly-assessment",
+                "trend",
+                "{{child_id}}"
+              ]
+            },
+            "description": "جلب اتجاه التقدم للطفل (تحسن/استقرار/تراجع)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🎮 3. الاختبارات التفاعلية (Interactive Quiz)",
+      "item": [
+        {
+          "name": "3.1 جلب أسئلة الاختبار التفاعلي",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/quiz/questions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "questions"
+              ]
+            },
+            "description": "جلب أسئلة الاختبار التفاعلي للطفل (3 أسئلة بنعم/لا)"
+          },
+          "response": []
+        },
+        {
+          "name": "3.2 إرسال إجابات الاختبار التفاعلي",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{child_id}},\n  \"answers\": {\n    \"q1_focus\": true,\n    \"q2_follow_instructions\": false,\n    \"q3_complete_tasks\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/quiz/submit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "submit"
+              ]
+            },
+            "description": "إرسال إجابات الاختبار التفاعلي وحساب النتيجة مع تقديم تغذية راجعة"
+          },
+          "response": []
+        },
+        {
+          "name": "3.3 جلب تاريخ الاختبارات التفاعلية للطفل",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"childId\": {{child_id}}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/quiz/history",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "quiz",
+                "history"
+              ]
+            },
+            "description": "جلب جميع محاولات الاختبار التفاعلي السابقة للطفل"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "📈 4. التقدم والإحصائيات",
+      "item": [
+        {
+          "name": "4.1 جلب تقدم الطفل (Dashboard)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/progress?childId={{child_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "progress"
+              ],
+              "query": [
+                {
+                  "key": "childId",
+                  "value": "{{child_id}}"
+                }
+              ]
+            },
+            "description": "جلب إحصائيات تقدم الطفل (نسبة التحسن، الأنشطة المكتملة)"
+          },
+          "response": []
+        },
+        {
+          "name": "4.2 جلب بيانات الصفحة الرئيسية كاملة",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/home/data?childId={{child_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "home",
+                "data"
+              ],
+              "query": [
+                {
+                  "key": "childId",
+                  "value": "{{child_id}}"
+                }
+              ]
+            },
+            "description": "جلب جميع بيانات الصفحة الرئيسية (الأطفال، الخطة اليومية، التقييمات، المقالات)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8086"
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    },
+    {
+      "key": "childId",
+      "value": "1"
+    },
+    {
+      "key": "assessmentId",
+      "value": "1"
+    },
+    {
+      "key": "articleId",
+      "value": "1"
+    },
+    {
+      "key": "activityId",
+      "value": "1"
+    },
+    {
+      "key": "conversationId",
+      "value": ""
+    },
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "child_id",
+      "value": ""
+    },
+    {
+      "key": "supabase_service_role_api_key_12yl",
+      "secret": true
+    }
+  ]
+}

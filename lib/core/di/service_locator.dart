@@ -484,6 +484,9 @@ void _setupProfileFeature() {
   getIt.registerLazySingleton(
     () => ChangePasswordUseCase(repository: getIt<ProfileRepository>()),
   );
+  getIt.registerLazySingleton(
+    () => UploadProfileImageUseCase(repository: getIt<ProfileRepository>()),
+  );
 
   // M-2: lazySingleton — lives in root MultiBlocProvider.
   getIt.registerLazySingleton<ProfileCubit>(
@@ -498,6 +501,7 @@ void _setupProfileFeature() {
       deleteChildUseCase: getIt<DeleteChildUseCase>(),
       getSettingsUseCase: getIt<GetSettingsUseCase>(),
       changePasswordUseCase: getIt<ChangePasswordUseCase>(),
+      uploadProfileImageUseCase: getIt<UploadProfileImageUseCase>(),
     ),
   );
 }
