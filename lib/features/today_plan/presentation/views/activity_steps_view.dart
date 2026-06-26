@@ -23,9 +23,110 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
   final PageController controller = PageController();
   int currentStep = 0;
 
+  /// Split a raw description string into clean bullet lines.
+  /// Handles newlines, period-separated sentences, and numbered lists.
+  List<String> _splitDescription(String raw) {
+    if (raw.trim().isEmpty) return [];
+
+    // Try splitting by newline first
+    var lines = raw
+        .split(RegExp(r'\n+'))
+        .map((l) => l.trim())
+        .where((l) => l.isNotEmpty)
+        .toList();
+
+    // If only one line and it's long, try splitting by '. '
+    if (lines.length == 1 && lines.first.length > 60) {
+      lines = lines.first
+          .split(RegExp(r'\.\s+'))
+          .map((l) => l.trim())
+          .where((l) => l.isNotEmpty)
+          .map((l) => l.endsWith('.') ? l : '$l.')
+          .toList();
+    }
+
+    return lines;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final total = widget.activity.steps.length;
+    final steps = widget.activity.steps;
+    final total = steps.length;
+
+    // ── Guard: no steps returned from API ─────────────────────────────────
+    if (total == 0) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: CircleAvatar(
+                      radius: 16,
+                      backgroundColor: ColorManager.buttonBlue,
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 14,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.info_outline_rounded,
+                  size: 60,
+                  color: ColorManager.primaryBlue.withOpacity(0.5),
+                ),
+                SizedBox(height: 16.h),
+                Text(
+                  widget.activity.title,
+                  style: AppTextStyles.nunito30w900Black,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  'No steps available for this activity.\nYou can still mark it as completed.',
+                  style: AppTextStyles.nunito14w400Grey,
+                  textAlign: TextAlign.center,
+                ),
+                const Spacer(),
+                CustomButtonSmallTest(
+                  text: 'Submit',
+                  onTap: () async {
+                    await NotificationHelper.showNotification(
+                      id: 1,
+                      title: 'Activity Completed!',
+                      body: 'Great job completing ${widget.activity.title}!',
+                    );
+                    if (!context.mounted) return;
+                    final bool? done = await Navigator.pushNamed<bool>(
+                      context,
+                      AppRoutes.activityDone,
+                      arguments: {
+                        'title': widget.activity.title,
+                        'image': widget.activity.image,
+                      },
+                    );
+                    if (done == true && context.mounted) {
+                      Navigator.pop(context, true);
+                    }
+                  },
+                ),
+                SizedBox(height: 14.h),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    // ──────────────────────────────────────────────────────────────────────
+
     final progress = (currentStep + 1) / total;
 
     return Scaffold(
@@ -35,6 +136,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
           padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 0.h),
           child: Column(
             children: [
+              // ── Back button ──────────────────────────────────────────────
               Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
@@ -59,7 +161,21 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
+
+              SizedBox(height: 10.h),
+
+              // ── Activity title (always visible at top) ───────────────────
+              Text(
+                widget.activity.title,
+                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 20.sp),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+
+              SizedBox(height: 10.h),
+
+              // ── Progress bar ─────────────────────────────────────────────
               ClipRRect(
                 borderRadius: BorderRadius.circular(20.r),
                 child: LinearProgressIndicator(
@@ -71,84 +187,183 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   ),
                 ),
               ),
-              SizedBox(height: 20.h),
-              SizedBox(
-                height: 500,
+
+              SizedBox(height: 6.h),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Step ${currentStep + 1} of $total',
+                  style: AppTextStyles.nunito15w900primaryBlue.copyWith(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 12.h),
+
+              // ── Page content ─────────────────────────────────────────────
+              Expanded(
                 child: PageView.builder(
                   controller: controller,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.activity.steps.length,
+                  itemCount: total,
                   onPageChanged: (index) {
                     setState(() {
                       currentStep = index;
                     });
                   },
                   itemBuilder: (context, index) {
-                    final step = widget.activity.steps[index];
-                    return Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Step ${currentStep + 1} of $total',
-                            style: AppTextStyles.nunito15w900primaryBlue.copyWith(
-                              fontSize: 20.sp,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16.r),
-                          child: Image.asset(
-                            step.image,
-                            width: 261,
-                            height: 191,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        Text(
-                          step.title,
-                          style: AppTextStyles.nunito30w900Black,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 18.h),
-                        Container(
-                          width: 210,
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.w,
-                            vertical: 16.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
+                    final step = steps[index];
+                    final bullets = _splitDescription(step.description);
+
+                    return SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Step image
+                          ClipRRect(
                             borderRadius: BorderRadius.circular(16.r),
-                          ),
-                          child: Text(
-                            step.description,
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                              color: Theme.of(context).textTheme.bodyLarge?.color,
-                              fontSize: 16.sp,
-                              height: 1.45,
+                            child: Image.asset(
+                              step.image,
+                              width: double.infinity,
+                              height: 180.h,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ),
-                        SizedBox(height: 14.h),
-                        Text(
-                          step.note,
-                          textAlign: TextAlign.center,
-                          style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                            color: ColorManager.primaryBlue,
-                            fontSize: 16.sp,
-                            height: 1.4,
-                          ),
-                        ),
-                      ],
+
+                          SizedBox(height: 16.h),
+
+                          // Step title (sub-title for the step)
+                          if (step.title.isNotEmpty &&
+                              step.title != widget.activity.title)
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 10.h),
+                              child: Text(
+                                step.title,
+                                style: AppTextStyles.nunito16w900Black.copyWith(
+                                  fontSize: 17.sp,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+
+                          // Step description — split into bullet points
+                          if (bullets.isNotEmpty)
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 14.w,
+                                vertical: 14.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(14.r),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: bullets.map((line) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: 8.h),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 5.h),
+                                          child: Container(
+                                            width: 7,
+                                            height: 7,
+                                            decoration: BoxDecoration(
+                                              color: ColorManager.primaryBlue,
+                                              shape: BoxShape.circle,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.w),
+                                        Expanded(
+                                          child: Text(
+                                            line,
+                                            style: AppTextStyles
+                                                .nunito12w600overlayGray66
+                                                .copyWith(
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.color,
+                                              fontSize: 14.sp,
+                                              height: 1.5,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            )
+                          else
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.all(14.r),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).cardColor,
+                                borderRadius: BorderRadius.circular(14.r),
+                              ),
+                              child: Text(
+                                step.description,
+                                style: AppTextStyles.nunito12w600overlayGray66
+                                    .copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.color,
+                                  fontSize: 14.sp,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+
+                          // Note (if different from description)
+                          if (step.note.isNotEmpty &&
+                              step.note != step.description) ...[
+                            SizedBox(height: 12.h),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.lightbulb_outline,
+                                  color: ColorManager.primaryBlue,
+                                  size: 16,
+                                ),
+                                SizedBox(width: 6.w),
+                                Expanded(
+                                  child: Text(
+                                    step.note,
+                                    style: AppTextStyles
+                                        .nunito12w600overlayGray66
+                                        .copyWith(
+                                      color: ColorManager.primaryBlue,
+                                      fontSize: 13.sp,
+                                      fontStyle: FontStyle.italic,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+
+                          SizedBox(height: 16.h),
+                        ],
+                      ),
                     );
                   },
                 ),
               ),
-              SizedBox(height: 12.h),
+
+              // ── Navigation buttons ───────────────────────────────────────
+              SizedBox(height: 8.h),
               Row(
                 children: [
                   if (currentStep > 0)
@@ -176,7 +391,8 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                         await NotificationHelper.showNotification(
                           id: 1,
                           title: 'Activity Completed!',
-                          body: 'Great job completing ${widget.activity.title}!',
+                          body:
+                              'Great job completing ${widget.activity.title}!',
                         );
 
                         if (!context.mounted) return;
@@ -196,27 +412,6 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                       }
                     },
                   ),
-                  // CustomButtonSmallTest(
-                  //   text: currentStep == total - 1 ? 'Submit' : 'Next',
-                  //   onTap: () {
-                  //     if (currentStep < total - 1) {
-                  //       controller.nextPage(
-                  //         duration: const Duration(milliseconds: 250),
-                  //         curve: Curves.easeInOut,
-                  //       );
-                  //     } else {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (_) => ActivityDoneView(
-                  //             title: widget.activity.title,
-                  //             image: widget.activity.image,
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }
-                  //   },
-                  // ),
                 ],
               ),
               SizedBox(height: 14.h),
@@ -227,4 +422,3 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
     );
   }
 }
-

@@ -1,3 +1,4 @@
+import 'package:child_monitor_app/core/navigation/app_routes.dart';
 import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
@@ -91,11 +92,19 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
 
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        'Forgot Password?',
-                        style: AppTextStyles.nunito14w400Grey.copyWith(
-                          color: ColorManager.primaryBlue,
-                          fontSize: 16.sp,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.resetPasswordRequest,
+                          );
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: AppTextStyles.nunito14w400Grey.copyWith(
+                            color: ColorManager.primaryBlue,
+                            fontSize: 16.sp,
+                          ),
                         ),
                       ),
                     ),

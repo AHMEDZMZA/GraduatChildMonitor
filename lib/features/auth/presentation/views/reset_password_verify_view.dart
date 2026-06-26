@@ -20,14 +20,8 @@ class ResetPasswordVerifyView extends StatefulWidget {
 }
 
 class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
-  final TextEditingController otpController = TextEditingController();
+  String _otpValue = '';
   String? errorMessage;
-
-  @override
-  void dispose() {
-    otpController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +33,7 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
             AppRoutes.resetPasswordConfirm,
             arguments: {
               'email': widget.email,
-              'otp': otpController.text.trim(),
+              'otp': _otpValue,
             },
           );
         } else if (state is AuthError) {
@@ -80,7 +74,9 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
                   Text('Enter Code',
                       style: AppTextStyles.nunito16w700Black),
                   SizedBox(height: 15.h),
-                  CustomPinCodeFields(controller: otpController),
+                  CustomPinCodeFields(
+                    onChanged: (val) => _otpValue = val,
+                  ),
                   if (errorMessage != null) ...[
                     SizedBox(height: 8.h),
                     Text(
@@ -98,8 +94,8 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
                         onTap: state is AuthLoading
                             ? () {}
                             : () {
-                                if (otpController.text.isEmpty ||
-                                    otpController.text.length < 6) {
+                          if (_otpValue.isEmpty ||
+                                    _otpValue.length < 6) {
                                   setState(() {
                                     errorMessage =
                                         'Please enter the 6-digit code sent to your email.';
@@ -108,7 +104,7 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
                                   setState(() => errorMessage = null);
                                   context.read<AuthCubit>().verifyOtp(
                                         widget.email,
-                                        otpController.text.trim(),
+                                        _otpValue,
                                       );
                                 }
                               },

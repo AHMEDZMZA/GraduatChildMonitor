@@ -56,20 +56,10 @@ class ActivityListItem extends StatelessWidget {
                 children: [
                   Text(
                     item.title,
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.nunito16w900Black.copyWith(
                       fontSize: 14.sp,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    item.shortDescription,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.nunito12w600overlayGray66.copyWith(
-                      fontSize: 14.sp,
-                      height: 1.35,
                     ),
                   ),
                   if (item.completed) ...[

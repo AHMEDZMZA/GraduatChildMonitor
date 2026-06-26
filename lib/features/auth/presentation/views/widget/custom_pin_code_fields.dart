@@ -5,15 +5,21 @@ import '../../../../../core/managers/color_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomPinCodeFields extends StatelessWidget {
-  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
+  final VoidCallback? onCompleted;
 
-  const CustomPinCodeFields({super.key, required this.controller});
+  const CustomPinCodeFields({
+    super.key,
+    required this.onChanged,
+    this.onCompleted,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
       appContext: context,
-      controller: controller,
+      // No controller passed — library manages its own internal state.
+      // Passing an external controller causes double-dispose crashes.
       autoFocus: true,
       cursorColor:
           Theme.of(context).textTheme.bodyLarge?.color ?? ColorManager.darkText,
@@ -41,8 +47,8 @@ class CustomPinCodeFields extends StatelessWidget {
         fontSize: 20.sp,
         fontWeight: FontWeight.bold,
       ),
-      onChanged: (value) {},
-      onCompleted: (value) {},
+      onChanged: onChanged,
+      onCompleted: (_) => onCompleted?.call(),
     );
   }
 }

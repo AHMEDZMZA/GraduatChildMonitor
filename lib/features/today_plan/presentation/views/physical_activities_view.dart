@@ -35,6 +35,42 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
     activities = [];
   }
 
+  /// Split a description string into ActivityStepModel list.
+  /// Uses newlines first; falls back to sentence splitting on '. '.
+  List<ActivityStepModel> _descriptionToSteps(
+    String description,
+    String activityTitle,
+    String image,
+  ) {
+    if (description.trim().isEmpty) return [];
+
+    List<String> parts = description
+        .split(RegExp(r'\n+'))
+        .map((l) => l.trim())
+        .where((l) => l.isNotEmpty)
+        .toList();
+
+    if (parts.length == 1 && parts.first.length > 60) {
+      parts = parts.first
+          .split(RegExp(r'\.\s+'))
+          .map((l) => l.trim())
+          .where((l) => l.isNotEmpty)
+          .map((l) => l.endsWith('.') ? l : '$l.')
+          .toList();
+    }
+
+    return parts
+        .map(
+          (part) => ActivityStepModel(
+            image: image,
+            title: activityTitle,
+            description: part,
+            note: '',
+          ),
+        )
+        .toList();
+  }
+
   Future<void> _loadCompletedActivities() async {
     final prefs = await SharedPreferences.getInstance();
     final childId = prefs.getString('childId') ?? '';
@@ -144,16 +180,22 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
                                   '⚡ Difficulty: ${entity.difficultyLevel}',
                               suitableAge:
                                   '👶 Suitable Age: ${entity.minAge}–${entity.maxAge} years',
-                              steps: entity.steps
-                                  .map(
-                                    (step) => ActivityStepModel(
-                                      image: AppAssets.physicalActivities1,
-                                      title: entity.title,
-                                      description: step,
-                                      note: step,
+                              steps: entity.steps.isNotEmpty
+                                  ? entity.steps
+                                      .map(
+                                        (step) => ActivityStepModel(
+                                          image: AppAssets.physicalActivities1,
+                                          title: entity.title,
+                                          description: step,
+                                          note: step,
+                                        ),
+                                      )
+                                      .toList()
+                                  : _descriptionToSteps(
+                                      entity.description ?? '',
+                                      entity.title,
+                                      AppAssets.physicalActivities1,
                                     ),
-                                  )
-                                  .toList(),
                               completed: completedActivities.contains(entity.id),
                               highlighted: false,
                             ),
