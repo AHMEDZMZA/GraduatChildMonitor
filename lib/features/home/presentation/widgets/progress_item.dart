@@ -30,7 +30,10 @@ class ProgressItem extends StatelessWidget {
 
   String _formatDate(String dateStr) {
     try {
-      final dateTime = DateTime.parse(dateStr);
+      // Parse and convert to local time so the displayed date matches
+      // the user's timezone (server returns UTC).
+      final dateTimeUtc = DateTime.parse(dateStr);
+      final dateTime = dateTimeUtc.isUtc ? dateTimeUtc.toLocal() : dateTimeUtc.toLocal();
       final months = [
         'January',
         'February',

@@ -11,12 +11,25 @@ class MonthlyAssessmentRepositoryImpl implements MonthlyAssessmentRepository {
 
   MonthlyAssessmentRepositoryImpl({required this.apiClient});
 
+  String _normalizeDisorder(String disorder) {
+    final lower = disorder.toLowerCase();
+    if (lower.contains('adhd')) {
+      return 'ADHD';
+    } else if (lower.contains('autism')) {
+      return 'Autism';
+    } else if (lower.contains('dyslexia')) {
+      return 'Dyslexia';
+    }
+    return disorder;
+  }
+
   @override
   Future<Either<Failure, MonthlyAssessmentQuestionsResponse>> getQuestions(
     String disorder,
   ) async {
     try {
-      final response = await apiClient.getMonthlyAssessmentQuestions(disorder);
+      final normalized = _normalizeDisorder(disorder);
+      final response = await apiClient.getMonthlyAssessmentQuestions(normalized);
       return Right(response.data);
     } on DioException catch (e) {
       final msg = e.response?.data?['error'] ??
@@ -35,9 +48,10 @@ class MonthlyAssessmentRepositoryImpl implements MonthlyAssessmentRepository {
     required List<MonthlyAssessmentAnswer> answers,
   }) async {
     try {
+      final normalized = _normalizeDisorder(disorder);
       final request = SubmitMonthlyAssessmentRequest(
         childId: childId,
-        disorder: disorder,
+        disorder: normalized,
         answers: answers,
       );
       final response = await apiClient.submitMonthlyAssessment(request);

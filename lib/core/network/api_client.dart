@@ -1587,7 +1587,7 @@ class MonthlyAssessmentQuestionOption {
   factory MonthlyAssessmentQuestionOption.fromJson(Map<String, dynamic> json) {
     return MonthlyAssessmentQuestionOption(
       text: json['text'] ?? '',
-      value: json['value'] ?? 0,
+      value: (json['value'] as num?)?.toInt() ?? 0,
     );
   }
 
@@ -1682,7 +1682,7 @@ class MonthlyAssessmentQuestionsResponse {
         json['questions'] ?? {},
       ),
       disorder: json['disorder'] ?? '',
-      statusCode: json['status_code'] ?? 200,
+      statusCode: (json['status_code'] as num?)?.toInt() ?? 200,
     );
   }
 }
@@ -1740,13 +1740,13 @@ class SubmitMonthlyAssessmentResponse {
   factory SubmitMonthlyAssessmentResponse.fromJson(Map<String, dynamic> json) {
     return SubmitMonthlyAssessmentResponse(
       message: json['message'] ?? '',
-      assessmentId: json['assessment_id'] ?? 0,
-      currentScore: json['current_score'] ?? 0,
-      progressPercentage: json['progress_percentage'] ?? 0,
+      assessmentId: (json['assessment_id'] as num?)?.toInt() ?? 0,
+      currentScore: (json['current_score'] as num?)?.toInt() ?? 0,
+      progressPercentage: (json['progress_percentage'] as num?)?.toInt() ?? 0,
       trend: json['trend'] ?? '',
       trendLabel: json['trend_label'] ?? '',
       interpretation: json['interpretation'] ?? '',
-      statusCode: json['status_code'] ?? 200,
+      statusCode: (json['status_code'] as num?)?.toInt() ?? 200,
       error: json['error'],
     );
   }
@@ -1760,7 +1760,7 @@ class MonthlyAssessmentHistoryChild {
 
   factory MonthlyAssessmentHistoryChild.fromJson(Map<String, dynamic> json) {
     return MonthlyAssessmentHistoryChild(
-      id: json['id'] ?? 0,
+      id: (json['id'] as num?)?.toInt() ?? 0,
       name: json['name'] ?? '',
     );
   }
@@ -1797,16 +1797,16 @@ class MonthlyAssessmentHistoryItem {
 
   factory MonthlyAssessmentHistoryItem.fromJson(Map<String, dynamic> json) {
     return MonthlyAssessmentHistoryItem(
-      id: json['id'] ?? 0,
+      id: (json['id'] as num?)?.toInt() ?? 0,
       child: MonthlyAssessmentHistoryChild.fromJson(json['child'] ?? {}),
       assessmentDate: json['assessmentDate'] ?? '',
       monthYear: json['monthYear'] ?? '',
-      q1Focus: json['q1Focus'] ?? 0,
-      q2Social: json['q2Social'] ?? 0,
-      q3Communication: json['q3Communication'] ?? 0,
-      q4Behavior: json['q4Behavior'] ?? 0,
-      q5Learning: json['q5Learning'] ?? 0,
-      totalScore: json['totalScore'] ?? 0,
+      q1Focus: (json['q1Focus'] as num?)?.toInt() ?? 0,
+      q2Social: (json['q2Social'] as num?)?.toInt() ?? 0,
+      q3Communication: (json['q3Communication'] as num?)?.toInt() ?? 0,
+      q4Behavior: (json['q4Behavior'] as num?)?.toInt() ?? 0,
+      q5Learning: (json['q5Learning'] as num?)?.toInt() ?? 0,
+      totalScore: (json['totalScore'] as num?)?.toInt() ?? 0,
       resultLabel: json['resultLabel'] ?? '',
       recommendations: json['recommendations'] ?? '',
     );
@@ -1829,7 +1829,7 @@ class MonthlyAssessmentChartData {
   factory MonthlyAssessmentChartData.fromJson(Map<String, dynamic> json) {
     return MonthlyAssessmentChartData(
       month: json['month'] ?? '',
-      score: json['score'] ?? 0,
+      score: (json['score'] as num?)?.toInt() ?? 0,
       resultLabel: json['result_label'] ?? '',
       date: json['date'] ?? '',
     );
@@ -1869,8 +1869,8 @@ class MonthlyAssessmentHistoryResponse {
               )
               .toList() ??
           [],
-      totalAssessments: json['total_assessments'] ?? 0,
-      statusCode: json['status_code'] ?? 200,
+      totalAssessments: (json['total_assessments'] as num?)?.toInt() ?? 0,
+      statusCode: (json['status_code'] as num?)?.toInt() ?? 200,
     );
   }
 }
@@ -1891,7 +1891,7 @@ class MonthlyAssessmentSingleDetailResponse {
       assessment: MonthlyAssessmentHistoryItem.fromJson(
         json['assessment'] ?? {},
       ),
-      statusCode: json['status_code'] ?? 200,
+      statusCode: (json['status_code'] as num?)?.toInt() ?? 200,
     );
   }
 }
