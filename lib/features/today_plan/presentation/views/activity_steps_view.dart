@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:child_monitor_app/core/helpers/notification_helper.dart';
+import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -97,10 +97,11 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                 CustomButtonSmallTest(
                   text: 'submit'.tr(),
                   onTap: () async {
-                    await NotificationHelper.showNotification(
+                    await LocalNotificationService().showInstantNotification(
                       id: 1,
                       title: 'activity_completed'.tr(),
                       body: 'Great job completing ${widget.activity.title}!',
+                      type: 'activity_completed',
                     );
                     if (!context.mounted) return;
                     final bool? done = await Navigator.pushNamed<bool>(
@@ -388,11 +389,11 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        await NotificationHelper.showNotification(
+                        await LocalNotificationService().showInstantNotification(
                           id: 1,
                           title: 'activity_completed'.tr(),
-                          body:
-                              'Great job completing ${widget.activity.title}!',
+                          body: 'Great job completing ${widget.activity.title}!',
+                          type: 'activity_completed',
                         );
 
                         if (!context.mounted) return;

@@ -24,6 +24,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       (quote) {
         final quoteNotification = NotificationEntity(
           title: 'Daily Quote',
+          body: '"$quote"',
           date: DateTime.now().toString(),
           highlighted: true,
           type: 'daily_quote',

@@ -9,6 +9,7 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../widgets/profile_top_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PasswordManagerView extends StatefulWidget {
@@ -39,6 +40,12 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
     return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state is PasswordChanged) {
+          LocalNotificationService().showInstantNotification(
+            id: 4,
+            title: 'password_changed_title',
+            body: 'password_changed_body',
+            type: 'security_alert',
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('password_changed_success'.tr()),

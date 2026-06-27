@@ -38,7 +38,7 @@ void main() async {
   // H-3: Single notification service — no more double-init.
   final notificationService = LocalNotificationService();
   await notificationService.initializeNotifications();
-  await notificationService.scheduleDailyQuoteNotification(hour: 14, minute: 0);
+  await notificationService.scheduleDailyNotifications();
 
   runApp(
     EasyLocalization(

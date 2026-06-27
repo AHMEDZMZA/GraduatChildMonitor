@@ -9,4 +9,5 @@ abstract class NotificationRepository {
   Future<Either<Failure, void>> cancelAllNotifications();
   Future<Either<Failure, String>> getDailyQuote();
   Future<Either<Failure, List<NotificationEntity>>> getNotificationsWithQuote();
+  Future<Either<Failure, void>> saveNotification(NotificationEntity notification);
 }

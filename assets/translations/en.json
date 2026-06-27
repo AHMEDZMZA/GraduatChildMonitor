@@ -14,7 +14,6 @@
   "articles": "Articles",
   "profile": "Profile",
   "chat": "Chat",
-  
   "children_profiles": "Children Profiles",
   "child_deleted_success": "Child profile deleted successfully.",
   "no_children_profiles": "No children profiles yet.",
@@ -24,7 +23,6 @@
   "switched_profile_success": "Switched active profile to {}.",
   "add_child_profile": "Add Child Profile",
   "edit_child_profile": "Edit Child Profile",
-
   "current_password": "Current Password",
   "enter_current_password": "Enter current password",
   "forgot_password": "Forgot Password?",
@@ -35,7 +33,6 @@
   "change_password": "Change Password",
   "password_changed_success": "Password changed successfully!",
   "passwords_not_match": "Passwords do not match",
-
   "profile_title": "Profile",
   "gallery": "Gallery",
   "camera": "Camera",
@@ -46,14 +43,12 @@
   "retry": "Retry",
   "logout_success": "Logged out successfully.",
   "account_deleted_success": "Account deleted successfully.",
-
   "login": "Login",
   "signup": "Sign Up",
   "email": "Email",
   "password": "Password",
   "account_created_success": "Account created successfully!",
   "login_success": "Login successful!",
-  
   "my_profile": "My Profile",
   "logout": "Logout",
   "are_you_sure_logout": "Are you sure you want to logout?",
@@ -154,5 +149,18 @@
   "start_activity": "Start Activity",
   "today_plan_desc_1": "Simple movement-based activities that help your child stay active and focused.",
   "today_plan_desc_2": "Interactive activities designed to strengthen your bond and support your child's development.",
-  "today_plan_desc_3": "Short and engaging quizzes that build your child's focus and response skills."
+  "today_plan_desc_3": "Short and engaging quizzes that build your child's focus and response skills.",
+  "daily_quote_title": "Daily Quote ⭐️",
+  "plan_reminder_title": "Today's Plan Reminder 🧩",
+  "plan_reminder_body": "Time for learning! Check today's plan for your child's activities.",
+  "weekly_tip_title": "Weekly Parenting Tip 💡",
+  "test_completed_title": "Screening Completed 🧠",
+  "test_completed_body": "Milestone Screening completed for {}. View the full report in the progress tab. 📈",
+  "monthly_assessment_completed_title": "Monthly Assessment Completed 📊",
+  "monthly_assessment_completed_body": "Monthly assessment for {} is completed. View progress tracking. 📈",
+  "password_changed_title": "Security Alert 🔒",
+  "password_changed_body": "Your account password was successfully updated.",
+  "no_notifications": "No Notifications Yet",
+  "no_notifications_desc": "Check back later! We will notify you here about your child's activities, security updates, and progress milestones.",
+  "view_todays_plan": "View Today's Plan"
 }

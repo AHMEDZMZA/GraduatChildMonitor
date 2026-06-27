@@ -11,6 +11,7 @@ import '../../../../core/network/api_client.dart';
 import '../cubit/monthly_assessment_cubit.dart';
 import '../cubit/monthly_assessment_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProgressTestView extends StatefulWidget {
@@ -38,6 +39,12 @@ class _ProgressTestViewState extends State<ProgressTestView> {
       child: BlocConsumer<MonthlyAssessmentCubit, MonthlyAssessmentState>(
         listener: (context, state) {
           if (state is MonthlyAssessmentSubmitSuccess) {
+            LocalNotificationService().showInstantNotification(
+              id: 3,
+              title: 'monthly_assessment_completed_title',
+              body: 'monthly_assessment_completed_body'.tr(args: [widget.child.name]),
+              type: 'assessment_completed',
+            );
             Navigator.pushReplacementNamed(
               context,
               AppRoutes.resultProgress,

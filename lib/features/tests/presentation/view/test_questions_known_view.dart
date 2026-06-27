@@ -10,6 +10,7 @@ import '../../domain/entities/child_entity.dart';
 import '../../domain/entities/question_entity.dart';
 import '../bloc/test_cubit.dart';
 import '../widgets/build_answer_option.dart';
+import 'package:child_monitor_app/core/managers/local_notification_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestQuestionsKnownView extends StatefulWidget {
@@ -101,6 +102,12 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                 _isDialogShowing = false;
                 Navigator.pop(context); // close loading dialog
               }
+              LocalNotificationService().showInstantNotification(
+                id: 2,
+                title: 'test_completed_title',
+                body: 'test_completed_body'.tr(args: [widget.child.name]),
+                type: 'assessment_completed',
+              );
               Navigator.pushReplacementNamed(
                 context,
                 AppRoutes.testComplete,

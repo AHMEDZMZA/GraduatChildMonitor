@@ -14,7 +14,6 @@
   "articles": "المقالات",
   "profile": "الملف الشخصي",
   "chat": "المحادثة",
-
   "children_profiles": "ملفات الأطفال",
   "child_deleted_success": "تم حذف ملف الطفل بنجاح.",
   "no_children_profiles": "لا يوجد ملفات للأطفال بعد.",
@@ -24,7 +23,6 @@
   "switched_profile_success": "تم التبديل إلى ملف {}.",
   "add_child_profile": "إضافة ملف طفل",
   "edit_child_profile": "تعديل ملف الطفل",
-
   "current_password": "كلمة المرور الحالية",
   "enter_current_password": "أدخل كلمة المرور الحالية",
   "forgot_password": "هل نسيت كلمة المرور؟",
@@ -35,7 +33,6 @@
   "change_password": "تغيير كلمة المرور",
   "password_changed_success": "تم تغيير كلمة المرور بنجاح!",
   "passwords_not_match": "كلمات المرور غير متطابقة",
-
   "profile_title": "الملف الشخصي",
   "gallery": "المعرض",
   "camera": "الكاميرا",
@@ -46,14 +43,12 @@
   "retry": "إعادة المحاولة",
   "logout_success": "تم تسجيل الخروج بنجاح.",
   "account_deleted_success": "تم حذف الحساب بنجاح.",
-
   "login": "تسجيل الدخول",
   "signup": "إنشاء حساب",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
   "account_created_success": "تم إنشاء الحساب بنجاح!",
   "login_success": "تم تسجيل الدخول بنجاح!",
-
   "my_profile": "ملفي الشخصي",
   "logout": "تسجيل خروج",
   "are_you_sure_logout": "هل أنت متأكد من تسجيل الخروج؟",
@@ -100,7 +95,6 @@
   "overall_improvement": "التحسن الإجمالي:",
   "delete_profile": "حذف الملف",
   "notification": "الإشعارات",
-  "delete_this_notification": "حذف هذا الإشعار",
   "clear_all_notifications": "مسح كل الإشعارات",
   "ask_for_help": "اطلب المساعدة",
   "monthly_assessment_time": "وقت التقييم الشهري لطفلك",
@@ -154,5 +148,19 @@
   "start_activity": "بدء النشاط",
   "today_plan_desc_1": "أنشطة حركية بسيطة تساعد طفلك على البقاء نشيطاً ومركزاً.",
   "today_plan_desc_2": "أنشطة تفاعلية مصممة لتقوية الروابط ودعم تطور طفلك.",
-  "today_plan_desc_3": "اختبارات قصيرة ومشوقة تبني مهارات التركيز والاستجابة لدى طفلك."
+  "today_plan_desc_3": "اختبارات قصيرة ومشوقة تبني مهارات التركيز والاستجابة لدى طفلك.",
+  "daily_quote_title": "حكمة اليوم ⭐️",
+  "plan_reminder_title": "تذكير بخطة اليوم 🧩",
+  "plan_reminder_body": "حان وقت التعلم! تحقق من خطة اليوم لمعرفة أنشطة طفلك.",
+  "weekly_tip_title": "نصيحة الأسبوع للتربية 💡",
+  "test_completed_title": "اكتمل التقييم الفحصي 🧠",
+  "test_completed_body": "تم اكتمال تقييم الفحص لـ {}. عرض التقرير الكامل في تبويب التقدم. 📈",
+  "monthly_assessment_completed_title": "اكتمل التقييم الشهري 📊",
+  "monthly_assessment_completed_body": "تم اكتمال التقييم الشهري لـ {}. عرض تتبع التقدم. 📈",
+  "password_changed_title": "تنبيه أمني 🔒",
+  "password_changed_body": "تم تحديث كلمة مرور حسابك بنجاح.",
+  "no_notifications": "لا توجد إشعارات بعد",
+  "no_notifications_desc": "يرجى التحقق لاحقاً! سنقوم بإخطارك هنا بالأنشطة والتحديثات الأمنية وإنجازات طفلك.",
+  "view_todays_plan": "عرض خطة اليوم",
+  "delete_this_notification": "حذف الإشعار"
 }

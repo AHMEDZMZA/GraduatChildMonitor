@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class NotificationEntity extends Equatable {
   final String title;
+  final String body;
   final String date;
   final bool highlighted;
   final String? type; // 'daily_quote', 'reminder', 'alert'
@@ -9,6 +10,7 @@ class NotificationEntity extends Equatable {
 
   const NotificationEntity({
     required this.title,
+    required this.body,
     required this.date,
     this.highlighted = false,
     this.type,
@@ -16,5 +18,5 @@ class NotificationEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [title, date, highlighted, type, quote];
+  List<Object?> get props => [title, body, date, highlighted, type, quote];
 }

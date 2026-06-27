@@ -17,7 +17,7 @@ import '../../features/auth/presentation/views/success_otp_verify_view.dart';
 // Notification
 import '../../features/notification/presentation/view/notification_view.dart';
 import '../../features/notification/presentation/view/single_notification_screen.dart';
-import '../../features/notification/data/model/notification_item_model.dart';
+import '../../features/notification/domain/entities/notification_entity.dart';
 // Articles
 import '../../features/articles/presentation/view/articles_view.dart';
 import '../../features/articles/presentation/view/article_details_view.dart';
@@ -339,10 +339,10 @@ class RoutingManager {
       case AppRoutes.notification:
         return MaterialPageRoute(builder: (_) => const NotificationView());
       case AppRoutes.singleNotification:
-        if (settings.arguments is NotificationItemModel) {
+        if (settings.arguments is NotificationEntity) {
           return MaterialPageRoute(
             builder: (_) => SingleNotificationScreen(
-              item: settings.arguments as NotificationItemModel,
+              item: settings.arguments as NotificationEntity,
             ),
           );
         }

@@ -82,7 +82,39 @@ class _NotificationViewState extends State<NotificationView> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is NotificationLoaded) {
                     if (state.notifications.isEmpty) {
-                      return const Center(child: Text("No notifications yet"));
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.notifications_off_outlined,
+                              size: 72.r,
+                              color: ColorManager.grayB9,
+                            ),
+                            SizedBox(height: 16.h),
+                            Text(
+                              "no_notifications".tr(),
+                              style: TextStyle(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w700,
+                                color: ColorManager.nearBlack,
+                              ),
+                            ),
+                            SizedBox(height: 8.h),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 40.w),
+                              child: Text(
+                                "no_notifications_desc".tr(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: ColorManager.grayB0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     }
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),

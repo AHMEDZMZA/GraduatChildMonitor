@@ -514,7 +514,9 @@ void _setupProfileFeature() {
 void _setupNotificationFeature() {
   // Data Sources
   getIt.registerLazySingleton<NotificationRemoteDataSource>(
-    () => NotificationRemoteDataSourceImpl(),
+    () => NotificationRemoteDataSourceImpl(
+      sharedPreferences: getIt<SharedPreferences>(),
+    ),
   );
 
   // Repositories
