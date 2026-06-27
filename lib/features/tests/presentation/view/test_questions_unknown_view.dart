@@ -93,7 +93,6 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocConsumer<TestCubit, TestState>(
           listener: (context, state) {

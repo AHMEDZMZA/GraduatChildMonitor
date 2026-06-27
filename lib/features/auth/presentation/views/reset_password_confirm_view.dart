@@ -57,12 +57,10 @@ class _ResetPasswordConfirmViewState extends State<ResetPasswordConfirmView> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           resizeToAvoidBottomInset: true,
-          backgroundColor: Colors.white,
           appBar: AppBar(
             scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () => Navigator.pop(context),
             ),
           ),

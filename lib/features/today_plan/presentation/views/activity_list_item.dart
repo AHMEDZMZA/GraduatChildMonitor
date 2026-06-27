@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../data/activity_model.dart';
@@ -41,12 +43,36 @@ class ActivityListItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
-              child: Image.asset(
-                item.image,
-                width: 103.w,
-                height: 103.w,
-                fit: BoxFit.cover,
-              ),
+              child: item.image.startsWith('http')
+                  ? CachedNetworkImage(
+                      imageUrl: item.image,
+                      width: 103.w,
+                      height: 103.w,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(
+                        width: 103.w,
+                        height: 103.w,
+                        color: Theme.of(context).cardColor,
+                      ),
+                      errorWidget: (context, url, error) => Image.asset(
+                        AppAssets.activities1,
+                        width: 103.w,
+                        height: 103.w,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image.asset(
+                      item.image.isNotEmpty ? item.image : AppAssets.activities1,
+                      width: 103.w,
+                      height: 103.w,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Image.asset(
+                        AppAssets.activities1,
+                        width: 103.w,
+                        height: 103.w,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
             ),
             SizedBox(width: 10.w),
             Expanded(

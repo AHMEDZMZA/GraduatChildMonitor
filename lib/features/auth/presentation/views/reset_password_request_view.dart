@@ -56,7 +56,7 @@ class _ResetPasswordRequestViewState extends State<ResetPasswordRequestView> {
             scrolledUnderElevation: 0,
             //         backgroundColor: Colors.white,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+              icon: const Icon(Icons.arrow_back_ios),
               onPressed: () => Navigator.pop(context),
             ),
           ),

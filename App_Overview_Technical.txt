@@ -1,0 +1,73 @@
+# GraduatChildMonitor - Detailed Technical Architecture & Flow
+
+## 🏗️ Core Architecture & Design Patterns
+The application rigorously follows **Clean Architecture** combined with **Feature-First Modularization**. This ensures separation of concerns, high testability, and extreme scalability.
+
+### Feature Internal Structure
+Every feature inside `lib/features/` (e.g., `auth`, `tests`, `today_plan`) is strictly divided into three layers:
+1. **`data/`**: Contains API clients, local storage adapters, DTOs (Models), and the concrete implementation of repositories.
+2. **`domain/`**: The core business logic. Contains plain Dart Entities, Repository Interfaces (Contracts), and UseCases (e.g., `LoginUseCase`, `GetTodayPlanUseCase`). This layer is completely independent of Flutter and external packages.
+3. **`presentation/`**: Contains the UI and state management.
+   - **`views/`**: Flutter screens and pages.
+   - **`widgets/`**: Reusable UI components specific to the feature.
+   - **`cubit/` or `bloc/`**: The state management layer connecting UI to Domain UseCases.
+
+### Advanced Tech Stack & Packages
+- **State Management**: `flutter_bloc` / `bloc`. BLoC manages complex states (e.g., transitioning from `UnknownCondition` to `TestQuestionsUnknown` while keeping track of scores).
+- **Networking Layer**: 
+  - `dio`: Used for interceptors, timeout handling, and global error catching.
+  - `retrofit`: Used for generating type-safe API clients using decorators (like `@GET`, `@POST`), which significantly reduces boilerplate.
+  - `json_annotation` & `json_serializable`: For safe JSON to Dart Object mapping.
+- **Functional Error Handling**: `dartz`. The app uses `Either<Failure, Success>` to handle errors gracefully across all layers without relying on unstable `try/catch` blocks in the UI.
+- **Dependency Injection**: `get_it` acts as a Service Locator, injecting UseCases into BLoCs and Repositories into UseCases.
+- **Security**: `flutter_secure_storage` encrypts sensitive data (JWT tokens, OAuth tokens) using platform-specific hardware encryption (Keychain on iOS, Keystore on Android).
+- **UI Scaling**: `flutter_screenutil` guarantees pixel-perfect UIs across all device resolutions by dynamically calculating font and widget sizes.
+
+---
+
+## 🔄 Detailed Module Breakdown & Data Flow
+
+### 1. The `auth` Module
+**Flow:**
+- Handles both standard and OAuth (`google_sign_in`, `flutter_facebook_auth`).
+- **Views included**: `login_view`, `signup_view`.
+- **Advanced Password Recovery Flow**: Implements a highly secure multi-step flow managed by BLoC:
+  1. `reset_password_request_view` (Email input).
+  2. `reset_password_verify_view` (OTP input utilizing `pin_code_fields`).
+  3. `success_otp_verify_view` (Confirmation).
+  4. `reset_password_confirm_view` (New password input).
+  5. `reset_password_finished_view` (Routing back to login).
+
+### 2. The `tests` Module (Assessment Engine)
+**Flow:**
+- This is a state-heavy module responsible for evaluating the child.
+- **Views included**:
+  - `add_child_data_view`: Initializes the child entity in the backend.
+  - `select_test_view`: Entry point for assessments.
+  - **Dynamic Branching**: The module branches into `known_condition_view` and `unknown_condition_view`.
+  - Depending on the branch, it routes to `test_questions_known_view` or `test_questions_unknown_view`. This dynamic routing requires sophisticated BLoC logic to track question indexes, calculate scores in real-time, and submit final payloads.
+  - `test_complete_view`: Displays computed results.
+
+### 3. The `today_plan` Module (Daily Engine)
+**Flow:**
+- Fetches the customized daily routine based on test results.
+- **Views included**:
+  - `today_view`: The main wrapper/dashboard for the day.
+  - `parent_child_activities_view` & `physical_activities_view`: The UI is segmented to show different *types* of activities, meaning the backend likely returns a polymorphic list of activities or specific categorized arrays.
+  - `activity_details_view` & `activity_steps_view`: Clicking an `activity_list_item` routes to a detailed view, which further breaks down into a paginated or scrollable step-by-step instruction list (`activity_steps_view`).
+  - `activity_done_view`: Handles the mutation API call (POST/PUT) to mark an activity as completed, which triggers a global state update to refresh the `progress` module.
+
+### 4. Auxiliary Modules
+- **`progress`**: Fetches historical data, likely using chart libraries to render metrics.
+- **`notification`**: Uses `flutter_local_notifications` integrated with the `timezone` package to schedule local CRON jobs for daily reminders.
+- **`articles` & `chat`**: Content delivery and communication interfaces.
+
+---
+
+## 🚀 Key Technical Advantages
+
+1. **Extreme Decoupling**: Because of Clean Architecture and `get_it`, the backend API can completely change, and only the `data` layer needs updating. The UI and Business Logic remain completely untouched.
+2. **Predictable and Debuggable State**: Complex flows (like the OTP recovery or the branching Test Engine) are highly predictable because BLoC enforces unidirectional data flow. Debugging state transition errors is trivial using BlocObserver.
+3. **Type-Safety from End-to-End**: The combination of `retrofit`, `json_serializable`, and strictly typed Dart Entities ensures that null-pointer exceptions and JSON parsing errors are caught at compile-time, not runtime.
+4. **Resilient Error Handling**: By using `dartz` (`Either`), developers are forced to handle the `Failure` case in the UI before they can access the `Success` data. This eliminates "silent crashes" caused by unhandled exceptions.
+5. **Optimized Rendering**: Utilizing `cached_network_image` prevents memory leaks from excessive image loading in the `articles` and `today_plan` feeds, while `flutter_svg` keeps vector assets crisp and bundle sizes small.

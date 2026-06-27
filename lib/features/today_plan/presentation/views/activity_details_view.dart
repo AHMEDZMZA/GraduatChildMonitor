@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../../core/constants/app_assets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -92,12 +94,36 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                 SizedBox(height: 50.h),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(18.r),
-                  child: Image.asset(
-                    widget.activity.image,
-                    width: 261,
-                    height: 191,
-                    fit: BoxFit.cover,
-                  ),
+                  child: widget.activity.image.startsWith('http')
+                      ? CachedNetworkImage(
+                          imageUrl: widget.activity.image,
+                          width: 261,
+                          height: 191,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            width: 261,
+                            height: 191,
+                            color: Theme.of(context).cardColor,
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            AppAssets.activities1,
+                            width: 261,
+                            height: 191,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Image.asset(
+                          widget.activity.image.isNotEmpty ? widget.activity.image : AppAssets.activities1,
+                          width: 261,
+                          height: 191,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => Image.asset(
+                            AppAssets.activities1,
+                            width: 261,
+                            height: 191,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                 ),
                 SizedBox(height: 16.h),
                 Text(
