@@ -10,10 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ActivityStepsView extends StatefulWidget {
   final ActivityModel activity;
 
-  const ActivityStepsView({
-    super.key,
-    required this.activity,
-  });
+  const ActivityStepsView({super.key, required this.activity});
 
   @override
   State<ActivityStepsView> createState() => _ActivityStepsViewState();
@@ -81,7 +78,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                 Icon(
                   Icons.info_outline_rounded,
                   size: 60,
-                  color: ColorManager.primaryBlue.withOpacity(0.5),
+                  color: ColorManager.primaryBlue.withValues(alpha: 0.5),
                 ),
                 SizedBox(height: 16.h),
                 Text(
@@ -167,7 +164,9 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
               // ── Activity title (always visible at top) ───────────────────
               Text(
                 widget.activity.title,
-                style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 20.sp),
+                style: AppTextStyles.nunito30w900Black.copyWith(
+                  fontSize: 20.sp,
+                ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -283,18 +282,18 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                                         ),
                                         SizedBox(width: 10.w),
                                         Expanded(
-                                          child: Text(
+                                          child: SelectableText(
                                             line,
                                             style: AppTextStyles
                                                 .nunito12w600overlayGray66
                                                 .copyWith(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.color,
-                                              fontSize: 14.sp,
-                                              height: 1.5,
-                                            ),
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).textTheme.bodyLarge?.color,
+                                                  fontSize: 16.sp,
+                                                  height: 1.6,
+                                                  letterSpacing: 0.2,
+                                                ),
                                           ),
                                         ),
                                       ],
@@ -311,17 +310,17 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                                 color: Theme.of(context).cardColor,
                                 borderRadius: BorderRadius.circular(14.r),
                               ),
-                              child: Text(
+                              child: SelectableText(
                                 step.description,
                                 style: AppTextStyles.nunito12w600overlayGray66
                                     .copyWith(
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.color,
-                                  fontSize: 14.sp,
-                                  height: 1.5,
-                                ),
+                                      color: Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
+                                      fontSize: 16.sp,
+                                      height: 1.6,
+                                      letterSpacing: 0.2,
+                                    ),
                               ),
                             ),
 
@@ -338,16 +337,16 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                                 ),
                                 SizedBox(width: 6.w),
                                 Expanded(
-                                  child: Text(
+                                  child: SelectableText(
                                     step.note,
                                     style: AppTextStyles
                                         .nunito12w600overlayGray66
                                         .copyWith(
-                                      color: ColorManager.primaryBlue,
-                                      fontSize: 13.sp,
-                                      fontStyle: FontStyle.italic,
-                                      height: 1.4,
-                                    ),
+                                          color: ColorManager.primaryBlue,
+                                          fontSize: 15.sp,
+                                          fontStyle: FontStyle.italic,
+                                          height: 1.5,
+                                        ),
                                   ),
                                 ),
                               ],

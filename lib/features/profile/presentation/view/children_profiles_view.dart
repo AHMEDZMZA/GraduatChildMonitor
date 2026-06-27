@@ -71,11 +71,13 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 50.w),
-                    CustomText(
-                      text: 'Children Profiles',
-                      style: AppTextStyles.nunito30w900Black.copyWith(
-                        color: ColorManager.primaryBlue,
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: CustomText(
+                        text: 'Children Profiles',
+                        style: AppTextStyles.nunito30w900Black.copyWith(
+                          color: ColorManager.primaryBlue,
+                        ),
                       ),
                     ),
                   ],
@@ -131,8 +133,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         }
                         return ListView.separated(
                           itemCount: state.children.length,
-                          separatorBuilder: (_, __) =>
-                              SizedBox(height: 14.h),
+                          separatorBuilder: (_, __) => SizedBox(height: 14.h),
                           itemBuilder: (context, index) {
                             final child = state.children[index];
                             return ChildProfileItem(
@@ -202,7 +203,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                   },
                 ),
 
-                SizedBox(height: 100.h),
+                SizedBox(height: 24.h),
               ],
             ),
           ),

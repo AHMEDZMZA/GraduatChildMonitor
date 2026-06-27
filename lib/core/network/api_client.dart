@@ -12,7 +12,7 @@ class ApiConfig {
   ///    production HTTPS URL before any release build.
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://192.168.1.5:8086/api/',
+    defaultValue: 'http://192.168.1.11:8086/api/',
   );
 
   static const Duration connectTimeout = Duration(seconds: 30);
@@ -628,7 +628,8 @@ class UserProfileResponse {
       monitorName: json['monitor_name'] ?? '',
       email: json['email'] ?? '',
       userId: json['user_id'] ?? 0,
-      profileImage: json['profile_image'] as String? ??
+      profileImage:
+          json['profile_image'] as String? ??
           json['profileImage'] as String? ??
           json['image'] as String? ??
           json['avatar'] as String?,

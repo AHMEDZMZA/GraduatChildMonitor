@@ -46,10 +46,14 @@ class _ProgressTestViewState extends State<ProgressTestView> {
               },
             );
           } else if (state is MonthlyAssessmentSubmitError) {
+            String displayMessage = state.message;
+            if (displayMessage.contains('Incorrect string value') || displayMessage.contains('500') || displayMessage.contains('execute statement')) {
+              displayMessage = 'An error occurred while saving the assessment results on the server. Please try again later.';
+            }
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  state.message,
+                  displayMessage,
                   style: const TextStyle(fontFamily: 'Nunito'),
                 ),
                 backgroundColor: Colors.red,

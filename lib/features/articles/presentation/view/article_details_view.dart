@@ -198,13 +198,14 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                   offset: const Offset(0, -2),
                   child: Container(
                     width: double.infinity,
-                    padding: EdgeInsets.fromLTRB(12.w, 28.h, 12.w, 18.h),
-                    child: Text(
+                    padding: EdgeInsets.fromLTRB(16.w, 28.h, 16.w, 18.h),
+                    child: SelectableText(
                       widget.article.description ?? widget.article.content,
                       style: AppTextStyles.nunito14w400Grey.copyWith(
-                        color: ColorManager.primaryBlue,
-                        fontSize: 14.sp,
-                        height: 1.9,
+                        color: Theme.of(context).textTheme.bodyLarge?.color ?? ColorManager.darkText,
+                        fontSize: 16.sp,
+                        height: 1.8,
+                        letterSpacing: 0.3,
                       ),
                     ),
                   ),
