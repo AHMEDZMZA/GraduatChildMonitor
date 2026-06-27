@@ -5,6 +5,7 @@ import 'package:child_monitor_app/features/articles/presentation/cubit/articles_
 import 'package:child_monitor_app/features/articles/presentation/state/articles_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -107,16 +108,28 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
                           bottomLeft: Radius.circular(30.r),
                           bottomRight: Radius.circular(30.r),
                         ),
-                        child: widget.article.image != null
-                            ? CachedNetworkImage(
-                                imageUrl: widget.article.image!,
-                                fit: BoxFit.cover,
-                                placeholder: (_, __) =>
-                                    Container(color: ColorManager.lightGray),
-                                errorWidget: (_, __, ___) =>
-                                    Container(color: ColorManager.mediumGray),
-                              )
-                            : Container(color: ColorManager.mediumGray),
+                        child: Builder(
+                          builder: (context) {
+                            final fallbackImages = [
+                              AppAssets.activities1,
+                              AppAssets.activities2,
+                              AppAssets.activities3,
+                            ];
+                            final imageIndex = widget.article.id.hashCode.abs();
+                            final fallbackImage = fallbackImages[imageIndex % fallbackImages.length];
+
+                            return widget.article.image != null && widget.article.image!.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: widget.article.image!,
+                                    fit: BoxFit.cover,
+                                    placeholder: (_, __) =>
+                                        Container(color: ColorManager.lightGray),
+                                    errorWidget: (_, __, ___) =>
+                                        Image.asset(fallbackImage, fit: BoxFit.cover),
+                                  )
+                                : Image.asset(fallbackImage, fit: BoxFit.cover);
+                          },
+                        ),
                       ),
                     ),
                     Container(

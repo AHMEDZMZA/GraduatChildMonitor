@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:child_monitor_app/features/articles/domain/entities/article_entity.dart';
 import 'package:flutter/material.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
 import '../../../../core/managers/theme_helper.dart';
@@ -12,6 +13,7 @@ class ApiArticleCard extends StatelessWidget {
   final VoidCallback onTap;
   final bool showDelete;
   final VoidCallback? onDeleteTap;
+  final int index;
 
   const ApiArticleCard({
     super.key,
@@ -19,6 +21,7 @@ class ApiArticleCard extends StatelessWidget {
     required this.onTap,
     this.showDelete = false,
     this.onDeleteTap,
+    this.index = 0,
   });
 
   @override
@@ -29,6 +32,13 @@ class ApiArticleCard extends StatelessWidget {
     final shimmerColor = context.isDarkMode
         ? const Color(0xFF444444)
         : ColorManager.mediumGray;
+
+    final fallbackImages = [
+      AppAssets.activities1,
+      AppAssets.activities2,
+      AppAssets.activities3,
+    ];
+    final fallbackImage = fallbackImages[index % fallbackImages.length];
 
     return GestureDetector(
       onTap: onTap,
@@ -44,16 +54,16 @@ class ApiArticleCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18.r),
-              child: article.image != null
+              child: article.image != null && article.image!.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: article.image!,
                       fit: BoxFit.cover,
                       placeholder: (_, __) =>
                           Container(color: placeholderColor),
                       errorWidget: (_, __, ___) =>
-                          Container(color: shimmerColor),
+                          Image.asset(fallbackImage, fit: BoxFit.cover),
                     )
-                  : Container(color: shimmerColor),
+                  : Image.asset(fallbackImage, fit: BoxFit.cover),
             ),
           ),
           Container(

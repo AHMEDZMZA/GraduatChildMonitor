@@ -137,6 +137,7 @@ class _FavouritesViewState extends State<FavouritesView> {
                             final article = state.favorites[index];
                             return ApiArticleCard(
                               article: article,
+                              index: index,
                               showDelete: true,
                               onDeleteTap: () {
                                 showModalBottomSheet(

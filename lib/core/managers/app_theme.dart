@@ -35,6 +35,12 @@ class AppTheme {
         foregroundColor: _lightText,
         elevation: 0,
       ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
+      ),
       cardTheme: CardThemeData(
         color: _lightCardBg,
         elevation: 2,
@@ -108,6 +114,12 @@ class AppTheme {
         backgroundColor: _darkScaffold,
         foregroundColor: _darkText,
         elevation: 0,
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        },
       ),
       cardTheme: CardThemeData(
         color: _darkCardBg,

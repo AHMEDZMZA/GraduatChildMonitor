@@ -138,6 +138,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                           final article = state.articles[index];
                           return ApiArticleCard(
                             article: article,
+                            index: index,
                             onTap: () {
                               Navigator.pushNamed(
                                 context,

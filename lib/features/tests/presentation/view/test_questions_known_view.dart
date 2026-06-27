@@ -95,7 +95,7 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) =>
-                const Center(child: CircularProgressIndicator()),
+                    const Center(child: CircularProgressIndicator()),
               );
             } else if (state is SubmitTestSuccess) {
               if (_isDialogShowing) {
@@ -167,7 +167,8 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                   ),
                   SizedBox(height: 30.h),
                   Text(
-                    _typeToTitle[widget.testType] ?? widget.testType.toUpperCase(),
+                    _typeToTitle[widget.testType] ??
+                        widget.testType.toUpperCase(),
                     style: AppTextStyles.nunito30w900Black,
                   ),
                   Text(
@@ -212,47 +213,49 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                         final question = questions[index];
                         final qId = question.qId;
 
-                        return Column(
+                        return SingleChildScrollView(
                           key: ValueKey(qId),
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              question.question,
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                height: 1.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                question.question,
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  height: 1.4,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 30.h),
-                            // FIX: answer values changed from 'Yes/No/Maybe' →
-                            // 'yes/no/sometimes' to match what the API expects.
-                            // Keys now use qId instead of page index.
-                            AnswerOption(
-                              label: 'Yes',
-                              selected: answers[qId] == 'yes',
-                              onTap: () {
-                                setState(() => answers[qId] = 'yes');
-                              },
-                            ),
-                            SizedBox(height: 15.h),
-                            AnswerOption(
-                              label: 'No',
-                              selected: answers[qId] == 'no',
-                              onTap: () {
-                                setState(() => answers[qId] = 'no');
-                              },
-                            ),
-                            SizedBox(height: 15.h),
-                            AnswerOption(
-                              label: 'Sometimes',
-                              selected: answers[qId] == 'sometimes',
-                              onTap: () {
-                                setState(() => answers[qId] = 'sometimes');
-                              },
-                            ),
-                          ],
+                              SizedBox(height: 30.h),
+                              // FIX: answer values changed from 'Yes/No/Maybe' →
+                              // 'yes/no/sometimes' to match what the API expects.
+                              // Keys now use qId instead of page index.
+                              AnswerOption(
+                                label: 'Yes',
+                                selected: answers[qId] == 'yes',
+                                onTap: () {
+                                  setState(() => answers[qId] = 'yes');
+                                },
+                              ),
+                              SizedBox(height: 15.h),
+                              AnswerOption(
+                                label: 'No',
+                                selected: answers[qId] == 'no',
+                                onTap: () {
+                                  setState(() => answers[qId] = 'no');
+                                },
+                              ),
+                              SizedBox(height: 15.h),
+                              AnswerOption(
+                                label: 'Sometimes',
+                                selected: answers[qId] == 'sometimes',
+                                onTap: () {
+                                  setState(() => answers[qId] = 'sometimes');
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -279,24 +282,24 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                         onTap: answers[currentQuestion.qId] == null
                             ? null
                             : () {
-                          if (currentQuestionIndex <
-                              questions.length - 1) {
-                            controller.nextPage(
-                              duration: const Duration(milliseconds: 350),
-                              curve: Curves.easeInOut,
-                            );
-                          } else {
-                            context.read<TestCubit>().submitTest(
-                              childId: widget.child.id!,
-                              testType: widget.testType,
-                              age: _calculateAge(widget.child.birthDate),
-                              sex: _convertGender(widget.child.gender),
-                              jaundice: 'no',
-                              familyAsd: 'no',
-                              answers: answers,
-                            );
-                          }
-                        },
+                                if (currentQuestionIndex <
+                                    questions.length - 1) {
+                                  controller.nextPage(
+                                    duration: const Duration(milliseconds: 350),
+                                    curve: Curves.easeInOut,
+                                  );
+                                } else {
+                                  context.read<TestCubit>().submitTest(
+                                    childId: widget.child.id!,
+                                    testType: widget.testType,
+                                    age: _calculateAge(widget.child.birthDate),
+                                    sex: _convertGender(widget.child.gender),
+                                    jaundice: 'no',
+                                    familyAsd: 'no',
+                                    answers: answers,
+                                  );
+                                }
+                              },
                       ),
                     ],
                   ),

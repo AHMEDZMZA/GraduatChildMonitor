@@ -168,40 +168,49 @@ class _PhysicalActivitiesViewState extends State<PhysicalActivitiesView> {
                         ),
                       );
                     } else if (state is ActivitiesByTypeLoaded) {
-                      activities = state.activities
-                          .map(
-                            (entity) => ActivityModel(
-                              id: entity.id,
-                              title: entity.title,
-                              shortDescription: entity.description ?? '',
-                              image: AppAssets.physicalActivities1,
-                              duration:
-                                  '⏱ ${'duration'.tr()}${entity.durationMinutes}${'minutes'.tr()}',
-                              difficulty:
-                                  '⚡ ${'difficulty'.tr()}${entity.difficultyLevel}',
-                              suitableAge:
-                                  '👶 ${'suitable_age'.tr()}${entity.minAge}–${entity.maxAge}${'years'.tr()}',
-                              steps: entity.steps.isNotEmpty
-                                  ? entity.steps
-                                      .map(
-                                        (step) => ActivityStepModel(
-                                          image: AppAssets.physicalActivities1,
-                                          title: entity.title,
-                                          description: step,
-                                          note: step,
-                                        ),
-                                      )
-                                      .toList()
-                                  : _descriptionToSteps(
-                                      entity.description ?? '',
-                                      entity.title,
-                                      AppAssets.physicalActivities1,
-                                    ),
-                              completed: completedActivities.contains(entity.id),
-                              highlighted: false,
-                            ),
-                          )
-                          .toList();
+                      activities = state.activities.asMap().entries.map((
+                        entry,
+                      ) {
+                        final index = entry.key;
+                        final entity = entry.value;
+                        final images = [
+                          AppAssets.physicalActivities1,
+                          AppAssets.physicalActivities2,
+                          AppAssets.physicalActivities3,
+                        ];
+                        final activityImage = images[index % images.length];
+
+                        return ActivityModel(
+                          id: entity.id,
+                          title: entity.title,
+                          shortDescription: entity.description ?? '',
+                          image: activityImage,
+                          duration:
+                              '⏱ ${'duration'.tr()}${entity.durationMinutes}${'minutes'.tr()}',
+                          difficulty:
+                              '⚡ ${'difficulty'.tr()}${entity.difficultyLevel}',
+                          suitableAge:
+                              '👶 ${'suitable_age'.tr()}${entity.minAge}–${entity.maxAge}${'years'.tr()}',
+                          steps: entity.steps.isNotEmpty
+                              ? entity.steps
+                                    .map(
+                                      (step) => ActivityStepModel(
+                                        image: activityImage,
+                                        title: entity.title,
+                                        description: step,
+                                        note: step,
+                                      ),
+                                    )
+                                    .toList()
+                              : _descriptionToSteps(
+                                  entity.description ?? '',
+                                  entity.title,
+                                  activityImage,
+                                ),
+                          completed: completedActivities.contains(entity.id),
+                          highlighted: false,
+                        );
+                      }).toList();
                     }
 
                     if (activities.isEmpty) {
