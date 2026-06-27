@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/navigation/app_routes.dart';
@@ -208,7 +209,7 @@ class _TestQuizContentState extends State<TestQuizContent> {
                       children: [
                         if (currentQuestionIndex > 0)
                           CustomButtonSmallTest(
-                            text: 'Previous',
+                            text: 'previous'.tr(),
                             onTap: () {
                               controller.previousPage(
                                 duration: const Duration(milliseconds: 350),
@@ -219,8 +220,8 @@ class _TestQuizContentState extends State<TestQuizContent> {
                         const Spacer(),
                         CustomButtonSmallTest(
                           text: currentQuestionIndex == questions.length - 1
-                              ? 'Submit'
-                              : 'Next',
+                              ? 'submit'.tr()
+                              : 'next'.tr(),
                           onTap:
                               answers[questions[currentQuestionIndex].id] ==
                                   null
@@ -269,3 +270,4 @@ class _TestQuizContentState extends State<TestQuizContent> {
     );
   }
 }
+

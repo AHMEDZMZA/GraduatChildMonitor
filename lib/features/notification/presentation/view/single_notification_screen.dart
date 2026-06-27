@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -24,7 +25,7 @@ class SingleNotificationScreen extends StatelessWidget {
               alignment: Alignment.center,
               children: [
                 CustomText(
-                  text: 'Notification',
+                  text: 'notification'.tr(),
                   style: AppTextStyles.nunito32w900Black,
                 ),
 
@@ -40,7 +41,7 @@ class SingleNotificationScreen extends StatelessWidget {
                           elevation: 0,
                           builder: (_) {
                             return AppBottomSheet(
-                              title: 'Delete This Notification',
+                              title: 'delete_this_notification'.tr(),
                               description:
                                   'Are you sure you want to delete this Notification?',
                               confirmText: 'Delete',
@@ -140,3 +141,4 @@ class SingleNotificationScreen extends StatelessWidget {
     );
   }
 }
+

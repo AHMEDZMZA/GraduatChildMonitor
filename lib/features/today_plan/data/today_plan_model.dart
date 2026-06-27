@@ -4,7 +4,7 @@ class TodayPlanModel {
   final String image;
   final List<String> points;
 
-  const TodayPlanModel({
+  TodayPlanModel({
     required this.title,
     required this.description,
     required this.image,

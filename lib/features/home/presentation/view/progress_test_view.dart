@@ -11,6 +11,7 @@ import '../../../../core/network/api_client.dart';
 import '../cubit/monthly_assessment_cubit.dart';
 import '../cubit/monthly_assessment_state.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProgressTestView extends StatefulWidget {
   final ChildProfileEntity child;
@@ -48,7 +49,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
           } else if (state is MonthlyAssessmentSubmitError) {
             String displayMessage = state.message;
             if (displayMessage.contains('Incorrect string value') || displayMessage.contains('500') || displayMessage.contains('execute statement')) {
-              displayMessage = 'An error occurred while saving the assessment results on the server. Please try again later.';
+              displayMessage = 'assessment_save_error'.tr();
             }
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -93,7 +94,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                       ),
                       SizedBox(height: 20.h),
                       CustomButton(
-                        text: 'Retry',
+                        text: 'retry'.tr(),
                         onTap: () {
                           context.read<MonthlyAssessmentCubit>().getQuestions(
                                 widget.child.diagnosedCondition ?? 'ADHD',
@@ -108,7 +109,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
           }
 
           List<MonthlyAssessmentQuestion> serverQuestions = [];
-          String assessmentTitle = 'Track Your Child\'s Progress';
+          String assessmentTitle = 'track_progress_title'.tr();
 
           if (state is MonthlyAssessmentQuestionsLoaded) {
             serverQuestions = state.response.questions.questions;
@@ -122,9 +123,9 @@ class _ProgressTestViewState extends State<ProgressTestView> {
           }
 
           if (serverQuestions.isEmpty) {
-            return const Scaffold(
+            return Scaffold(
               body: Center(
-                child: Text('No questions available.'),
+                child: Text('no_questions'.tr()),
               ),
             );
           }
@@ -171,7 +172,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
 
                     SizedBox(height: 5.h),
 
-                    Text(instructions, style: AppTextStyles.nunito14w400Grey),
+                    Text('assessment_instructions'.tr(), style: AppTextStyles.nunito14w400Grey),
 
                     SizedBox(height: 30.h),
 
@@ -190,7 +191,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                     SizedBox(height: 10.h),
 
                     Text(
-                      'Question: ${currentQuestionIndex + 1}/${serverQuestions.length}',
+                      '${'question'.tr()}${currentQuestionIndex + 1}/${serverQuestions.length}',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -258,7 +259,7 @@ class _ProgressTestViewState extends State<ProgressTestView> {
                             children: [
                               if (currentQuestionIndex > 0)
                                 CustomButtonSmallTest(
-                                  text: 'Previous',
+                                  text: 'previous'.tr(),
                                   onTap: () {
                                     controller.previousPage(
                                       duration: const Duration(milliseconds: 350),
@@ -271,8 +272,8 @@ class _ProgressTestViewState extends State<ProgressTestView> {
 
                               CustomButtonSmallTest(
                                 text: currentQuestionIndex == serverQuestions.length - 1
-                                    ? 'Submit'
-                                    : 'Next',
+                                    ? 'submit'.tr()
+                                    : 'next'.tr(),
                                 onTap: answers[currentQuestionIndex] == null
                                     ? null
                                     : () {

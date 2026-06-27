@@ -10,6 +10,7 @@ import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
 import 'widget/social_auth_section.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({super.key});
@@ -41,8 +42,8 @@ class _SignupViewState extends State<SignupView> {
       listener: (context, state) {
         if (state is SignupSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Account created successfully!'),
+            SnackBar(
+              content: Text('account_created_success'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -82,26 +83,26 @@ class _SignupViewState extends State<SignupView> {
                   children: [
                     Center(
                       child: CustomText(
-                        text: 'Sign Up',
+                        text: 'sign_up'.tr(),
                         style: AppTextStyles.nunito32w900Black,
                       ),
                     ),
                     SizedBox(height: 20.h),
                     // M-5: Social auth section extracted into reusable widget.
-                    const SocialAuthSection(dividerLabel: 'or sign up with'),
+                    SocialAuthSection(dividerLabel: 'or_sign_up_with'.tr()),
                     CustomText(
-                      text: 'Monitor Name',
+                      text: 'monitor_name'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 6.h),
                     CustomTextFormField(
                       isPassword: false,
-                      hintText: 'Monitor Name',
+                      hintText: 'monitor_name'.tr(),
                       controller: monitorNameController,
                     ),
                     SizedBox(height: 18.h),
                     CustomText(
-                      text: 'Email Address',
+                      text: 'email_address'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 6.h),
@@ -113,7 +114,7 @@ class _SignupViewState extends State<SignupView> {
                     ),
                     SizedBox(height: 18.h),
                     CustomText(
-                      text: 'Password',
+                      text: 'password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 6.h),
@@ -125,7 +126,7 @@ class _SignupViewState extends State<SignupView> {
                     ),
                     SizedBox(height: 18.h),
                     CustomText(
-                      text: 'Confirm Password',
+                      text: 'confirm_password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 7.h),
@@ -136,7 +137,7 @@ class _SignupViewState extends State<SignupView> {
                       controller: confirmPasswordController,
                       extraValidator: (value) {
                         if (value != passwordController.text) {
-                          return 'Passwords do not match';
+                          return 'passwords_do_not_match'.tr();
                         }
                         return null;
                       },
@@ -146,8 +147,8 @@ class _SignupViewState extends State<SignupView> {
                       builder: (context, state) {
                         return CustomButton(
                           text: state is AuthLoading
-                              ? 'Loading...'
-                              : 'Register',
+                              ? 'loading'.tr()
+                              : 'register'.tr(),
                           onTap: state is AuthLoading
                               ? () {}
                               : () {

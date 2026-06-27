@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
@@ -49,7 +50,7 @@ class ResultQuizView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomText(
-                  text: 'Based on your answers, here’s what we found',
+                  text: 'based_on_answers'.tr(),
                   style: AppTextStyles.nunito14w400Grey,
                   textAlign: TextAlign.center,
                 ),
@@ -58,14 +59,14 @@ class ResultQuizView extends StatelessWidget {
               SizedBox(height: 34.h),
 
               ResultInfoCard(
-                title: 'Score: ${result?.score ?? 0}',
+                title: '${'score'.tr()}: ${result?.score ?? 0}',
                 subtitle: result?.feedback ?? 'No feedback provided.',
               ),
 
               SizedBox(height: 90.h),
 
               CustomButton(
-                text: 'Ok',
+                text: 'ok'.tr(),
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
@@ -83,3 +84,4 @@ class ResultQuizView extends StatelessWidget {
     );
   }
 }
+

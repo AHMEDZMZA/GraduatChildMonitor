@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -149,7 +150,7 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
                           }
                         },
                         decoration: InputDecoration(
-                          hintText: 'Select birth date',
+                          hintText: 'select_birth_date'.tr(),
                           suffixIcon: const Icon(
                             Icons.calendar_today,
                             color: ColorManager.primaryBlue,
@@ -224,3 +225,4 @@ class _AddChildProfileViewState extends State<AddChildProfileView> {
     );
   }
 }
+

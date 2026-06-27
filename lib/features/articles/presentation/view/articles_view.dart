@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/features/articles/presentation/cubit/articles_cubit.dart';
 import 'package:child_monitor_app/features/articles/presentation/state/articles_state.dart';
 import 'package:child_monitor_app/features/articles/presentation/widgets/api_article_card.dart';
@@ -115,7 +116,7 @@ class _ArticlesViewState extends State<ArticlesView> {
                               onPressed: () => context
                                   .read<ArticlesCubit>()
                                   .getAllArticles(),
-                              child: const Text('Retry'),
+                              child: Text('retry'.tr()),
                             ),
                           ],
                         ),
@@ -160,3 +161,4 @@ class _ArticlesViewState extends State<ArticlesView> {
     );
   }
 }
+

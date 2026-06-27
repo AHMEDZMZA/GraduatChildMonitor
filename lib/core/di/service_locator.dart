@@ -7,6 +7,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:child_monitor_app/core/network/api_client.dart';
 import 'package:child_monitor_app/core/network/token_storage.dart';
+import 'package:child_monitor_app/core/network/translation_interceptor.dart';
 
 // ==================== AUTH ====================
 import 'package:child_monitor_app/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -113,6 +114,9 @@ Future<void> setupServiceLocator(SharedPreferences prefs) async {
       headers: {'Content-Type': 'application/json'},
     ),
   );
+
+  // Add Translation Interceptor to dynamically translate Arabic to English
+  dio.interceptors.add(TranslationInterceptor());
 
   // Add auth token interceptor
   dio.interceptors.add(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _EditProfileViewState extends State<EditProfileView> {
             children: [
               ListTile(
                 leading: const Icon(Icons.photo_library),
-                title: const Text('Gallery'),
+                title: Text('gallery'.tr()),
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(ImageSource.gallery);
@@ -64,7 +65,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               ),
               ListTile(
                 leading: const Icon(Icons.camera_alt),
-                title: const Text('Camera'),
+                title: Text('camera'.tr()),
                 onTap: () {
                   Navigator.of(context).pop();
                   _pickImage(ImageSource.camera);
@@ -103,16 +104,16 @@ class _EditProfileViewState extends State<EditProfileView> {
           });
         } else if (state is ProfileUpdated) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Profile updated successfully!'),
+            SnackBar(
+              content: Text('profile_updated_successfully'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
           Navigator.pop(context);
         } else if (state is ProfileImageUploaded) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Profile image uploaded successfully!'),
+            SnackBar(
+              content: Text('profile_image_uploaded_successfully'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -141,7 +142,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const ProfileTopHeader(title: 'Profile'),
+                    ProfileTopHeader(title: 'profile'.tr()),
                     SizedBox(height: 34.h),
 
                     Center(
@@ -167,7 +168,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
                     CustomTextFormField(
                       isPassword: false,
-                      hintText: 'Enter full name',
+                      hintText: 'enter_full_name'.tr(),
                       controller: fullNameController,
                       keyboardType: TextInputType.name,
                     ),
@@ -179,7 +180,7 @@ class _EditProfileViewState extends State<EditProfileView> {
 
                     CustomTextFormField(
                       isPassword: false,
-                      hintText: 'Enter email',
+                      hintText: 'enter_email'.tr(),
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
@@ -217,3 +218,4 @@ class _EditProfileViewState extends State<EditProfileView> {
     );
   }
 }
+

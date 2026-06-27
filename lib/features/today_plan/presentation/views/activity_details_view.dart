@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -106,7 +107,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                 ),
                 SizedBox(height: 16.h),
                 Text(
-                  'Activity Info',
+                  'activity_info'.tr(),
                   style: AppTextStyles.nunito15w900primaryBlue.copyWith(
                     fontSize: 20.sp,
                   ),
@@ -129,7 +130,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        'Completed',
+                        'completed'.tr(),
                         style: AppTextStyles.nunito12w600overlayGray66.copyWith(
                           color: ColorManager.brightTeal,
                           fontWeight: FontWeight.w700,
@@ -142,7 +143,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
                 SizedBox(height: 90.h),
 
                 CustomButton(
-                  text: isCompleted ? 'Done' : 'Start Activity',
+                  text: isCompleted ? 'done'.tr() : 'start_activity'.tr(),
                   onTap: () {
                     if (isCompleted) {
                       Navigator.pop(context, true);

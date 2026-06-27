@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -29,7 +30,7 @@ class InfoCardQuiz extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomText(
-            text: 'Focus Quiz',
+            text: 'focus_quiz'.tr(),
             style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
           ),
           SizedBox(height: 40.h),
@@ -47,3 +48,4 @@ class InfoCardQuiz extends StatelessWidget {
     );
   }
 }
+

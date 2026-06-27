@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:child_monitor_app/features/auth/presentation/state/auth_state.dart';
 import '../../../../core/navigation/app_routes.dart';
@@ -61,7 +62,7 @@ class _ResetPasswordVerifyViewState extends State<ResetPasswordVerifyView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
-                    text: 'Verify Your Account',
+                    text: 'verify_account'.tr(),
                     style: AppTextStyles.nunito32w900Black,
                   ),
                   SizedBox(height: 8.h),

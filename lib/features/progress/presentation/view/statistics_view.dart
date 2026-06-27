@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -50,7 +51,7 @@ class _StatisticsViewState extends State<StatisticsView> {
               SizedBox(height: 24.h),
               Center(
                 child: CustomText(
-                  text: 'Progress Statistics',
+                  text: 'progress_statistics'.tr(),
                   style: AppTextStyles.nunito30w900Black,
                   textAlign: TextAlign.center,
                 ),
@@ -137,13 +138,13 @@ class _StatisticsViewState extends State<StatisticsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: 'Status: ${status.toUpperCase()}',
+                text: '${'status'.tr()} ${status.toUpperCase()}',
                 style: AppTextStyles.nunito16w900Green.copyWith(
                   color: statusColor,
                 ),
               ),
               CustomText(
-                text: 'Based on monthly assessments',
+                text: 'based_on_monthly'.tr(),
                 style: AppTextStyles.nunito12w600overlayGray66,
               ),
             ],
@@ -167,7 +168,7 @@ class _StatisticsViewState extends State<StatisticsView> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: 'Activity Completion',
+                text: 'activity_completion'.tr(),
                 style: AppTextStyles.nunito16w900Black,
               ),
               CustomText(
@@ -209,7 +210,7 @@ class _StatisticsViewState extends State<StatisticsView> {
               const Icon(Icons.star, color: ColorManager.gold),
               SizedBox(width: 8.w),
               CustomText(
-                text: 'Overall Improvement: ${improvement.toStringAsFixed(1)}%',
+                text: '${'overall_improvement'.tr()} ${improvement.toStringAsFixed(1)}%',
                 style: AppTextStyles.nunito16w900Black,
               ),
             ],
@@ -238,3 +239,4 @@ class _StatisticsViewState extends State<StatisticsView> {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
 import '../../../../core/managers/color_manager.dart';
@@ -52,13 +53,13 @@ class MonthlyProgressDetailsView extends StatelessWidget {
               SizedBox(height: 30.h),
 
               CustomText(
-                text: 'Monthly Assessment Result',
+                text: 'monthly_assessment_result'.tr(),
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
 
               CustomText(
-                text: 'Here is your child\'s monthly assessment.',
+                text: 'here_is_assessment'.tr(),
                 style: AppTextStyles.nunito14w400Grey,
                 textAlign: TextAlign.center,
               ),
@@ -139,3 +140,4 @@ class MonthlyProgressDetailsView extends StatelessWidget {
     );
   }
 }
+

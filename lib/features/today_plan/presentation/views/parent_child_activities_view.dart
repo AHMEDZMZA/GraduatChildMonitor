@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_assets.dart';
@@ -145,12 +146,12 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
               ),
               SizedBox(height: 16.h),
               Text(
-                'Parent-Child Activities',
+                'parent_child_activities'.tr(),
                 style: AppTextStyles.nunito30w900Black,
               ),
               SizedBox(height: 4.h),
               Text(
-                'Simple activities designed to strengthen your bond with your child.',
+                'parent_child_subtitle'.tr(),
                 style: AppTextStyles.nunito14w400Grey.copyWith(fontSize: 11.sp),
               ),
               SizedBox(height: 16.h),
@@ -176,11 +177,11 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                               shortDescription: entity.description ?? '',
                               image: AppAssets.activities1,
                               duration:
-                                  '⏱ Duration: ${entity.durationMinutes} minutes',
+                                  '⏱ ${'duration'.tr()}${entity.durationMinutes}${'minutes'.tr()}',
                               difficulty:
-                                  '⚡ Difficulty: ${entity.difficultyLevel}',
+                                  '⚡ ${'difficulty'.tr()}${entity.difficultyLevel}',
                               suitableAge:
-                                  '👶 Suitable Age: ${entity.minAge}–${entity.maxAge} years',
+                                  '👶 ${'suitable_age'.tr()}${entity.minAge}–${entity.maxAge}${'years'.tr()}',
                               steps: entity.steps.isNotEmpty
                                   ? entity.steps
                                       .map(
@@ -217,7 +218,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                       }
                       return Center(
                         child: Text(
-                          'No parent-child activities available',
+                          'no_parent_child_activities'.tr(),
                           style: AppTextStyles.nunito14w400Grey,
                         ),
                       );
@@ -239,7 +240,7 @@ class _ParentChildActivitiesViewState extends State<ParentChildActivitiesView> {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Activities Completed: $completedCount/${activities.length}',
+                          '${'activities_completed'.tr()}$completedCount/${activities.length}',
                           style: AppTextStyles.nunito15w900primaryBlue.copyWith(
                             fontSize: 20.sp,
                           ),

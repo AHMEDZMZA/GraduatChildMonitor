@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:child_monitor_app/features/articles/domain/entities/article_entity.dart';
 import 'package:child_monitor_app/features/articles/presentation/cubit/articles_cubit.dart';
@@ -48,7 +49,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('This article added to favourites.'),
+              content: Text('article_added_favourites'.tr()),
               behavior: SnackBarBehavior.floating,
               //backgroundColor: ColorManager.overlayBlack20,
               margin: EdgeInsets.symmetric(horizontal: 46.w, vertical: 90.h),
@@ -63,7 +64,7 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('This article removed from favourites.'),
+              content: Text('article_removed_favourites'.tr()),
               behavior: SnackBarBehavior.floating,
               // backgroundColor: ColorManager.overlayBlack20,
               margin: EdgeInsets.symmetric(horizontal: 46.w, vertical: 90.h),
@@ -218,3 +219,4 @@ class _ArticleDetailsViewState extends State<ArticleDetailsView> {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:child_monitor_app/features/auth/presentation/state/auth_state.dart';
 import '../../../../core/navigation/app_routes.dart';
@@ -121,9 +122,9 @@ class _ResetPasswordConfirmViewState extends State<ResetPasswordConfirmView> {
                                   if (passwordController.text !=
                                       confirmPasswordController.text) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
+                                      SnackBar(
                                         content:
-                                            Text('Passwords do not match'),
+                                            Text('passwords_do_not_match'.tr()),
                                         backgroundColor: Colors.red,
                                       ),
                                     );

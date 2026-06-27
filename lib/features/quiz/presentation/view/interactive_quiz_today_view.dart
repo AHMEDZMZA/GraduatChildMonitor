@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -60,7 +61,7 @@ class InteractiveQuizTodayView extends StatelessWidget {
               SizedBox(height: 60.h),
 
               CustomText(
-                text: 'Interactive Quiz',
+                text: 'interactive_quizzes'.tr(),
                 style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
               ),
 
@@ -79,7 +80,7 @@ class InteractiveQuizTodayView extends StatelessWidget {
               SizedBox(height: 80.h),
 
               CustomButton(
-                text: 'Start Quiz',
+                text: 'start_quiz'.tr(),
                 onTap: () {
                   Navigator.pushNamed(
                     context,
@@ -95,3 +96,4 @@ class InteractiveQuizTodayView extends StatelessWidget {
     );
   }
 }
+

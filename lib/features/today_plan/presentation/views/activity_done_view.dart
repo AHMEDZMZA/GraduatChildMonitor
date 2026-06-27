@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -60,14 +61,14 @@ class ActivityDoneView extends StatelessWidget {
               ),
               SizedBox(height: 30.h),
               CustomButton(
-                text: 'Start Next Activity',
+                text: 'start_next_activity'.tr(),
                 onTap: () {
                   Navigator.pop(context, true);
                 },
               ),
               SizedBox(height: 30.h),
               CustomButton(
-                text: 'Back to Home',
+                text: 'back_to_home'.tr(),
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
@@ -84,3 +85,4 @@ class ActivityDoneView extends StatelessWidget {
     );
   }
 }
+

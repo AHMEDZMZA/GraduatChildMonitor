@@ -15,6 +15,7 @@ import '../../../profile/presentation/state/profile_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/di/service_locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -88,7 +89,7 @@ class _HomeViewState extends State<HomeView> {
                           final savedChildId = prefs.getString('childId');
                           context.read<HomeCubit>().getHomeData(childId: savedChildId);
                         },
-                        child: const Text('Retry'),
+                        child: Text('retry'.tr()),
                       ),
                     ],
                   ),
@@ -186,8 +187,8 @@ class _CardsSection extends StatelessWidget {
         return Column(
           children: [
             HomeCard(
-              title: "Today's Plan for Your Child",
-              subtitle: "Simple activities tailored to your child's needs today.",
+              title: 'todays_plan_title'.tr(),
+              subtitle: 'todays_plan_subtitle'.tr(),
               image: AppAssets.cardHome1,
               isSelected: selectedIndex == 0,
               onTap: () {
@@ -197,8 +198,8 @@ class _CardsSection extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             HomeCard(
-              title: 'Parent Articles',
-              subtitle: "Easy-to-read articles to help you understand your child's condition and support them effectively",
+              title: 'parent_articles_title'.tr(),
+              subtitle: 'parent_articles_subtitle'.tr(),
               image: AppAssets.cardHome2,
               isSelected: selectedIndex == 1,
               onTap: () {
@@ -208,8 +209,8 @@ class _CardsSection extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             HomeCard(
-              title: 'Track Your Child’s Progress',
-              subtitle: "Monitor your child's improvement each month based on your observations",
+              title: 'track_progress_title'.tr(),
+              subtitle: 'track_progress_subtitle'.tr(),
               image: AppAssets.cardHome3,
               isSelected: selectedIndex == 2,
               onTap: () {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/di/service_locator.dart';
@@ -56,7 +57,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
 
                 Center(
                   child: CustomText(
-                    text: 'Your Child’s Monthly Assessments',
+                    text: 'monthly_assessments'.tr(),
                     style: AppTextStyles.nunito30w900Black,
                     textAlign: TextAlign.center,
                   ),
@@ -66,7 +67,7 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
 
                 Center(
                   child: CustomText(
-                    text: 'Review your child’s monthly progress here.',
+                    text: 'review_progress_here'.tr(),
                     style: AppTextStyles.nunito14w400Grey,
                     textAlign: TextAlign.center,
                   ),
@@ -106,8 +107,8 @@ class _MonthlyProgressViewState extends State<MonthlyProgressView> {
                                 onPressed: () {
                                   context.read<MonthlyAssessmentCubit>().getHistory(widget.child.id);
                                 },
-                                child: const CustomText(
-                                  text: 'Retry',
+                                child: CustomText(
+                                  text: 'retry'.tr(),
                                   style: TextStyle(color: Colors.white),
                                 ),
                               ),
@@ -171,7 +172,7 @@ class _EmptyState extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: CustomText(
-        text: 'No monthly assessment yet',
+        text: 'no_monthly_assessment'.tr(),
         style: AppTextStyles.nunito16w900Green,
       ),
     );

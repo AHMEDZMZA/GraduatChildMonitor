@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/color_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,7 +44,7 @@ class ChatInput extends StatelessWidget {
                 color: Theme.of(context).textTheme.bodyLarge?.color,
               ),
               decoration: InputDecoration(
-                hintText: 'Ask me anything...',
+                hintText: 'ask_me_anything'.tr(),
                 hintStyle: TextStyle(
                   color: ColorManager.grayB0,
                   fontSize: 14.sp,

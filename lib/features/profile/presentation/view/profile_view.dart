@@ -13,6 +13,7 @@ import '../widgets/profile_avatar_section.dart';
 import '../widgets/profile_option_item.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -34,6 +35,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    // Force rebuild on locale change
+    final _ = context.locale;
+
     return MultiBlocListener(
       listeners: [
         BlocListener<ProfileCubit, ProfileState>(
@@ -47,8 +51,8 @@ class _ProfileViewState extends State<ProfileView> {
             } else if (state is AccountDeleted) {
               // Account deleted - go back to login
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Account deleted successfully.'),
+                SnackBar(
+                  content: Text('account_deleted_success'.tr()),
                   backgroundColor: ColorManager.brightTeal,
                 ),
               );
@@ -76,8 +80,8 @@ class _ProfileViewState extends State<ProfileView> {
                 (route) => false,
               );
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Logged out successfully.'),
+                SnackBar(
+                  content: Text('logout_success'.tr()),
                   backgroundColor: ColorManager.brightTeal,
                 ),
               );
@@ -104,7 +108,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 Center(
                   child: CustomText(
-                    text: 'My Profile',
+                    text: 'my_profile'.tr(),
                     style: AppTextStyles.nunito30w900Black.copyWith(
                       color: ColorManager.primaryBlue,
                     ),
@@ -125,7 +129,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 ProfileOptionItem(
                   icon: Icons.person_outline,
-                  title: 'Children Profiles',
+                  title: 'children_profiles'.tr(),
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.childrenProfiles);
                   },
@@ -135,7 +139,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 ProfileOptionItem(
                   icon: Icons.person_outline,
-                  title: 'Profile',
+                  title: 'profile'.tr(),
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.editProfile);
                   },
@@ -145,7 +149,7 @@ class _ProfileViewState extends State<ProfileView> {
 
                 ProfileOptionItem(
                   icon: Icons.settings_outlined,
-                  title: 'Settings',
+                  title: 'settings'.tr(),
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.settings);
                   },
@@ -155,17 +159,18 @@ class _ProfileViewState extends State<ProfileView> {
 
                 ProfileOptionItem(
                   icon: Icons.logout_outlined,
-                  title: 'Logout',
+                  title: 'logout'.tr(),
                   onTap: () {
                     showModalBottomSheet(
                       context: context,
                       backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
                       elevation: 0,
                       builder: (_) {
                         return AppBottomSheet(
-                          title: 'Logout',
-                          description: 'Are you sure you want to logout?',
-                          confirmText: 'Yes, Logout',
+                          title: 'logout'.tr(),
+                          description: 'are_you_sure_logout'.tr(),
+                          confirmText: 'yes_logout'.tr(),
                           onConfirm: () {
                             Navigator.pop(context);
                             context.read<AuthCubit>().logout();

@@ -8,6 +8,7 @@ import '../../../chat/presentation/view/chat_view.dart';
 import '../../../home/presentation/view/home_view.dart';
 import '../../../notification/presentation/view/notification_view.dart';
 import '../../../profile/presentation/view/profile_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AppBottomNavBarView extends StatefulWidget {
   const AppBottomNavBarView({super.key});
@@ -28,6 +29,9 @@ class _AppBottomNavBarViewState extends State<AppBottomNavBarView> {
 
   @override
   Widget build(BuildContext context) {
+    // Force rebuild on locale change
+    final _ = context.locale;
+    
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: AnimationWrapper(
@@ -43,22 +47,22 @@ class _AppBottomNavBarViewState extends State<AppBottomNavBarView> {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AppAssets.home),
               activeIcon: SvgPicture.asset(AppAssets.homeActive),
-              label: 'Home',
+              label: 'home'.tr(),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AppAssets.chat),
               activeIcon: SvgPicture.asset(AppAssets.chatActive),
-              label: 'Chat',
+              label: 'chat'.tr(),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AppAssets.notification),
               activeIcon: SvgPicture.asset(AppAssets.notificationActive),
-              label: 'Notification',
+              label: 'notification_setting'.tr(),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AppAssets.profile),
               activeIcon: SvgPicture.asset(AppAssets.profileActive),
-              label: 'Profile',
+              label: 'profile'.tr(),
             ),
           ],
         ),

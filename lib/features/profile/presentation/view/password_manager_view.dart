@@ -9,6 +9,7 @@ import '../../../auth/presentation/views/widget/custom_button.dart';
 import '../../../auth/presentation/views/widget/custom_text_form_field.dart';
 import '../widgets/profile_top_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PasswordManagerView extends StatefulWidget {
   const PasswordManagerView({super.key});
@@ -39,8 +40,8 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
       listener: (context, state) {
         if (state is PasswordChanged) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Password changed successfully!'),
+            SnackBar(
+              content: Text('password_changed_success'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -72,18 +73,18 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const ProfileTopHeader(title: 'Password Manager'),
+                    ProfileTopHeader(title: 'password_manager'.tr()),
                     SizedBox(height: 34.h),
 
                     Text(
-                      'Current Password',
+                      'current_password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: true,
-                      hintText: 'Enter current password',
+                      hintText: 'enter_current_password'.tr(),
                       controller: currentPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                     ),
@@ -100,7 +101,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                           );
                         },
                         child: Text(
-                          'Forgot Password?',
+                          'forgot_password'.tr(),
                           style: AppTextStyles.nunito14w400Grey.copyWith(
                             color: ColorManager.primaryBlue,
                             fontSize: 16.sp,
@@ -112,7 +113,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                     SizedBox(height: 18.h),
 
                     Text(
-                      'New Password',
+                      'new_password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
 
@@ -120,7 +121,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
 
                     CustomTextFormField(
                       isPassword: true,
-                      hintText: 'Enter new password',
+                      hintText: 'enter_new_password'.tr(),
                       controller: newPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                     ),
@@ -128,14 +129,14 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                     SizedBox(height: 18.h),
 
                     Text(
-                      'Confirm New Password',
+                      'confirm_new_password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 10.h),
 
                     CustomTextFormField(
                       isPassword: true,
-                      hintText: 'Confirm new password',
+                      hintText: 'confirm_new_password'.tr(),
                       controller: confirmPasswordController,
                       keyboardType: TextInputType.visiblePassword,
                     ),
@@ -146,8 +147,8 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                       builder: (context, state) {
                         return CustomButton(
                           text: state is ProfileLoading
-                              ? 'Changing...'
-                              : 'Change Password',
+                              ? 'changing'.tr()
+                              : 'change_password'.tr(),
                           onTap: state is ProfileLoading
                               ? () {}
                               : () {
@@ -157,8 +158,8 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
                                   if (newPasswordController.text !=
                                       confirmPasswordController.text) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Passwords do not match'),
+                                      SnackBar(
+                                        content: Text('passwords_not_match'.tr()),
                                         backgroundColor: ColorManager.errorRed,
                                       ),
                                     );

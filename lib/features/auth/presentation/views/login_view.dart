@@ -10,6 +10,7 @@ import 'widget/custom_text.dart';
 import 'widget/custom_text_form_field.dart';
 import 'widget/social_auth_section.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -37,8 +38,8 @@ class _LoginViewState extends State<LoginView> {
         if (state is LoginSuccess) {
           // Navigate to main app after successful login
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login successful!'),
+            SnackBar(
+              content: Text('login_success'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -78,27 +79,27 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     Center(
                       child: CustomText(
-                        text: 'Sign In',
+                        text: 'sign_in'.tr(),
                         style: AppTextStyles.nunito32w900Black,
                       ),
                     ),
                     SizedBox(height: 20.h),
                     // M-5: Social auth section extracted into reusable widget.
-                    const SocialAuthSection(dividerLabel: 'or sign in with'),
+                    const SocialAuthSection(dividerLabel: 'or_sign_in_with'),
                     CustomText(
-                      text: 'Email Address',
+                      text: 'email_address'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 6.h),
                     CustomTextFormField(
                       isPassword: false,
-                      hintText: 'example@gmail.com',
+                      hintText: 'email'.tr(),
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
                     SizedBox(height: 18.h),
                     CustomText(
-                      text: 'Password',
+                      text: 'password'.tr(),
                       style: AppTextStyles.nunito16w900Black,
                     ),
                     SizedBox(height: 6.h),
@@ -106,7 +107,7 @@ class _LoginViewState extends State<LoginView> {
                       keyboardType: TextInputType.visiblePassword,
                       obscuringCharacter: '*',
                       isPassword: true,
-                      hintText: '*******',
+                      hintText: 'password'.tr(),
                       controller: passwordController,
                     ),
                     SizedBox(height: 18.h),
@@ -120,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Container(
                         alignment: Alignment.centerRight,
                         child: CustomText(
-                          text: 'Forgot Password?',
+                          text: 'forgot_password'.tr(),
                           style: AppTextStyles.nunito15w400blue,
                         ),
                       ),
@@ -129,7 +130,7 @@ class _LoginViewState extends State<LoginView> {
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
                         return CustomButton(
-                          text: state is AuthLoading ? 'Loading...' : 'Login',
+                          text: state is AuthLoading ? 'loading'.tr() : 'login'.tr(),
                           onTap: state is AuthLoading
                               ? () {}
                               : () {
@@ -148,7 +149,7 @@ class _LoginViewState extends State<LoginView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomText(
-                          text: 'Don\'t have an Account? ',
+                          text: 'dont_have_account'.tr(),
                           color: ColorManager.nearBlack13,
                           fontSize: 14.sp,
                         ),
@@ -157,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                             Navigator.pushNamed(context, AppRoutes.signup);
                           },
                           child: CustomText(
-                            text: 'Sign up',
+                            text: 'sign_up'.tr(),
                             style: AppTextStyles.nunito15w400blue,
                           ),
                         ),

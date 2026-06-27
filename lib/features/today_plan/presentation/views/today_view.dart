@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_assets.dart';
@@ -50,10 +51,10 @@ class _TodayViewState extends State<TodayView> {
     }
 
     final List<TodayPlanModel> defaultPlans = [
-      const TodayPlanModel(
-        title: 'Physical Activities',
+      TodayPlanModel(
+        title: 'physical_activities'.tr(),
         description:
-            'Simple movement-based activities that help your child stay active and focused.',
+            'today_plan_desc_1'.tr(),
         image: AppAssets.todayPlan1,
         points: [
           'Boosts concentration',
@@ -62,10 +63,10 @@ class _TodayViewState extends State<TodayView> {
           'Examples: Running - Jumping - Kids Yoga',
         ],
       ),
-      const TodayPlanModel(
-        title: 'Parent-Child Activities',
+      TodayPlanModel(
+        title: 'parent_child_activities'.tr(),
         description:
-            'Interactive activities designed to strengthen your bond and support your child\'s development.',
+            'today_plan_desc_2'.tr(),
         image: AppAssets.todayPlan2,
         points: [
           'Improves interaction',
@@ -74,10 +75,10 @@ class _TodayViewState extends State<TodayView> {
           'Examples: Shared play - Guided conversation - Cooperative tasks',
         ],
       ),
-      const TodayPlanModel(
-        title: 'Interactive Quizzes',
+      TodayPlanModel(
+        title: 'interactive_quizzes'.tr(),
         description:
-            'Short and engaging quizzes that build your child\'s focus and response skills.',
+            'today_plan_desc_3'.tr(),
         image: AppAssets.todayPlan3,
         points: [
           '3 questions per quiz',
@@ -116,14 +117,14 @@ class _TodayViewState extends State<TodayView> {
                 SizedBox(height: 24.h),
 
                 CustomText(
-                  text: 'Today’s Plan',
+                  text: 'todays_plan'.tr(),
                   style: AppTextStyles.nunito30w900Black,
                 ),
 
                 SizedBox(height: 6.h),
 
                 CustomText(
-                  text: 'Therapeutic Activities for Your Child',
+                  text: 'therapeutic_activities'.tr(),
                   style: AppTextStyles.nunito14w400Grey,
                 ),
 
@@ -149,9 +150,9 @@ class _TodayViewState extends State<TodayView> {
                       // بناء بيانات الخطط من API مع إظهار كافة الفئات دائماً
                       final apiPlans = [
                         TodayPlanModel(
-                          title: 'Physical Activities',
+                          title: 'physical_activities'.tr(),
                           description:
-                              'Simple movement-based activities that help your child stay active and focused.',
+                              'today_plan_desc_1'.tr(),
                           image: AppAssets.todayPlan1,
                           points: const [
                             'Boosts concentration',
@@ -161,9 +162,9 @@ class _TodayViewState extends State<TodayView> {
                           ],
                         ),
                         TodayPlanModel(
-                          title: 'Parent-Child Activities',
+                          title: 'parent_child_activities'.tr(),
                           description:
-                              'Interactive activities designed to strengthen your bond and support your child\'s development.',
+                              'today_plan_desc_2'.tr(),
                           image: AppAssets.todayPlan2,
                           points: const [
                             'Improves interaction',
@@ -172,10 +173,10 @@ class _TodayViewState extends State<TodayView> {
                             'Examples: Shared play - Guided conversation - Cooperative tasks',
                           ],
                         ),
-                        const TodayPlanModel(
-                          title: 'Interactive Quizzes',
+                        TodayPlanModel(
+                          title: 'interactive_quizzes'.tr(),
                           description:
-                              'Short and engaging quizzes that build your child\'s focus and response skills.',
+                              'today_plan_desc_3'.tr(),
                           image: AppAssets.todayPlan3,
                           points: [
                             '3 questions per quiz',
@@ -191,18 +192,18 @@ class _TodayViewState extends State<TodayView> {
                           return TodayPlanCard(
                             item: plan,
                             onTap: () {
-                              if (plan.title == 'Physical Activities') {
+                              if (plan.title == 'physical_activities'.tr()) {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.physicalActivities,
                                 ).then((_) => _loadActivities());
                               } else if (plan.title ==
-                                  'Parent-Child Activities') {
+                                  'parent_child_activities'.tr()) {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.parentChildActivities,
                                 ).then((_) => _loadActivities());
-                              } else if (plan.title == 'Interactive Quizzes') {
+                              } else if (plan.title == 'interactive_quizzes'.tr()) {
                                 Navigator.pushNamed(
                                   context,
                                   AppRoutes.interactiveQuizToday,
@@ -265,3 +266,5 @@ class _TodayViewState extends State<TodayView> {
     );
   }
 }
+
+

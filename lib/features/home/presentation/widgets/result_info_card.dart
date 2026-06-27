@@ -55,3 +55,4 @@ class ResultInfoCard extends StatelessWidget {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../widgets/profile_top_header.dart';
 import '../widgets/setting_switch_tile.dart';
@@ -26,11 +27,11 @@ class _NotificationSettingViewState extends State<NotificationSettingView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 16.h),
-              const ProfileTopHeader(title: 'Notification Setting'),
+              ProfileTopHeader(title: 'notification_setting'.tr()),
               SizedBox(height: 34.h),
 
               SettingSwitchTile(
-                title: 'General Notification',
+                title: 'general_notification'.tr(),
                 value: generalNotification,
                 onChanged: (value) {
                   setState(() {
@@ -40,7 +41,7 @@ class _NotificationSettingViewState extends State<NotificationSettingView> {
               ),
 
               SettingSwitchTile(
-                title: 'Sound',
+                title: 'sound'.tr(),
                 value: sound,
                 onChanged: (value) {
                   setState(() {
@@ -50,7 +51,7 @@ class _NotificationSettingViewState extends State<NotificationSettingView> {
               ),
 
               SettingSwitchTile(
-                title: 'vibrate',
+                title: 'vibrate'.tr(),
                 value: vibrate,
                 onChanged: (value) {
                   setState(() {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/constants/app_assets.dart';
@@ -23,13 +24,13 @@ class SocialAuthSection extends StatelessWidget {
       children: [
         CustomLoginSocial(
           name: AppAssets.googleLogo,
-          text: 'Sign in with Google',
+          text: 'sign_in_google'.tr(),
           onTap: () => context.read<AuthCubit>().signInWithGoogle(),
         ),
         SizedBox(height: 10.h),
         CustomLoginSocial(
           name: AppAssets.facebookLogo,
-          text: 'Sign in with Facebook',
+          text: 'sign_in_facebook'.tr(),
           onTap: () => context.read<AuthCubit>().signInWithFacebook(),
         ),
         SizedBox(height: 20.h),
@@ -67,3 +68,4 @@ class SocialAuthSection extends StatelessWidget {
     );
   }
 }
+

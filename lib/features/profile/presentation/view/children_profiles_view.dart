@@ -13,6 +13,7 @@ import '../../../auth/presentation/views/widget/custom_text.dart';
 import '../widgets/child_profile_item.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChildrenProfilesView extends StatefulWidget {
   const ChildrenProfilesView({super.key});
@@ -34,8 +35,8 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
       listener: (context, state) {
         if (state is ChildDeleted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Child profile deleted.'),
+            SnackBar(
+              content: Text('child_deleted_success'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -74,7 +75,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                     SizedBox(width: 16.w),
                     Expanded(
                       child: CustomText(
-                        text: 'Children Profiles',
+                        text: 'children_profiles'.tr(),
                         style: AppTextStyles.nunito30w900Black.copyWith(
                           color: ColorManager.primaryBlue,
                         ),
@@ -115,7 +116,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                                 onPressed: () => context
                                     .read<ProfileCubit>()
                                     .getMyChildren(),
-                                child: const Text('Retry'),
+                                child: Text('retry'.tr()),
                               ),
                             ],
                           ),
@@ -126,7 +127,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                         if (state.children.isEmpty) {
                           return Center(
                             child: Text(
-                              'No children profiles yet.',
+                              'no_children_profiles'.tr(),
                               style: AppTextStyles.nunito14w400Grey,
                             ),
                           );
@@ -152,10 +153,9 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                                   elevation: 0,
                                   builder: (_) {
                                     return AppBottomSheet(
-                                      title: 'Switch Child Profile',
-                                      description:
-                                          'Are you sure you want to switch to ${child.name}\'s profile?',
-                                      confirmText: 'Yes, Switch',
+                                      title: 'switch_child_profile'.tr(),
+                                      description: 'switch_child_confirm'.tr(args: [child.name]),
+                                      confirmText: 'yes_switch'.tr(),
                                       onConfirm: () {
                                         Navigator.pop(context);
                                         // Save to local storage
@@ -173,7 +173,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                                         ).showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Switched active profile to ${child.name}.',
+                                              'switched_profile_success'.tr(args: [child.name]),
                                             ),
                                             backgroundColor:
                                                 ColorManager.brightTeal,
@@ -197,7 +197,7 @@ class _ChildrenProfilesViewState extends State<ChildrenProfilesView> {
                 ),
 
                 CustomButton(
-                  text: 'Add Child Profile',
+                  text: 'add_child_profile'.tr(),
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.addChildProfile);
                   },

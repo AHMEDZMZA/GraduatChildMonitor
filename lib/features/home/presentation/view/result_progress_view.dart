@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -41,7 +42,7 @@ class ResultProgressView extends StatelessWidget {
               SizedBox(height: 24.h),
 
               CustomText(
-                text: 'Your answers have been\nanalyzed successfully.',
+                text: 'answers_analyzed'.tr(),
                 style: AppTextStyles.nunito30w900Black,
                 textAlign: TextAlign.center,
               ),
@@ -51,7 +52,7 @@ class ResultProgressView extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: CustomText(
-                  text: 'Based on your answers, we noticed...',
+                  text: 'we_noticed'.tr(),
                   style: AppTextStyles.nunito14w400Grey,
                   textAlign: TextAlign.center,
                 ),
@@ -71,7 +72,7 @@ class ResultProgressView extends StatelessWidget {
               const Spacer(flex: 3),
 
               CustomButton(
-                text: 'Ok',
+                text: 'ok'.tr(),
                 onTap: () {
                   Navigator.pushReplacementNamed(
                     context,
@@ -89,3 +90,4 @@ class ResultProgressView extends StatelessWidget {
     );
   }
 }
+

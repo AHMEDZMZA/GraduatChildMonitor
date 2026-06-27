@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/core/helpers/notification_helper.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -94,11 +95,11 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                 ),
                 const Spacer(),
                 CustomButtonSmallTest(
-                  text: 'Submit',
+                  text: 'submit'.tr(),
                   onTap: () async {
                     await NotificationHelper.showNotification(
                       id: 1,
-                      title: 'Activity Completed!',
+                      title: 'activity_completed'.tr(),
                       body: 'Great job completing ${widget.activity.title}!',
                     );
                     if (!context.mounted) return;
@@ -367,7 +368,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                 children: [
                   if (currentStep > 0)
                     CustomButtonSmallTest(
-                      text: 'Previous',
+                      text: 'previous'.tr(),
                       onTap: () {
                         controller.previousPage(
                           duration: const Duration(milliseconds: 250),
@@ -379,7 +380,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                   const Spacer(),
 
                   CustomButtonSmallTest(
-                    text: currentStep == total - 1 ? 'Submit' : 'Next',
+                    text: currentStep == total - 1 ? 'submit'.tr() : 'next'.tr(),
                     onTap: () async {
                       if (currentStep < total - 1) {
                         controller.nextPage(
@@ -389,7 +390,7 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
                       } else {
                         await NotificationHelper.showNotification(
                           id: 1,
-                          title: 'Activity Completed!',
+                          title: 'activity_completed'.tr(),
                           body:
                               'Great job completing ${widget.activity.title}!',
                         );
@@ -421,3 +422,4 @@ class _ActivityStepsViewState extends State<ActivityStepsView> {
     );
   }
 }
+

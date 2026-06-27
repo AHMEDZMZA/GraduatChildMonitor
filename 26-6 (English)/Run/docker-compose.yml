@@ -2,6 +2,10 @@ services:
   db:
     image: mysql:5.7
     restart: unless-stopped
+    command: 
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: childmonitor
@@ -64,7 +68,7 @@ services:
     volumes:
       - ./uploads:/app/uploads
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/childmonitor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/childmonitor?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -81,6 +85,7 @@ services:
       SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENT_ID: ${FACEBOOK_CLIENT_ID:-}
       SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_CLIENT_SECRET: ${FACEBOOK_CLIENT_SECRET:-}
       SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_FACEBOOK_SCOPE: email,public_profile
+      APP_BASE_URL: http://localhost:8086
     ports:
       - "8086:8081"
     extra_hosts:

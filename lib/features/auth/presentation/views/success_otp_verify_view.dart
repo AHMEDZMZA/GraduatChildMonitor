@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_assets.dart';
@@ -31,11 +32,11 @@ class SuccessOtpVerifyView extends StatelessWidget {
             Image.asset(AppAssets.correctIcon, width: 98, height: 98),
             SizedBox(height: 25.h),
             CustomText(
-              text: 'Verification Successful',
+              text: 'verification_successful'.tr(),
               style: AppTextStyles.nunito32w900Black,
             ),
             CustomText(
-              text: 'Your account has been verified. Let’s continue.',
+              text: 'account_verified'.tr(),
               style: AppTextStyles.nunito14w400Grey,
             ),
             SizedBox(height: 60.h),
@@ -51,3 +52,4 @@ class SuccessOtpVerifyView extends StatelessWidget {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:child_monitor_app/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:child_monitor_app/features/profile/presentation/state/profile_state.dart';
 import 'package:flutter/material.dart';
@@ -68,8 +69,8 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           setState(() {});
         } else if (state is ChildAdded) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Child profile added successfully.'),
+            SnackBar(
+              content: Text('child_profile_added'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -79,8 +80,8 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           Navigator.pop(context);
         } else if (state is ChildUpdated) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Child profile updated successfully.'),
+            SnackBar(
+              content: Text('child_profile_updated'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -91,8 +92,8 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
           Navigator.pop(context);
         } else if (state is ChildDeleted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Child profile deleted successfully.'),
+            SnackBar(
+              content: Text('child_profile_deleted'.tr()),
               backgroundColor: ColorManager.brightTeal,
             ),
           );
@@ -158,7 +159,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
 
                     CustomTextFormField(
                       isPassword: false,
-                      hintText: 'Enter child name',
+                      hintText: 'enter_child_name'.tr(),
                       controller: childNameController,
                       keyboardType: TextInputType.name,
                     ),
@@ -223,7 +224,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                       SizedBox(height: 10.h),
                       CustomTextFormField(
                         isPassword: false,
-                        hintText: 'Enter diagnosed condition',
+                        hintText: 'enter_diagnosed_condition'.tr(),
                         controller: conditionController,
                       ),
                     ],
@@ -280,7 +281,7 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
                             elevation: 0,
                             builder: (_) {
                               return AppBottomSheet(
-                                title: 'Delete Child Profile',
+                                title: 'delete_child_profile'.tr(),
                                 description:
                                     'Are you sure you want to delete Child Profile?',
                                 confirmText: 'Yes, Delete',
@@ -306,3 +307,4 @@ class _EditChildProfileViewState extends State<EditChildProfileView> {
     );
   }
 }
+

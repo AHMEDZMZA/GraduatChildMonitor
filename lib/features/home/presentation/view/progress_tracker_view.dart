@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/navigation/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -42,7 +43,7 @@ class ProgressTrackerView extends StatelessWidget {
               SizedBox(height: 60.h),
 
               CustomText(
-                text: 'Your Child’s Monthly Assessment Time',
+                text: 'monthly_assessment_time'.tr(),
                 style: AppTextStyles.nunito30w900Black.copyWith(fontSize: 28.sp),
               ),
 
@@ -60,7 +61,7 @@ class ProgressTrackerView extends StatelessWidget {
 
               SizedBox(height: 80.h),
 
-              CustomButton(text: 'Start Test', onTap: () {
+              CustomButton(text: 'start_test'.tr(), onTap: () {
                 Navigator.pushNamed(
                   context,
                   AppRoutes.progressTest,
@@ -74,3 +75,4 @@ class ProgressTrackerView extends StatelessWidget {
     );
   }
 }
+

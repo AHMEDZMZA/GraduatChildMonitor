@@ -23,6 +23,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/managers/theme_cubit.dart';
 import 'core/managers/app_theme.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,12 +33,21 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   await setupServiceLocator(prefs);
 
+  await EasyLocalization.ensureInitialized();
+
   // H-3: Single notification service — no more double-init.
   final notificationService = LocalNotificationService();
   await notificationService.initializeNotifications();
   await notificationService.scheduleDailyQuoteNotification(hour: 14, minute: 0);
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -83,6 +93,9 @@ class MyApp extends StatelessWidget {
               splitScreenMode: true,
               builder: (context, child) {
                 return MaterialApp(
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
                   theme: AppTheme.lightTheme(),
                   darkTheme: AppTheme.darkTheme(),
                   themeMode: themeMode,

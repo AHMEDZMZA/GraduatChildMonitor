@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/managers/app_text_styles.dart';
@@ -100,7 +101,7 @@ class _ChatViewState extends State<ChatView> {
                 children: [
                   SizedBox(height: 16.h),
                   CustomText(
-                    text: 'Ask for help',
+                    text: 'ask_for_help'.tr(),
                     style: AppTextStyles.nunito32w900Black,
                   ),
                   SizedBox(height: 22.h),
@@ -214,3 +215,4 @@ class _TypingIndicatorState extends State<_TypingIndicator>
     );
   }
 }
+

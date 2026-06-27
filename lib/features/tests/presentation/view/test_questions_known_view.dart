@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/app_strings.dart';
@@ -124,7 +125,7 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
             }
 
             if (questions.isEmpty) {
-              return const Center(child: Text('No questions available'));
+              return Center(child: Text('no_questions_available'.tr()));
             }
 
             final progress = (currentQuestionIndex + 1) / questions.length;

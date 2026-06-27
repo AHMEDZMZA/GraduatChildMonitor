@@ -6,7 +6,9 @@ import '../cubit/profile_cubit.dart';
 import '../widgets/profile_option_item.dart';
 import '../widgets/profile_top_header.dart';
 import '../widgets/theme_toggle_item.dart';
+import '../widgets/language_toggle_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -24,6 +26,9 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    // Force rebuild on locale change
+    final _ = context.locale;
+    
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -32,8 +37,12 @@ class _SettingsViewState extends State<SettingsView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 16.h),
-              const ProfileTopHeader(title: 'Settings'),
+              ProfileTopHeader(title: 'settings'.tr()),
               SizedBox(height: 24.h),
+
+              const LanguageToggleItem(),
+              
+              SizedBox(height: 8.h),
 
               const ThemeToggleItem(),
 
@@ -41,7 +50,7 @@ class _SettingsViewState extends State<SettingsView> {
 
               ProfileOptionItem(
                 icon: Icons.lightbulb_outline,
-                title: 'Notification Setting',
+                title: 'notification_setting'.tr(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.notificationSettings);
                 },
@@ -51,7 +60,7 @@ class _SettingsViewState extends State<SettingsView> {
 
               ProfileOptionItem(
                 icon: Icons.key_outlined,
-                title: 'Password Manager',
+                title: 'password_manager'.tr(),
                 onTap: () {
                   Navigator.pushNamed(context, AppRoutes.passwordManager);
                 },
@@ -61,7 +70,7 @@ class _SettingsViewState extends State<SettingsView> {
 
               ProfileOptionItem(
                 icon: Icons.person_outline,
-                title: 'Delete Account',
+                title: 'delete_account'.tr(),
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -69,10 +78,10 @@ class _SettingsViewState extends State<SettingsView> {
                     elevation: 0,
                     builder: (_) {
                       return AppBottomSheet(
-                        title: 'Delete Account',
+                        title: 'delete_account'.tr(),
                         description:
                             'Are you sure you want to delete your account?',
-                        confirmText: 'Yes,Delete',
+                        confirmText: 'Yes, Delete',
                         onConfirm: () {
                           Navigator.pop(context);
                         },
