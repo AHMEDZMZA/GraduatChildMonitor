@@ -162,5 +162,9 @@
   "password_changed_body": "Your account password was successfully updated.",
   "no_notifications": "No Notifications Yet",
   "no_notifications_desc": "Check back later! We will notify you here about your child's activities, security updates, and progress milestones.",
-  "view_todays_plan": "View Today's Plan"
+  "view_todays_plan": "View Today's Plan",
+  "arabic_notice_title": "Arabic Support Notice",
+  "arabic_notice_body": "Please note that full Arabic support is currently under development. Due to real-time translation, some pages might take 3 to 5 seconds to load. Do you want to proceed?",
+  "arabic_notice_proceed": "Proceed",
+  "arabic_notice_cancel": "Cancel"
 }

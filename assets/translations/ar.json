@@ -162,5 +162,9 @@
   "no_notifications": "لا توجد إشعارات بعد",
   "no_notifications_desc": "يرجى التحقق لاحقاً! سنقوم بإخطارك هنا بالأنشطة والتحديثات الأمنية وإنجازات طفلك.",
   "view_todays_plan": "عرض خطة اليوم",
-  "delete_this_notification": "حذف الإشعار"
+  "delete_this_notification": "حذف الإشعار",
+  "arabic_notice_title": "تنبيه دعم اللغة العربية",
+  "arabic_notice_body": "يرجى العلم أن دعم اللغة العربية الكامل قيد التطوير حالياً، ولذلك قد تستغرق بعض الطلبات من 3 إلى 5 ثوانٍ إضافية بسبب الترجمة الفورية للبيانات. هل ترغب في الاستمرار؟",
+  "arabic_notice_proceed": "استمرار",
+  "arabic_notice_cancel": "إلغاء"
 }
