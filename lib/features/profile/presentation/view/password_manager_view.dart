@@ -56,6 +56,7 @@ class _PasswordManagerViewState extends State<PasswordManagerView> {
           currentPasswordController.clear();
           newPasswordController.clear();
           confirmPasswordController.clear();
+          _formKey.currentState?.reset();
         } else if (state is ProfileError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
