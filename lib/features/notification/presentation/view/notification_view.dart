@@ -118,45 +118,50 @@ class _NotificationViewState extends State<NotificationView> {
                     }
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 14.w),
-                      child: ListView.builder(
-                        itemCount: state.notifications.length,
-                        itemBuilder: (context, index) {
-                          final item = state.notifications[index];
-                          return Dismissible(
-                            key: Key(item.title + item.date + index.toString()),
-                            direction: DismissDirection.endToStart,
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20.w,
-                              ),
-                              margin: EdgeInsets.symmetric(vertical: 4.h),
-                              decoration: BoxDecoration(
-                                color: ColorManager.errorRed,
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              child: const Icon(
-                                Icons.delete,
-                                color: ColorManager.white,
-                              ),
-                            ),
-                            onDismissed: (direction) {
-                              context
-                                  .read<NotificationCubit>()
-                                  .deleteNotification(index);
-                            },
-                            child: NotificationListViewItem(
-                              item: item,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  AppRoutes.singleNotification,
-                                  arguments: item,
-                                );
-                              },
-                            ),
-                          );
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          await context.read<NotificationCubit>().getNotifications();
                         },
+                        child: ListView.builder(
+                          itemCount: state.notifications.length,
+                          itemBuilder: (context, index) {
+                            final item = state.notifications[index];
+                            return Dismissible(
+                              key: Key(item.title + item.date + index.toString()),
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                alignment: Alignment.centerRight,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                ),
+                                margin: EdgeInsets.symmetric(vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color: ColorManager.errorRed,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: ColorManager.white,
+                                ),
+                              ),
+                              onDismissed: (direction) {
+                                context
+                                    .read<NotificationCubit>()
+                                    .deleteNotification(index);
+                              },
+                              child: NotificationListViewItem(
+                                item: item,
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    AppRoutes.singleNotification,
+                                    arguments: item,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     );
                   } else if (state is NotificationError) {

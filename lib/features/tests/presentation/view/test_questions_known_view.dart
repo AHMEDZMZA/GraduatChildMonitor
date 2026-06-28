@@ -165,17 +165,27 @@ class _TestQuestionsKnownViewState extends State<TestQuestionsKnownView> {
                     ),
                   ),
                   SizedBox(height: 30.h),
-                  Text(
-                    _typeToTitle[widget.testType] ??
-                        widget.testType.toUpperCase(),
-                    style: AppTextStyles.nunito30w900Black,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 150.h),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _typeToTitle[widget.testType] ??
+                                widget.testType.toUpperCase(),
+                            style: AppTextStyles.nunito30w900Black,
+                          ),
+                          Text(
+                            AppStrings.testQuestionsKnownTitle,
+                            style: AppTextStyles.nunito30w900Black,
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(instructions, style: AppTextStyles.nunito14w400Grey),
+                        ],
+                      ),
+                    ),
                   ),
-                  Text(
-                    AppStrings.testQuestionsKnownTitle,
-                    style: AppTextStyles.nunito30w900Black,
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(instructions, style: AppTextStyles.nunito14w400Grey),
                   SizedBox(height: 30.h),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.r),

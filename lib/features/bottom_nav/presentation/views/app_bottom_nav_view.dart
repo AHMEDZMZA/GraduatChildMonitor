@@ -9,6 +9,8 @@ import '../../../home/presentation/view/home_view.dart';
 import '../../../notification/presentation/view/notification_view.dart';
 import '../../../profile/presentation/view/profile_view.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../notification/presentation/cubit/notification_cubit.dart';
 
 class AppBottomNavBarView extends StatefulWidget {
   const AppBottomNavBarView({super.key});
@@ -38,7 +40,12 @@ class _AppBottomNavBarViewState extends State<AppBottomNavBarView> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _currentIndex,
-          onTap: (index) => setState(() => _currentIndex = index),
+          onTap: (index) {
+            setState(() => _currentIndex = index);
+            if (index == 2) {
+              context.read<NotificationCubit>().getNotifications();
+            }
+          },
           backgroundColor: context.cardBackground,
           selectedItemColor: ColorManager.primaryBlue,
           unselectedItemColor: ColorManager.mediumGray,

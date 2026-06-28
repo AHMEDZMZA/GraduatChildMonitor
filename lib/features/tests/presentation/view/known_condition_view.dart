@@ -22,8 +22,8 @@ class _KnownConditionViewState extends State<KnownConditionView> {
   final Map<String, String> conditions = {
     'ADHD': 'adhd',
     'Learning Difficulties': 'dyslexia',
-    'Behavior Modification': 'behavior',
     'Autism': 'autism',
+    'Behavior Modification': 'behavior',
     'Down Syndrome': 'down_syndrome',
   };
 

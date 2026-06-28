@@ -24,9 +24,16 @@ import 'core/managers/theme_cubit.dart';
 import 'core/managers/app_theme.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   // Timezone init only once — LocalNotificationService uses this.
   tz.initializeTimeZones();
 

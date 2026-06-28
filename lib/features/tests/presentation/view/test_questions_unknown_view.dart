@@ -61,10 +61,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
     super.initState();
     // Build the test list from only the types the user selected
     tests = widget.selectedTypes
-        .map((type) => {
-      'title': _typeToTitle[type] ?? type,
-      'type': type,
-    })
+        .map((type) => {'title': _typeToTitle[type] ?? type, 'type': type})
         .toList();
     _loadAllTests();
   }
@@ -101,8 +98,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                 final testType = state.questionsResponse.testType;
                 // Only count tests that were actually requested
                 if (tests.any((t) => t['type'] == testType)) {
-                  allQuestions[testType] =
-                      state.questionsResponse.questions;
+                  allQuestions[testType] = state.questionsResponse.questions;
                   allInstructions[testType] =
                       state.questionsResponse.instructions;
                   loadedTests++;
@@ -117,7 +113,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) =>
-                const Center(child: CircularProgressIndicator()),
+                    const Center(child: CircularProgressIndicator()),
               );
             } else if (state is MultipleTestsSuccess) {
               if (_isDialogShowing) {
@@ -178,7 +174,7 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                         setState(() {
                           currentTestIndex--;
                           final prevTestType =
-                          tests[currentTestIndex]['type'] as String;
+                              tests[currentTestIndex]['type'] as String;
                           currentQuestionIndex =
                               (allQuestions[prevTestType]?.length ?? 1) - 1;
                         });
@@ -198,12 +194,22 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                     ),
                   ),
                   SizedBox(height: 30.h),
-                  Text(currentTest['title'] as String,
-                      style: AppTextStyles.nunito30w900Black),
-                  SizedBox(height: 5.h),
-                  Text(
-                    allInstructions[currentTestType] ?? '',
-                    style: AppTextStyles.nunito14w400Grey,
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 150.h),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(currentTest['title'] as String,
+                              style: AppTextStyles.nunito30w900Black),
+                          SizedBox(height: 5.h),
+                          Text(
+                            allInstructions[currentTestType] ?? '',
+                            style: AppTextStyles.nunito14w400Grey,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   SizedBox(height: 30.h),
                   ClipRRect(
@@ -242,45 +248,47 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                         final qId = question.qId;
                         final key = '${currentTestIndex}_$qId';
 
-                        return Column(
+                        return SingleChildScrollView(
                           key: ValueKey(key),
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              question.question,
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                height: 1.4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                question.question,
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  height: 1.4,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 30.h),
-                            // FIX: answer values 'yes/no/sometimes' to match API
-                            AnswerOption(
-                              label: 'Yes',
-                              selected: answers[key] == 'yes',
-                              onTap: () {
-                                setState(() => answers[key] = 'yes');
-                              },
-                            ),
-                            SizedBox(height: 15.h),
-                            AnswerOption(
-                              label: 'No',
-                              selected: answers[key] == 'no',
-                              onTap: () {
-                                setState(() => answers[key] = 'no');
-                              },
-                            ),
-                            SizedBox(height: 15.h),
-                            AnswerOption(
-                              label: 'Sometimes',
-                              selected: answers[key] == 'sometimes',
-                              onTap: () {
-                                setState(() => answers[key] = 'sometimes');
-                              },
-                            ),
-                          ],
+                              SizedBox(height: 30.h),
+                              // FIX: answer values 'yes/no/sometimes' to match API
+                              AnswerOption(
+                                label: 'Yes',
+                                selected: answers[key] == 'yes',
+                                onTap: () {
+                                  setState(() => answers[key] = 'yes');
+                                },
+                              ),
+                              SizedBox(height: 15.h),
+                              AnswerOption(
+                                label: 'No',
+                                selected: answers[key] == 'no',
+                                onTap: () {
+                                  setState(() => answers[key] = 'no');
+                                },
+                              ),
+                              SizedBox(height: 15.h),
+                              AnswerOption(
+                                label: 'Sometimes',
+                                selected: answers[key] == 'sometimes',
+                                onTap: () {
+                                  setState(() => answers[key] = 'sometimes');
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -304,55 +312,54 @@ class _TestQuestionsUnknownViewState extends State<TestQuestionsUnknownView> {
                       CustomButtonSmallTest(
                         text: currentQuestionIndex == questions.length - 1
                             ? (currentTestIndex == tests.length - 1
-                            ? AppStrings.viewSubmitButton
-                            : AppStrings.nextTestButton)
+                                  ? AppStrings.viewSubmitButton
+                                  : AppStrings.nextTestButton)
                             : AppStrings.nextButton,
                         // FIX: check using q_id-based key
                         onTap: answers[currentAnswerKey] == null
                             ? null
                             : () {
-                          if (currentQuestionIndex <
-                              questions.length - 1) {
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 350),
-                              curve: Curves.easeInOut,
-                            );
-                          } else if (currentTestIndex <
-                              tests.length - 1) {
-                            setState(() {
-                              currentTestIndex++;
-                              currentQuestionIndex = 0;
-                            });
-                            pageController.jumpToPage(0);
-                          } else {
-                            // Build submission map keyed by real q_id
-                            final Map<String, Map<int, String>>
-                            allTestsAnswers = {};
-                            for (int i = 0; i < tests.length; i++) {
-                              final testType =
-                              tests[i]['type'] as String;
-                              final testQuestions =
-                                  allQuestions[testType] ?? [];
-                              final Map<int, String> testAnswers = {};
-                              for (final q in testQuestions) {
-                                final key = '${i}_${q.qId}';
-                                if (answers.containsKey(key)) {
-                                  // FIX: key by q_id not loop index
-                                  testAnswers[q.qId] = answers[key]!;
+                                if (currentQuestionIndex <
+                                    questions.length - 1) {
+                                  pageController.nextPage(
+                                    duration: const Duration(milliseconds: 350),
+                                    curve: Curves.easeInOut,
+                                  );
+                                } else if (currentTestIndex <
+                                    tests.length - 1) {
+                                  setState(() {
+                                    currentTestIndex++;
+                                    currentQuestionIndex = 0;
+                                  });
+                                  pageController.jumpToPage(0);
+                                } else {
+                                  // Build submission map keyed by real q_id
+                                  final Map<String, Map<int, String>>
+                                  allTestsAnswers = {};
+                                  for (int i = 0; i < tests.length; i++) {
+                                    final testType = tests[i]['type'] as String;
+                                    final testQuestions =
+                                        allQuestions[testType] ?? [];
+                                    final Map<int, String> testAnswers = {};
+                                    for (final q in testQuestions) {
+                                      final key = '${i}_${q.qId}';
+                                      if (answers.containsKey(key)) {
+                                        // FIX: key by q_id not loop index
+                                        testAnswers[q.qId] = answers[key]!;
+                                      }
+                                    }
+                                    allTestsAnswers[testType] = testAnswers;
+                                  }
+                                  context.read<TestCubit>().submitMultipleTests(
+                                    childId: widget.child.id!,
+                                    age: _calculateAge(widget.child.birthDate),
+                                    sex: _convertGender(widget.child.gender),
+                                    jaundice: 'no',
+                                    familyAsd: 'no',
+                                    allTestsAnswers: allTestsAnswers,
+                                  );
                                 }
-                              }
-                              allTestsAnswers[testType] = testAnswers;
-                            }
-                            context.read<TestCubit>().submitMultipleTests(
-                              childId: widget.child.id!,
-                              age: _calculateAge(widget.child.birthDate),
-                              sex: _convertGender(widget.child.gender),
-                              jaundice: 'no',
-                              familyAsd: 'no',
-                              allTestsAnswers: allTestsAnswers,
-                            );
-                          }
-                        },
+                              },
                       ),
                     ],
                   ),
