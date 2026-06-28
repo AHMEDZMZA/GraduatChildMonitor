@@ -64,18 +64,23 @@ class _KnownConditionViewState extends State<KnownConditionView> {
                   itemCount: conditions.length,
                   itemBuilder: (context, index) {
                     final condition = conditions.keys.elementAt(index);
+                    final isAvailable = condition == 'ADHD' ||
+                        condition == 'Learning Difficulties' ||
+                        condition == 'Autism';
                     final isSelected = selectedCondition == condition;
 
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (isSelected) {
-                            selectedCondition = null;
-                          } else {
-                            selectedCondition = condition;
-                          }
-                        });
-                      },
+                      onTap: isAvailable
+                          ? () {
+                              setState(() {
+                                if (isSelected) {
+                                  selectedCondition = null;
+                                } else {
+                                  selectedCondition = condition;
+                                }
+                              });
+                            }
+                          : null,
                       child: Container(
                         margin: EdgeInsets.symmetric(vertical: 10.h),
                         padding: EdgeInsets.symmetric(
@@ -83,22 +88,26 @@ class _KnownConditionViewState extends State<KnownConditionView> {
                           horizontal: 12.w,
                         ),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? ColorManager.babyBlue
-                              : Colors.white,
+                          color: isAvailable
+                              ? (isSelected
+                                  ? ColorManager.babyBlue
+                                  : Colors.white)
+                              : Colors.grey.shade100,
                           border: Border.all(
-                            color: isSelected
+                            color: isAvailable && isSelected
                                 ? ColorManager.primaryBlue
                                 : Colors.grey.shade300,
                           ),
                           borderRadius: BorderRadius.circular(10.r),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.3),
-                              blurRadius: 10,
-                              spreadRadius: 1,
-                            ),
-                          ],
+                          boxShadow: isAvailable
+                              ? [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.3),
+                                    blurRadius: 10,
+                                    spreadRadius: 1,
+                                  ),
+                                ]
+                              : [],
                         ),
                         child: Row(
                           children: [
@@ -106,21 +115,44 @@ class _KnownConditionViewState extends State<KnownConditionView> {
                               isSelected
                                   ? Icons.check_box_rounded
                                   : Icons.check_box_outline_blank_rounded,
-                              color: isSelected
-                                  ? Colors.black
-                                  : Colors.grey.shade500,
+                              color: isAvailable
+                                  ? (isSelected
+                                      ? Colors.black
+                                      : Colors.grey.shade500)
+                                  : Colors.grey.shade400,
                             ),
                             SizedBox(width: 10.w),
-                            Text(
-                              condition,
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: isSelected
-                                    ? ColorManager.primaryBlue
-                                    : Colors.black87,
-                                fontWeight: FontWeight.w600,
+                            Expanded(
+                              child: Text(
+                                condition,
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: isAvailable
+                                      ? (isSelected
+                                          ? ColorManager.primaryBlue
+                                          : Colors.black87)
+                                      : Colors.grey.shade500,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
+                            if (!isAvailable)
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 4.h),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Text(
+                                  'Coming soon',
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+                                    color: Colors.grey.shade600,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       ),
