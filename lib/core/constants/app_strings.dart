@@ -2,7 +2,7 @@ class AppStrings {
   // ============================
   // 📌 App Info
   // ============================
-  static const String appName = 'MOM AID';
+  static const String appName = 'ChildMentor';
   static const String appSlogan = 'Helping Moms, Guiding Kids.';
   static const String appVersion = '1.0.0';
 

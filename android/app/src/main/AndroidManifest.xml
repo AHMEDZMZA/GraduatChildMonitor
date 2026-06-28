@@ -16,7 +16,7 @@
     </queries>
 
     <application
-        android:label="child_monitor_app"
+        android:label="ChildMentor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
